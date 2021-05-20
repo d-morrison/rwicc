@@ -1,11 +1,11 @@
 Package: rwicc
-Title: What the Package Does (One Line, Title Case)
+Title: Regression with Interval-Censored Covariates
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Douglas",
            family = "Morrison",
            role = c("aut", "cre"),
-           email = "dmorrison01@ucla.edu",
+           email = "d.ezra.morrison@gmail.com",
            comment = c(ORCID = "0000-0002-7195-830X"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
