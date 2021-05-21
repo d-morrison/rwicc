@@ -7,8 +7,27 @@ Authors@R:
            role = c("aut", "cre"),
            email = "d.ezra.morrison@gmail.com",
            comment = c(ORCID = "0000-0002-7195-830X"))
-Description: What the package does (one paragraph).
+Description: This package provides functions to simulate and analyze data for a regression model with an 
+    interval censored covariate, as described in Morrison et al, 2021, 
+    "Regression with Interval-Censored Covariates: Application to Cross-Sectional 
+    Incidence Estimation.", Biometrics, \url{https://doi.org/10.1111/biom.13472}.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Imports: 
+    biglm,
+    dplyr,
+    lubridate,
+    magrittr,
+    stats,
+    pryr
+Suggests:
+    rmarkdown,
+    knitr,
+    pander,
+    testthat,
+    ggplot2,
+    scales

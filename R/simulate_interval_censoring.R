@@ -4,7 +4,7 @@
 #' data-generating model based on the typical structure of a cohort study of HIV
 #' biomarker progression, as described in Morrison et al, 2021, "Regression with
 #' Interval-Censored Covariates: Application to Cross-Sectional Incidence
-#' Estimation.", Biometrics, https://doi.org/10.1111/biom.13472
+#' Estimation.", Biometrics, \url{https://doi.org/10.1111/biom.13472}
 #'
 #' @param study_cohort_size the number of participants to simulate (N_0 in the
 #'   paper)
@@ -32,14 +32,14 @@
 #' @return A list containing the following two tibbles:
 #'
 #' \itemize{
-#' \item \code{sim_participant_data}: a tibble of participant-level information, with the following columns:
+#' \item \code{pt_data}: a tibble of participant-level information, with the following columns:
 #' \itemize{
 #' \item \code{ID}: participant ID
 #' \item \code{E}: enrollment date
 #' \item \code{L}: date of last HIV test prior to seroconversion
 #' \item \code{R}: date of first HIV test after seroconversion
 #'}
-#' \item \code{sim_obs_data}: a tibble of longitudinal observations with the following columns:
+#' \item \code{obs_data}: a tibble of longitudinal observations with the following columns:
 #' \itemize{
 #' \item \code{ID}: participant ID
 #' \item \code{O}: dates of biomarker sample collection
@@ -50,20 +50,25 @@
 #'
 #' @examples
 #' study_data = simulate_interval_censoring()
-#' participant_characteristics = study_data$sim_participant_data
-#' longitudinal_observations = sim_obs_data$sim_obs_data
+#' participant_characteristics = study_data$pt_data
+#' longitudinal_observations = study_data$obs_data
 #'
 
-simulate_interval_censoring = function(study_cohort_size = 10 ^ 6,
-                                       hazard_alpha = 1,
-                                       hazard_beta = 0.5,
-                                       preconversion_interval_length = 12 * 7,
-                                       theta = c(0.986295892235083, -3.880068305549436),
-                                       probability_of_ever_seroconverting = 0.05,
-                                       years_in_study = 10,
-                                       max_scheduling_offset = 7,
-                                       days_from_study_start_to_recruitment_end = 365,
-                                       study_start_date = ymd("2001-01-01"))
+#' @importFrom dplyr tibble if_else filter group_by summarize mutate n select
+#' @importFrom lubridate days ddays
+#' @importFrom stats rbinom runif
+#' @importFrom magrittr %<>% %>%
+simulate_interval_censoring = function(
+  study_cohort_size = 4500,
+  hazard_alpha = 1,
+  hazard_beta = 0.5,
+  preconversion_interval_length = 12 * 7,
+  theta = c(0.986, -3.88),
+  probability_of_ever_seroconverting = 0.05,
+  years_in_study = 10,
+  max_scheduling_offset = 7,
+  days_from_study_start_to_recruitment_end = 365,
+  study_start_date = lubridate::ymd("2001-01-01"))
 {
   # define p(Y=1|T=t):
   expit = function (x)
@@ -85,17 +90,17 @@ simulate_interval_censoring = function(study_cohort_size = 10 ^ 6,
   # infection; this step takes the place of assigning A_i to each cohort
   # participant in the main text (the final data set only includes participants
   # with A_i = 1):
-  n_at_risk = rbinom(n = 1,
-                     size = study_cohort_size,
-                     prob = probability_of_ever_seroconverting)
+  n_at_risk = stats::rbinom(n = 1,
+                            size = study_cohort_size,
+                            prob = probability_of_ever_seroconverting)
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
-  sim_participant_data = tibble(
+  sim_participant_data = dplyr::tibble(
     'ID' = 1:n_at_risk,
 
     'E' =
       study_start_date +
-      days(
+      lubridate::days(
         sample(
           x = 0:days_from_study_start_to_recruitment_end,
           size = n_at_risk,
@@ -103,12 +108,12 @@ simulate_interval_censoring = function(study_cohort_size = 10 ^ 6,
         )
       ),
 
-    'F' = E + years_in_study * days(365),
+    'F' = E + years_in_study * lubridate::days(365),
 
     'years from study start to seroconversion' =
       seroconversion_inverse_survival_function(
-        u = runif(n = n_at_risk),
-        e = (E - study_start_date) / ddays(365),
+        u = stats::runif(n = n_at_risk),
+        e = (E - study_start_date) / lubridate::ddays(365),
         hazard_alpha = hazard_alpha,
         hazard_beta = hazard_beta
       ),
@@ -146,40 +151,40 @@ simulate_interval_censoring = function(study_cohort_size = 10 ^ 6,
       max(preconversion_obs_dates[preconversion_obs_dates <= S])
 
     sim_participant_data[i, "R"] =
-      if_else(any(preconversion_obs_dates > S),
-              min(preconversion_obs_dates[preconversion_obs_dates > S]),
-              as.Date(NA))
+      dplyr::if_else(any(preconversion_obs_dates > S),
+                     min(preconversion_obs_dates[preconversion_obs_dates > S]),
+                     as.Date(NA))
 
   }
 
   # remove participants who wouldn't be diagnosed until after their their
   # followup period ends:
   sim_participant_data %<>%
-    filter(R <= F)
+    dplyr::filter(R <= F)
 
   # # generate O, Y:
   sim_obs_data =
     sim_participant_data %>%
-    group_by(ID, R, F, `years from study start to seroconversion`) %>%
+    dplyr::group_by(ID, R, F, `years from study start to seroconversion`) %>%
     dplyr::summarize(.groups = "drop",
                      "O" = R + post_seroconversion_obs_dates) %>%
 
     # everyone gets 10 years of observation, total, no longer how long they took
     # to seroconvert:
-    filter(O <= F) %>%
-    mutate(
+    dplyr::filter(O <= F) %>%
+    dplyr::mutate(
       # we use relative times in order to calculate phi(t) with t = the elapsed
       # time from the exact moment of seroconversion until the date of testing
       # (we assume that all testing occurs at midnight at the beginning of the
       # scheduled day):
-      "years from study start to sample date" = (O - study_start_date) / ddays(365),
+      "years from study start to sample date" = (O - study_start_date) / lubridate::ddays(365),
 
       "T" =
         `years from study start to sample date` - `years from study start to seroconversion`,
 
-      "Y" = as.numeric(rbinom(
+      "Y" = as.numeric(stats::rbinom(
         size = 1,
-        n = n(),
+        n = dplyr::n(),
         p = phi(T)
         # could switch to rbernoulli here, but doing so would change a few of
         # the generated values
