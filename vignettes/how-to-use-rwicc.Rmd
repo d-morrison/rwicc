@@ -235,7 +235,7 @@ We can see that our joint modeling approach does not always estimate this distri
 Nevertheless, the next graph will show us that the joint model very accurately estimates the true distribution for $P(Y|T)$
 and the true value of $\mu$:
 
-```{r, fig.width = 8, fig.asp = .75}
+```{r, fig.width = 7.5, fig.asp = .8}
 
 library(scales)
 

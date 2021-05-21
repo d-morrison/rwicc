@@ -22,8 +22,8 @@ period for cross-sectional incidence estimation), so this package may
 not be immediately applicable to other problems. We are publishing it
 with the goal of making the results in our paper easier to reproduce and
 with the hope that others might adapt pieces of this code for their own
-applications. Please feel free to contact us with any questions about
-the code or the paper!
+applications. Please feel free to [contact us](dezramorrison@gmail.com)
+with any questions about the code or the paper!
 
 ## Installation
 

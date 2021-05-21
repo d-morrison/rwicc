@@ -28,7 +28,7 @@ the model is maximized using an EM algorithm. The submodel used for the distribu
 somewhat specific to the application of interest (estimation of the mean duration of a biomarker-defined window period for 
 cross-sectional incidence estimation), so this package may not be immediately applicable to other problems. We are publishing it
 with the goal of making the results in our paper easier to reproduce and with the hope that others might adapt pieces of this code
-for their own applications. Please feel free to contact us with any questions about the code or the paper!
+for their own applications. Please feel free to [contact us](dezramorrison@gmail.com) with any questions about the code or the paper!
 
 
 ## Installation
@@ -176,7 +176,7 @@ Now, let's graph the results. First, let's plot the true and estimated CDFs for 
 for individuals who enroll on the first calendar day of the cohort study:
 
 
-```{r, fig.width = 5, fig.asp = .75}
+```{r, fig.width = 6, fig.asp = .75}
 
 library(ggplot2)
 cum_haz_fn0 = function(years_since_study_start)
@@ -256,7 +256,7 @@ We can see that our joint modeling approach does not always estimate this distri
 Nevertheless, the next graph will show us that the joint model very accurately estimates the true distribution for $P(Y|T)$
 and the true value of $\mu$:
 
-```{r, fig.width = 5, fig.asp = .75}
+```{r, fig.width = 7.5, fig.asp = .8}
 
 library(scales)
 
