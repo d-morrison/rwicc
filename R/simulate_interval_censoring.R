@@ -70,11 +70,9 @@ simulate_interval_censoring = function(
   days_from_study_start_to_recruitment_end = 365,
   study_start_date = lubridate::ymd("2001-01-01"))
 {
+
   # define p(Y=1|T=t):
-  expit = function (x)
-    1 / (1 + exp(-x))
-  phi = function(t)
-    expit(theta[1] + theta[2] * t)
+  phi = build_phi_function_from_coefs(theta)
 
   # define the sequence of post-diagnosis biomarker collection dates:
   post_seroconversion_obs_dates =

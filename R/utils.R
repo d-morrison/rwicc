@@ -1,15 +1,13 @@
-# same as arm::invlogit():
-expit = function(x) 1 / (1 + exp(-x))
-
 #' convert a pair of simple logistic regression coefficients into P(Y|T) curve:
 
 #' @export
 #'
 #' @param coefs numeric vector of coefficients
 #' @return function(t) P(Y=1|T=t)
+#' @importFrom arm invlogit
 build_phi_function_from_coefs = function(coefs)
 {
-  function(x) expit(coefs[1] + coefs[2] * x)
+  function(x) arm::invlogit(coefs[1] + coefs[2] * x)
 }
 
 
