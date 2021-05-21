@@ -71,6 +71,11 @@ simulate_interval_censoring = function(
   study_start_date = lubridate::ymd("2001-01-01"))
 {
 
+  # this bit of code just removes some notes produced by check(); see
+  # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
+  ID = E = L = R = O = Y = S = F = `years from study start to seroconversion` =
+    `years from study start to sample date` = NULL
+
   # define p(Y=1|T=t):
   phi = build_phi_function_from_coefs(theta)
 

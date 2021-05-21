@@ -110,6 +110,18 @@ seroconversion_EM_algorithm = function(
   # setup
   {
 
+    # this bit of code just removes some notes produced by check(); see
+    # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
+    ID = E = L = R = O = Y = S = Stratum = `S_hat - E` =
+      `P(S=s|E=e)` = `P(S=s|E=e,L=l,R=r)` = `P(S=s|S>=l,E=e)` =
+      `P(S=s|S>=s,E=e)` = `P(S=s|e,l,r,o,y)` = `P(S>=l|E=e)` = `P(S>=s|S>=l,E=e)` =
+      `P(S>=s|e,l,r,o,y)` = `P(S>s|S>=l,E=e)` = `P(S>s|S>=s,E=e)` = `P(Y=1|T=t)`=
+      `P(Y=y|T=t)` =
+      logL_i = n_IDs = n_at_risk =
+        n_definitely_at_risk = n_events = risk_probabilities =
+        `years from study start to sample date` =
+        `years from study start to seroconversion` = NULL
+
     # starting message
     {
       if(verbose)
