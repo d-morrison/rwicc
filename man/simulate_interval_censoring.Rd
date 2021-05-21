@@ -39,7 +39,7 @@ participant is at risk of HIV seroconversion}
 
 \item{years_in_study}{the duration of follow-up for each participant}
 
-\item{max_scheduling_offset}{the maximum divergence of preseroconversion
+\item{max_scheduling_offset}{the maximum divergence of pre-seroconversion
 followup visits from the prescribed schedule}
 
 \item{days_from_study_start_to_recruitment_end}{the length of the recruitment

@@ -20,7 +20,7 @@
 #' @param probability_of_ever_seroconverting the probability that each
 #'   participant is at risk of HIV seroconversion
 #' @param years_in_study the duration of follow-up for each participant
-#' @param max_scheduling_offset the maximum divergence of preseroconversion
+#' @param max_scheduling_offset the maximum divergence of pre-seroconversion
 #'   followup visits from the prescribed schedule
 #' @param days_from_study_start_to_recruitment_end the length of the recruitment
 #'   period
