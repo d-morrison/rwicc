@@ -57,10 +57,10 @@ hazard_beta = 0.5
 set.seed(1)
 sim_data = simulate_interval_censoring(
   theta = theta_true,
-  "study_cohort_size" = study_cohort_size,
-  "preconversion_interval_length" = preconversion_interval_length,
-  "hazard_alpha" = hazard_alpha,
-  "hazard_beta" = hazard_beta)
+  study_cohort_size = study_cohort_size,
+  preconversion_interval_length = preconversion_interval_length,
+  hazard_alpha = hazard_alpha,
+  hazard_beta = hazard_beta)
 
 # extract the participant-level and observation-level simulated data:
 sim_participant_data = sim_data$pt_data
