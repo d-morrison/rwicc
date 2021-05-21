@@ -27,11 +27,11 @@ with any questions about the code or the paper!
 
 ## Installation
 
-You can install development version from [GitHub](https://github.com/)
-with:
+You can install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("d-morrison/rwicc")
 ```
 
