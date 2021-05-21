@@ -70,7 +70,8 @@ Next, we perform alternative analyses using midpoint imputation and uniform impu
 
 max_iterations_for_glm_fits = 1000 
 # bigglm's default maxit = 8, which is not large enough to ensure convergence for this data.
-# I don't think it will ever get close to 1000 iterations though; this is effectively Inf.
+# I don't think any of the scenarios examined in our paper ever get close to 1000 iterations though; 
+# this is effectively saying maxit = Inf.
 
 # midpoint imputation:
 {
@@ -154,7 +155,7 @@ Now, let's graph the results. First, let's plot the true and estimated CDFs for 
 for individuals who enroll on the first calendar day of the cohort study:
 
 
-```{r}
+```{r, fig.width = 6, fig.asp = .75}
 
 library(ggplot2)
 cum_haz_fn0 = function(years_since_study_start)
@@ -234,7 +235,7 @@ We can see that our joint modeling approach does not always estimate this distri
 Nevertheless, the next graph will show us that the joint model very accurately estimates the true distribution for $P(Y|T)$
 and the true value of $\mu$:
 
-```{r}
+```{r, fig.width = 8, fig.asp = .75}
 
 library(scales)
 
