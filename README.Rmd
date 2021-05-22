@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # rwicc
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.com/d-morrison/rwicc.svg?branch=master)](https://travis-ci.com/d-morrison/rwicc)
+[![R-CMD-check](https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg)](https://github.com/d-morrison/rwicc/actions)
 <!-- badges: end -->
 
 rwicc ("Regression With Interval-Censored Covariates") is an R software package 
@@ -50,7 +52,7 @@ library(rwicc)
 
 theta_true = c(0.986, -3.88)
 study_cohort_size = 4500
-preconversion_interval_length = 365
+preconversion_interval_length = 84
 hazard_alpha = 1
 hazard_beta = 0.5
 
@@ -73,11 +75,11 @@ Here, we apply our proposed analysis (this takes a couple of minutes; use argume
 
 ```{r}  
 # this call runs the estimation algorithm for the joint modeling approach:
-EM_algorithm_outputs = seroconversion_EM_algorithm(
+EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   subject_level_data = sim_participant_data,
   bin_width = 7,
-  verbose = FALSE)
+  verbose = TRUE)
 
 # extract the estimated mean window period duration from the algorithm's results:
 mu_est_EM = EM_algorithm_outputs$Mu
