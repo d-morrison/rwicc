@@ -52,7 +52,7 @@ library(rwicc)
 
 theta_true = c(0.986, -3.88)
 study_cohort_size = 4500
-preconversion_interval_length = 84
+preconversion_interval_length = 365
 hazard_alpha = 1
 hazard_beta = 0.5
 
