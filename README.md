@@ -15,7 +15,7 @@ package implementing an analysis for a particular regression modeling
 problem involving interval-censored covariates, as described in
 “Regression with Interval-Censored Covariates: Application to
 Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and
-Brookmeyer (2021) in Biometrics (<https://doi.org/10.1111/biom.13472>).
+Brookmeyer (Biometrics, 2021): <https://doi.org/10.1111/biom.13472>.
 
 This analysis uses a joint model for the distributions of the outcome of
 interest and the interval-censored covariates; the model is maximized

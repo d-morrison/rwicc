@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 rwicc ("Regression With Interval-Censored Covariates") is an R software package 
 implementing an analysis for a particular regression modeling problem involving interval-censored covariates,
 as described in "Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence
-Estimation" by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics (https://doi.org/10.1111/biom.13472).
+Estimation" by Morrison, Laeyendecker, and Brookmeyer (Biometrics, 2021): https://doi.org/10.1111/biom.13472.
 
 This analysis uses a joint model for the distributions of the outcome of interest and the interval-censored covariates; 
 the model is maximized using an EM algorithm. The submodel used for the distribution of the interval-censored covariate is
