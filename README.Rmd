@@ -79,7 +79,7 @@ EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   subject_level_data = sim_participant_data,
   bin_width = 7,
-  verbose = TRUE)
+  verbose = FALSE)
 
 # extract the estimated mean window period duration from the algorithm's results:
 mu_est_EM = EM_algorithm_outputs$Mu

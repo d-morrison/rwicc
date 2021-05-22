@@ -86,7 +86,7 @@
 
     
     
-<p>This vignette shows how generate a simulated data set and analyze it using the model and estimation algorithm described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics (<a href="https://doi.org/10.1111/biom.13472" class="uri">https://doi.org/10.1111/biom.13472</a>).</p>
+<p>This vignette shows how generate a simulated data set and analyze it using the model and estimation algorithm described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: .</p>
 <p>Here, we simulate the data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -96,7 +96,7 @@
 <span class="co">#&gt;   print.bytes Rcpp</span>
 
 <span class="va">study_cohort_size</span> <span class="op">=</span> <span class="fl">4500</span>
-<span class="va">preconversion_interval_length</span> <span class="op">=</span> <span class="fl">84</span>
+<span class="va">preconversion_interval_length</span> <span class="op">=</span> <span class="fl">365</span>
 <span class="va">hazard_alpha</span> <span class="op">=</span> <span class="fl">1</span>
 <span class="va">hazard_beta</span> <span class="op">=</span> <span class="fl">0.5</span>
 <span class="va">theta_true</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span>
@@ -394,7 +394,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Douglas Morrison.</p>
+  <p>Developed by Douglas Morrison, Ron Brookmeyer.</p>
 </div>
 
 <div class="pkgdown">

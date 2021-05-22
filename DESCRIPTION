@@ -1,12 +1,15 @@
 Package: rwicc
 Title: Regression with Interval-Censored Covariates
 Version: 0.1.0
-Authors@R: 
+Authors@R: c(
     person(given = "Douglas",
            family = "Morrison",
            role = c("aut", "cre"),
            email = "dmorrison01@ucla.edu",
-           comment = c(ORCID = "0000-0002-7195-830X"))
+           comment = c(ORCID = "0000-0002-7195-830X")),
+    person(given = "Ron",
+           family = "Brookmeyer",
+           role = c("aut")))
 Description: Provides functions to simulate and analyze data for a regression model with an interval censored covariate, as described in Morrison et al (2021) <doi:10.1111/biom.13472>.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -29,5 +32,6 @@ Suggests:
     pander,
     testthat,
     ggplot2,
-    scales
+    scales,
+    markdown
 Language: en-US
