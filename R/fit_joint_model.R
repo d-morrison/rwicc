@@ -1,17 +1,12 @@
 #' Fit a logistic regression model with an interval-censored covariate
 #'
 #' This function fits a logistic regression model for a binary outcome Y with an
-#' interval-censored covariate T, using an EM algorithm. This algorithm is described in "Regression with
-#' Interval-Censored Covariates: Application to Cross-Sectional Incidence
-#' Estimation" by Morrison, Laeyendecker, and Brookmeyer, \url{https://doi.org/10.1111/biom.13472}.
+#' interval-censored covariate T, using an EM algorithm. This algorithm is described in Morrison et al (2021) <doi:10.1111/biom.13472>.
 #' \cr\cr
-#' This function originated as a modification of the code published as
-#' supplemental material for "Estimation and residual analysis with R for a
-#' linear regression model with an interval-censored covariate" by Klaus Langohr
-#' & Guadalupe Gomez (Biometrical Journal, 2014; \url{doi.org/10.1002/bimj.201300204}).
+#' This function originated as a modification of code published as
+#' supplemental material for Langohr and Gomez (2014)  <doi:10.1002/bimj.201300204>.
 #' It has since diverged from that method and now implements a somewhat different
-#' algorithm, as described in our paper listed above. Other than some variable names and
-#' the data check of \code{L<=R}, I don't think any of Langohr and Gomez's code remains.
+#' algorithm, as described in our paper listed above.
 
 #' @param subject_level_data a data.frame or tibble with the following variables:
 #' \itemize{
@@ -52,12 +47,17 @@
 #' ("Delta_theta" in the paper)
 
 #' @param coef_change_metric a string indicating the type of parameter estimate
-#' criterion to use: "max abs rel diff coefs" is the "Delta_theta" criterion
-#' described in the paper. "max abs diff coefs" is the maximum absolute change in
+#' criterion to use:
+#' \itemize{
+#' \item "max abs rel diff coefs" is the "Delta_theta" criterion
+#' described in the paper.
+#' \item "max abs diff coefs" is the maximum absolute change in
 #' the coefficients (not divided by the old values); this criterion can be useful
-#' when some parameters are close to 0. "diff mu" is the absolute change in mu,
+#' when some parameters are close to 0.
+#' \item "diff mu" is the absolute change in mu,
 #' which may be helpful in the incidence estimate calibration setting but not
 #' elsewhere.
+#' }
 
 #' @param EM_max_iterations the number of EM iterations to perform before giving up
 #' if still not converged.
@@ -90,7 +90,7 @@
 #' @importFrom magrittr %<>% %>%
 #' @importFrom pryr mem_used
 
-seroconversion_EM_algorithm = function(
+fit_joint_model = function(
   subject_level_data,
   obs_level_data,
   model_formula = stats::formula(Y ~ T),
@@ -126,7 +126,7 @@ seroconversion_EM_algorithm = function(
     {
       if(verbose)
         message(
-          "Starting `seroconversion_EM_algorithm();`, mem used = ",
+          "Starting `fit_joint_model();`, mem used = ",
           round(pryr::mem_used()/10^6), " MB")
 
     }

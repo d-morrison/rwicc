@@ -71,9 +71,7 @@ A list containing the following two tibbles:
 \description{
 \code{simulate_interval_censoring} generates a simulated data set from a
 data-generating model based on the typical structure of a cohort study of HIV
-biomarker progression, as described in Morrison et al, 2021, "Regression with
-Interval-Censored Covariates: Application to Cross-Sectional Incidence
-Estimation.", Biometrics, \url{https://doi.org/10.1111/biom.13472}
+biomarker progression, as described in Morrison et al (2021) \url{doi:10.1111/biom.13472}.
 }
 \examples{
 study_data = simulate_interval_censoring()

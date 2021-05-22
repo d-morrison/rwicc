@@ -20,6 +20,6 @@ numeric vector of time differences between study start and seroconversion (in ye
 }
 \description{
 This function determines the seroconversion date corresponding to a provided
-probability of survival. See \url{https://doi.org/10.1111/biom.13472},
+probability of survival. See \url{doi:10.1111/biom.13472},
 Supporting Information, Section A.4.
 }

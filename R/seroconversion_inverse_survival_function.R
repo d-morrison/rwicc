@@ -1,7 +1,7 @@
 #' Inverse survival function for time-to-event variable with linear hazard function
 #'
 #' This function determines the seroconversion date corresponding to a provided
-#' probability of survival. See \url{https://doi.org/10.1111/biom.13472},
+#' probability of survival. See <doi:10.1111/biom.13472>,
 #' Supporting Information, Section A.4.
 
 #' @param u a vector of seroconversion survival probabilities

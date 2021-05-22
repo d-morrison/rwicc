@@ -2,7 +2,7 @@
 
 export(build_phi_function_from_coefs)
 export(compute_mu)
-export(seroconversion_EM_algorithm)
+export(fit_joint_model)
 export(simulate_interval_censoring)
 importFrom(arm,invlogit)
 importFrom(biglm,bigglm)

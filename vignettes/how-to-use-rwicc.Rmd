@@ -53,7 +53,7 @@ Here, we apply our proposed analysis (this takes a couple of minutes; use argume
 
 ```{r}  
 # this call runs the estimation algorithm for the joint modeling approach:
-EM_algorithm_outputs = seroconversion_EM_algorithm(
+EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   subject_level_data = sim_participant_data,
   bin_width = 7,
