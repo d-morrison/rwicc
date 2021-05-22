@@ -35,3 +35,5 @@ Suggests:
     scales,
     markdown
 Language: en-US
+URL: https://d-morrison.github.io/rwicc/
+BugReports: https://github.com/d-morrison/rwicc/issues
