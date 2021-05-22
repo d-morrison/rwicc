@@ -1,7 +1,7 @@
 #' rwicc: Regression with Interval-Censored Covariates
 #'
 #' The \code{rwicc} package implements a regression model with an
-#' interval-censored covariate, using an EM algorithm.
+#' interval-censored covariate using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
 #'
 #' @references
 #'

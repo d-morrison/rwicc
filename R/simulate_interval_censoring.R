@@ -2,7 +2,13 @@
 #'
 #' \code{simulate_interval_censoring} generates a simulated data set from a
 #' data-generating model based on the typical structure of a cohort study of HIV
-#' biomarker progression, as described in Morrison et al (2021) <doi:10.1111/biom.13472>.
+#' biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+#'
+#' @references
+#'
+#' Morrison, Laeyendecker, and Brookmeyer (2021).
+#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' Biometrics. \doi{10.1111/biom.13472}.
 #'
 #' @param study_cohort_size the number of participants to simulate (N_0 in the
 #'   paper)
@@ -60,7 +66,7 @@ simulate_interval_censoring = function(
   study_cohort_size = 4500,
   hazard_alpha = 1,
   hazard_beta = 0.5,
-  preconversion_interval_length = 12 * 7,
+  preconversion_interval_length = 84,
   theta = c(0.986, -3.88),
   probability_of_ever_seroconverting = 0.05,
   years_in_study = 10,
@@ -71,7 +77,7 @@ simulate_interval_censoring = function(
 
   # this bit of code just removes some notes produced by check(); see
   # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
-  ID = E = L = R = O = Y = S = F = `years from study start to seroconversion` =
+  ID = E = L = R = O = Y = S = `exit date` = `elapsed time` = `years from study start to seroconversion` =
     `years from study start to sample date` = NULL
 
   # define p(Y=1|T=t):
@@ -109,7 +115,7 @@ simulate_interval_censoring = function(
         )
       ),
 
-    'F' = E + years_in_study * lubridate::days(365),
+    `exit date` = E + years_in_study * lubridate::days(365),
 
     'years from study start to seroconversion' =
       seroconversion_inverse_survival_function(
@@ -161,18 +167,18 @@ simulate_interval_censoring = function(
   # remove participants who wouldn't be diagnosed until after their their
   # followup period ends:
   sim_participant_data %<>%
-    dplyr::filter(R <= F)
+    dplyr::filter(R <= `exit date`)
 
   # # generate O, Y:
   sim_obs_data =
     sim_participant_data %>%
-    dplyr::group_by(ID, R, F, `years from study start to seroconversion`) %>%
+    dplyr::group_by(ID, R, `exit date`, `years from study start to seroconversion`) %>%
     dplyr::summarize(.groups = "drop",
                      "O" = R + post_seroconversion_obs_dates) %>%
 
     # everyone gets 10 years of observation, total, no longer how long they took
     # to seroconvert:
-    dplyr::filter(O <= F) %>%
+    dplyr::filter(O <= `exit date`) %>%
     dplyr::mutate(
       # we use relative times in order to calculate phi(t) with t = the elapsed
       # time from the exact moment of seroconversion until the date of testing
@@ -180,13 +186,13 @@ simulate_interval_censoring = function(
       # scheduled day):
       "years from study start to sample date" = (O - study_start_date) / lubridate::ddays(365),
 
-      "T" =
+      "elapsed time" =
         `years from study start to sample date` - `years from study start to seroconversion`,
 
       "Y" = as.numeric(stats::rbinom(
         size = 1,
         n = dplyr::n(),
-        p = phi(T)
+        p = phi(`elapsed time`)
         # could switch to rbernoulli here, but doing so would change a few of
         # the generated values
       ))

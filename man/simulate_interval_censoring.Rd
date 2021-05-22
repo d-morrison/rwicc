@@ -8,7 +8,7 @@ simulate_interval_censoring(
   study_cohort_size = 4500,
   hazard_alpha = 1,
   hazard_beta = 0.5,
-  preconversion_interval_length = 12 * 7,
+  preconversion_interval_length = 84,
   theta = c(0.986, -3.88),
   probability_of_ever_seroconverting = 0.05,
   years_in_study = 10,
@@ -71,11 +71,16 @@ A list containing the following two tibbles:
 \description{
 \code{simulate_interval_censoring} generates a simulated data set from a
 data-generating model based on the typical structure of a cohort study of HIV
-biomarker progression, as described in Morrison et al (2021) \url{doi:10.1111/biom.13472}.
+biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
 }
 \examples{
 study_data = simulate_interval_censoring()
 participant_characteristics = study_data$pt_data
 longitudinal_observations = study_data$obs_data
 
+}
+\references{
+Morrison, Laeyendecker, and Brookmeyer (2021).
+"Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+Biometrics. \doi{10.1111/biom.13472}.
 }

@@ -29,7 +29,7 @@ Here, we simulate the data:
 library(rwicc)
 
 study_cohort_size = 4500
-preconversion_interval_length = 365
+preconversion_interval_length = 84
 hazard_alpha = 1
 hazard_beta = 0.5
 theta_true = c(0.986, -3.88)

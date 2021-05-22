@@ -1,13 +1,13 @@
 #' Fit a logistic regression model with an interval-censored covariate
 #'
 #' This function fits a logistic regression model for a binary outcome Y with an
-#' interval-censored covariate T, using an EM algorithm. This algorithm is described in Morrison et al (2021) <doi:10.1111/biom.13472>.
-#' \cr\cr
-#' This function originated as a modification of code published as
-#' supplemental material for Langohr and Gomez (2014)  <doi:10.1002/bimj.201300204>.
-#' It has since diverged from that method and now implements a somewhat different
-#' algorithm, as described in our paper listed above.
+#' interval-censored covariate T, using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
 
+#' @references
+#' Morrison, Laeyendecker, and Brookmeyer (2021).
+#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' Biometrics. \doi{10.1111/biom.13472}.
+#'
 #' @param subject_level_data a data.frame or tibble with the following variables:
 #' \itemize{
 #' \item ID: participant ID
@@ -89,6 +89,21 @@
 #' @importFrom stats binomial coef predict glm quasibinomial
 #' @importFrom magrittr %<>% %>%
 #' @importFrom pryr mem_used
+
+#' @examples
+#' # simulate data:
+#' study_data = simulate_interval_censoring()
+#'
+#' # extract participant-level and longitudinal data sets:
+#' participant_characteristics = study_data$pt_data
+#' longitudinal_observations = study_data$obs_data
+#'
+#' # fit model:
+#' EM_algorithm_outputs = fit_joint_model(
+#'    obs_level_data = longitudinal_observations,
+#'    subject_level_data = participant_characteristics,
+#'    bin_width = 42, # smaller bin widths produce more accurate results but take longer to run
+#'    verbose = FALSE)
 
 fit_joint_model = function(
   subject_level_data,

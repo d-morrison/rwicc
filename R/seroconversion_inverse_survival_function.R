@@ -1,8 +1,14 @@
 #' Inverse survival function for time-to-event variable with linear hazard function
 #'
 #' This function determines the seroconversion date corresponding to a provided
-#' probability of survival. See <doi:10.1111/biom.13472>,
+#' probability of survival. See \doi{10.1111/biom.13472},
 #' Supporting Information, Section A.4.
+#'
+#' @references
+#'
+#' Morrison, Laeyendecker, and Brookmeyer (2021).
+#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' Biometrics, \doi{10.1111/biom.13472}.
 
 #' @param u a vector of seroconversion survival probabilities
 #' @param e a vector of time differences between study start and enrollment (in years)
