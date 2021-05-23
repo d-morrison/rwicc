@@ -19,7 +19,3 @@ a ggplot
 \description{
 plot estimated and true CDFs for seroconversion date distribution
 }
-\examples{
-vignette("how-to-use-rwicc")
-
-}

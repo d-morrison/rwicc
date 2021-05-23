@@ -42,6 +42,3 @@ a vector of logistic regression coefficient estimates
 \description{
 Title model P(Y|T) using uniform imputation
 }
-\examples{
-vignette("how-to-use-rwicc")
-}
