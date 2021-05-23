@@ -5,7 +5,7 @@
 \title{Fit a logistic regression model with an interval-censored covariate}
 \usage{
 fit_joint_model(
-  subject_level_data,
+  participant_level_data,
   obs_level_data,
   model_formula = stats::formula(Y ~ T),
   mu_function = compute_mu,
@@ -22,7 +22,7 @@ fit_joint_model(
 )
 }
 \arguments{
-\item{subject_level_data}{a data.frame or tibble with the following variables:
+\item{participant_level_data}{a data.frame or tibble with the following variables:
 \itemize{
 \item ID: participant ID
 \item E: study enrollment date
@@ -112,7 +112,7 @@ longitudinal_observations = study_data$obs_data
 # fit model:
 EM_algorithm_outputs = fit_joint_model(
    obs_level_data = longitudinal_observations,
-   subject_level_data = participant_characteristics,
+   participant_level_data = participant_characteristics,
    bin_width = 42, # smaller bin widths produce more accurate results but take longer to run
    verbose = FALSE)
 }

@@ -24,16 +24,16 @@ Imports:
     magrittr,
     stats,
     pryr,
-    arm
+    arm,
+    ggplot2,
+    scales
 Suggests:
     spelling,
     rmarkdown,
     knitr,
-    pander,
     testthat,
-    ggplot2,
-    scales,
-    markdown
+    markdown,
+    pander
 Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues

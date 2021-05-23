@@ -8,7 +8,7 @@
 #' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
 #' Biometrics. \doi{10.1111/biom.13472}.
 #'
-#' @param subject_level_data a data.frame or tibble with the following variables:
+#' @param participant_level_data a data.frame or tibble with the following variables:
 #' \itemize{
 #' \item ID: participant ID
 #' \item E: study enrollment date
@@ -101,12 +101,12 @@
 #' # fit model:
 #' EM_algorithm_outputs = fit_joint_model(
 #'    obs_level_data = longitudinal_observations,
-#'    subject_level_data = participant_characteristics,
+#'    participant_level_data = participant_characteristics,
 #'    bin_width = 42, # smaller bin widths produce more accurate results but take longer to run
 #'    verbose = FALSE)
 
 fit_joint_model = function(
-  subject_level_data,
+  participant_level_data,
   obs_level_data,
   model_formula = stats::formula(Y ~ T),
   mu_function = compute_mu,
@@ -149,14 +149,14 @@ fit_joint_model = function(
     # check for basic errors in the data
     {
 
-      if (with(subject_level_data, any(L > R))) stop("L must be <= R!")
+      if (with(participant_level_data, any(L > R))) stop("L must be <= R!")
 
-      if(with(subject_level_data, any(duplicated(ID)))) stop("duplicate IDs")
+      if(with(participant_level_data, any(duplicated(ID)))) stop("duplicate IDs")
 
       # if `Stratum` is not provided in the input data, we create a placeholder:
-      if(!is.element("Stratum", colnames(subject_level_data)))
+      if(!is.element("Stratum", colnames(participant_level_data)))
       {
-        subject_level_data$Stratum = "Cohort 1"
+        participant_level_data$Stratum = "Cohort 1"
       }
 
     }
@@ -165,7 +165,7 @@ fit_joint_model = function(
     {
 
       E_L_combinations =
-        subject_level_data %>%
+        participant_level_data %>%
         dplyr::group_by(Stratum, E, L) %>%
         dplyr::summarize(.groups = "drop", n_IDs = dplyr::n())
 
@@ -176,14 +176,14 @@ fit_joint_model = function(
 
       # omega.hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
       omega.hat =
-        subject_level_data %>%
+        participant_level_data %>%
         dplyr::group_by(Stratum) %>%
         dplyr::summarize(
           .groups = "drop",
           S = seq(min(L), max(R), by = bin_width))
 
       subject_level_data_possibilities =
-        subject_level_data %>%
+        participant_level_data %>%
         dplyr::select(ID, Stratum, L, R) %>%
         dplyr::left_join(omega.hat, by = "Stratum") %>%
         dplyr::filter(L <= S, S <= R) %>%
@@ -235,7 +235,7 @@ fit_joint_model = function(
     # initial guess for S
     {
 
-      subject_level_data  %<>%
+      participant_level_data  %<>%
         dplyr::mutate(
           "S_hat - E" = initial_S_estimate_location * (R - L) + (L - E))
       # This duration is computed directly, since computing S_hat first
@@ -249,7 +249,7 @@ fit_joint_model = function(
     {
 
       est_hazard_by_stratum =
-        subject_level_data %>%
+        participant_level_data %>%
         dplyr::group_by(Stratum) %>%
         dplyr::summarize(
           .groups = "drop",
@@ -272,7 +272,7 @@ fit_joint_model = function(
 
       obs_level_data %<>%
         dplyr::left_join(
-          subject_level_data %>%
+          participant_level_data %>%
             dplyr::select(ID, `S_hat - E`, E),
           by = "ID") %>%
         dplyr::mutate(
@@ -361,7 +361,7 @@ fit_joint_model = function(
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
         # lose any (E,L) combinations where E == L.
 
-        subject_level_data %<>%
+        participant_level_data %<>%
           dplyr::select(-dplyr::any_of(c("P(S>=l|E=e)"))) %>%
           dplyr::left_join(
             E_L_combinations,
@@ -397,7 +397,7 @@ fit_joint_model = function(
                            "P(Y=y|T=t)" = prod(`P(Y=y|T=t)`)) %>%
 
           dplyr::left_join(
-            subject_level_data %>%
+            participant_level_data %>%
               dplyr::select(ID, Stratum, `P(S>=l|E=e)`),
             by = "ID") %>%
 
@@ -635,6 +635,9 @@ fit_joint_model = function(
     }
 
   }
+
+
+  names(mu.hat) = NULL # otherwise it will be named "(Intercept)"
 
   to_return = list(
     Theta = theta.hat,

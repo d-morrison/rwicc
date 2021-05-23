@@ -137,7 +137,7 @@ interval-censored covariate T, using an EM algorithm, as described in Morrison e
     </div>
 
     <pre class="usage"><span class='fu'>fit_joint_model</span><span class='op'>(</span>
-  <span class='va'>subject_level_data</span>,
+  <span class='va'>participant_level_data</span>,
   <span class='va'>obs_level_data</span>,
   model_formula <span class='op'>=</span> <span class='fu'>stats</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='cn'>T</span><span class='op'>)</span>,
   mu_function <span class='op'>=</span> <span class='va'>compute_mu</span>,
@@ -157,7 +157,7 @@ interval-censored covariate T, using an EM algorithm, as described in Morrison e
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>subject_level_data</th>
+      <th>participant_level_data</th>
       <td><p>a data.frame or tibble with the following variables:</p><ul>
 <li><p>ID: participant ID</p></li>
 <li><p>E: study enrollment date</p></li>
@@ -276,7 +276,7 @@ Biometrics. doi: <a href='https://doi.org/10.1111/biom.13472'>10.1111/biom.13472
 <span class='co'># fit model:</span>
 <span class='va'>EM_algorithm_outputs</span> <span class='op'>=</span> <span class='fu'>fit_joint_model</span><span class='op'>(</span>
    obs_level_data <span class='op'>=</span> <span class='va'>longitudinal_observations</span>,
-   subject_level_data <span class='op'>=</span> <span class='va'>participant_characteristics</span>,
+   participant_level_data <span class='op'>=</span> <span class='va'>participant_characteristics</span>,
    bin_width <span class='op'>=</span> <span class='fl'>42</span>, <span class='co'># smaller bin widths produce more accurate results but take longer to run</span>
    verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div></pre>
