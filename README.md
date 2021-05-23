@@ -11,11 +11,11 @@ status](https://travis-ci.com/d-morrison/rwicc.svg?branch=master)](https://travi
 <!-- badges: end -->
 
 `rwicc` (“Regression With Interval-Censored Covariates”) is an R
-software package implementing an analysis for a particular regression
-modeling problem involving an interval-censored covariate, as described
-in “Regression with Interval-Censored Covariates: Application to
-Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and
-Brookmeyer (Biometrics, 2021): <https://doi.org/10.1111/biom.13472>.
+software package implementing an analysis for a regression model
+involving an interval-censored covariate, as described in “Regression
+with Interval-Censored Covariates: Application to Cross-Sectional
+Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer
+(Biometrics, 2021): <https://doi.org/10.1111/biom.13472>.
 
 This analysis uses a joint model for the distributions of the outcome of
 interest and the interval-censored covariate, which is treated as a
@@ -68,7 +68,7 @@ sim_obs_data = sim_data$obs_data
 rm(sim_data)
 ```
 
-Here’s a look at the participant-level data:
+Here’s a look at the first few rows of participant-level data:
 
 ``` r
 library(pander)
@@ -88,7 +88,8 @@ pander(head(sim_participant_data))
 -   `L` is the date of the last HIV-negative test
 -   `R` is the date of the first HIV-positive test
 
-Next, let’s look at the observation-level (longitudinal) data:
+Next, let’s look at the first few rows of observation-level
+(longitudinal) data:
 
 ``` r
 pander(head(sim_obs_data))

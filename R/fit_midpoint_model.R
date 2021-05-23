@@ -1,4 +1,4 @@
-#' Title
+#' Fit model using midpoint imputation
 #'
 #' @param participant_level_data a data.frame or tibble with the following variables:
 #' \itemize{

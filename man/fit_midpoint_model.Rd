@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_midpoint_model.R
 \name{fit_midpoint_model}
 \alias{fit_midpoint_model}
-\title{Title}
+\title{Fit model using midpoint imputation}
 \usage{
 fit_midpoint_model(
   participant_level_data,
@@ -37,5 +37,5 @@ the seroconversion distribution.
 a vector of logistic regression coefficient estimates
 }
 \description{
-Title
+Fit model using midpoint imputation
 }

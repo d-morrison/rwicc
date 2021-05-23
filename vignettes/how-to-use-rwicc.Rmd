@@ -46,7 +46,7 @@ rm(sim_data)
 
 ```
 
-Here's a look at the participant-level data:
+Here's a look at the first few rows of participant-level data:
 
 ```{r}
 library(pander)
@@ -57,7 +57,7 @@ pander(head(sim_participant_data))
 * `L` is the date of the last HIV-negative test
 * `R` is the date of the first HIV-positive test
 
-Next, let's look at the observation-level (longitudinal) data:
+Next, let's look at the first few rows of observation-level (longitudinal) data:
 
 ```{r}
 pander(head(sim_obs_data))

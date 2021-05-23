@@ -10,7 +10,7 @@ Authors@R: c(
     person(given = "Ron",
            family = "Brookmeyer",
            role = c("aut")))
-Description: Provides functions to simulate and analyze data for a regression model with an interval censored covariate, as described in Morrison et al (2021) <doi:10.1111/biom.13472>.
+Description: Provides functions to simulate and analyze data for a regression model with an interval censored covariate, as described in Morrison et al. (2021) <doi:10.1111/biom.13472>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
