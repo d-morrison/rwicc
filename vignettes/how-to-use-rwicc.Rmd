@@ -22,7 +22,7 @@ This vignette shows how generate a simulated data set and analyze it using the m
 described in "Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence
 Estimation" by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: \doi{10.1111/biom.13472}.
 
-Here, we simulate the data:
+Here, we simulate some data:
 
 ```{r}
 
@@ -49,6 +49,20 @@ rm(sim_data)
 
 ```
 
+Here's a look at the participant-level data:
+
+```{r}
+knitr::kable(head(sim_participant_data), caption = "Simulated participant data")
+```
+
+Here's a look at the observation-level (longitudinal) data:
+
+```{r}
+knitr::kable(head(sim_obs_data), caption = "Simulated observation data")
+```
+
+We can see that the two tables are linked by the variable ID.
+
 Here, we apply our proposed analysis (this takes a couple of minutes; use argument `verbose = TRUE` to print progress messages):
 
 ```{r}  
@@ -64,7 +78,7 @@ mu_est_EM = EM_algorithm_outputs$Mu
 
 ```
 
-Next, we perform alternative analyses using midpoint imputation and uniform imputation:
+Here we implement an alternative analysis using midpoint imputation:
 
 ```{r}
 
@@ -102,7 +116,9 @@ max_iterations_for_glm_fits = 1000
   mu_est_midpoint = compute_mu(coef(phi_model_est_midpoint))
   
 }
+```
 
+```{r}
 # uniform imputation:
 {
   n_imputations = 100 # 10 would be enough
