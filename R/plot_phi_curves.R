@@ -8,8 +8,6 @@
 #' @return a ggplot
 #' @export
 #'
-#' @examples
-#' vignette("how-to-use-rwicc")
 #'
 #' @importFrom ggplot2 ggplot geom_function aes xlim ylab xlab scale_colour_discrete scale_linetype_discrete theme element_blank element_line element_text
 #' @importFrom scales label_parse

@@ -39,6 +39,3 @@ a vector of logistic regression coefficient estimates
 \description{
 Title
 }
-\examples{
-vignette('how-to-use-rwicc')
-}

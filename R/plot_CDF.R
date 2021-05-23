@@ -7,8 +7,6 @@
 #' @return a ggplot
 #' @export
 #'
-#' @examples
-#' vignette("how-to-use-rwicc")
 #'
 #' @importFrom dplyr mutate lag filter
 #' @importFrom ggplot2 ggplot aes geom_step xlab ylab geom_function scale_colour_discrete scale_linetype_discrete theme element_text element_blank element_line margin

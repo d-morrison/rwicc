@@ -26,7 +26,3 @@ a ggplot
 \description{
 Plot true and estimated curves for P(Y=1|T=t)
 }
-\examples{
-vignette("how-to-use-rwicc")
-
-}

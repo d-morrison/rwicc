@@ -23,8 +23,6 @@
 #'
 #' @export
 #'
-#' @examples
-#' vignette("how-to-use-rwicc")
 #' @importFrom biglm bigglm
 #' @importFrom dplyr mutate n select any_of left_join
 #' @importFrom lubridate ddays

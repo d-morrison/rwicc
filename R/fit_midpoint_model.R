@@ -21,8 +21,6 @@
 #' @return a vector of logistic regression coefficient estimates
 #' @export
 #'
-#' @examples
-#' vignette('how-to-use-rwicc')
 #' @importFrom biglm bigglm
 #' @importFrom dplyr mutate left_join select
 #' @importFrom lubridate ddays
