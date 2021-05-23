@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_uniform_model.R
 \name{fit_uniform_model}
 \alias{fit_uniform_model}
-\title{Title model P(Y|T) using uniform imputation}
+\title{Fit model using uniform imputation}
 \usage{
 fit_uniform_model(
   participant_level_data,
@@ -40,5 +40,5 @@ the seroconversion distribution.
 a vector of logistic regression coefficient estimates
 }
 \description{
-Title model P(Y|T) using uniform imputation
+Fit model using uniform imputation
 }

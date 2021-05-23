@@ -1,4 +1,4 @@
-#' Title model P(Y|T) using uniform imputation
+#' Fit model using uniform imputation
 #'
 #' @param participant_level_data a data.frame or tibble with the following variables:
 #' \itemize{
