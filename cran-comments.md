@@ -29,4 +29,4 @@ This is a new package, and my first CRAN submission!
 
 
 ## Downstream dependencies
-This is a brand-new package, so there are no downstream dependencies.
+This is a brand-new package; there are no downstream dependencies.
