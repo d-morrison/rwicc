@@ -184,7 +184,7 @@ fit_joint_model = function(
 
       subject_level_data_possibilities =
         participant_level_data %>%
-        dplyr::select(ID, Stratum, L, R) %>%
+        dplyr::select(ID, Stratum, L, R, Z) %>%
         dplyr::left_join(omega.hat, by = "Stratum") %>%
         dplyr::filter(L <= S, S <= R) %>%
         dplyr::select(-c(L, R))
@@ -202,7 +202,7 @@ fit_joint_model = function(
         obs_level_data %>%
         dplyr::select(ID, Y, O) %>%
         dplyr::left_join(
-          subject_level_data_possibilities %>% dplyr::select(ID, S),
+          subject_level_data_possibilities %>% dplyr::select(ID, S, Z),
           by = "ID") %>%
         dplyr::mutate("T" = (O - S)/lubridate::ddays(365)) %>%
         dplyr::select(-O)
