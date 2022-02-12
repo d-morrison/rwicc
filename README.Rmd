@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 # rwicc
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/d-morrison/rwicc.svg?branch=master)](https://travis-ci.com/d-morrison/rwicc)
 [![R-CMD-check](https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg)](https://github.com/d-morrison/rwicc/actions)
 <!-- badges: end -->
 

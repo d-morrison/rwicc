@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/d-morrison/rwicc.svg?branch=master)](https://travis-ci.com/d-morrison/rwicc)
 [![R-CMD-check](https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg)](https://github.com/d-morrison/rwicc/actions)
 <!-- badges: end -->
 
@@ -49,9 +47,6 @@ First, we simulate some data:
 set.seed(1)
 
 library(rwicc)
-#> Registered S3 method overwritten by 'pryr':
-#>   method      from
-#>   print.bytes Rcpp
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
@@ -170,12 +165,12 @@ use to evaluate convergence:
 -   `diff logL`: change in log-likelihood between iterations
 -   `diff mu`: change in *μ̂*
 -   `max abs diff coefs`:
-    max<sub>*j* ∈ 0 : 1</sub>{\|*θ̂*<sub>*j*</sub><sup>(*k*)</sup> − *θ̂*<sub>*j*</sub><sup>(*k* − 1)</sup>\|}
+    max<sub>*j* ∈ 0 : 1</sub>{\|*θ̂*<sub>*j*</sub><sup>(*k*)</sup>−*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>\|}
 -   `max abs rel diff coefs`:
-    max<sub>*j* ∈ 0 : 1</sub>{\|(*θ̂*<sub>*j*</sub><sup>(*k*)</sup> − *θ̂*<sub>*j*</sub><sup>(*k* − 1)</sup>)/*θ̂*<sub>*j*</sub><sup>(*k* − 1)</sup>\|}
+    max<sub>*j* ∈ 0 : 1</sub>{\|(*θ̂*<sub>*j*</sub><sup>(*k*)</sup>−*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>)/*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>\|}
 
-By default, the convergence criterion is: `diff logL` &lt; 0.1 and
-`max abs rel diff coefs` &lt; 0.0001.
+By default, the convergence criterion is: `diff logL` \< 0.1 and
+`max abs rel diff coefs` \< 0.0001.
 
 ``` r
 pander(EM_algorithm_outputs$convergence_metrics)
@@ -196,9 +191,9 @@ theta_est_midpoint = fit_midpoint_model(
 pander(theta_est_midpoint)
 ```
 
-| (Intercept) | T\_midpoint |
-|:-----------:|:-----------:|
-|   0.7572    |   -3.662    |
+| (Intercept) | T_midpoint |
+|:-----------:|:----------:|
+|   0.7572    |   -3.662   |
 
 Here, we perform an alternative analysis using uniform imputation:
 
