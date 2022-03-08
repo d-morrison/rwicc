@@ -29,7 +29,10 @@ fit_midpoint_model <- function(participant_level_data,
                                obs_level_data,
                                maxit = 1000,
                                tolerance = 1e-8) {
+
+  # prevent notes about undefined variables due to dplyr syntax:
   L <- R <- ID <- S_midpoint <- O <- NULL
+
   # bigglm's default maxit = 8, which is not large enough to ensure convergence for this data.
   # I don't think any of the scenarios examined in our paper ever get close to 1000 iterations though;
   # this is effectively saying maxit = Inf.
