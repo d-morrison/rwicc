@@ -11,66 +11,64 @@
 #' @importFrom dplyr mutate lag filter
 #' @importFrom ggplot2 ggplot aes geom_step xlab ylab geom_function scale_colour_discrete scale_linetype_discrete theme element_text element_blank element_line margin
 #' @importFrom lubridate ymd ddays
-plot_CDF = function(
-  true_hazard_alpha,
-  true_hazard_beta,
-  omega.hat
-)
-{
-
-  `P(S>s|S>=s,E=e)` = `P(S>s|E=0)` = `P(S>=s|E=0)` = S = NULL
-  cum_haz_fn0 = function(years_since_study_start)
-  {
+plot_CDF <- function(true_hazard_alpha,
+                     true_hazard_beta,
+                     omega.hat) {
+  `P(S>s|S>=s,E=e)` <- `P(S>s|E=0)` <- `P(S>=s|E=0)` <- S <- NULL
+  cum_haz_fn0 <- function(years_since_study_start) {
     true_hazard_alpha * years_since_study_start + true_hazard_beta / 2 * years_since_study_start^2
   }
 
-  cum_haz_fn = function(years_since_study_start,
-                        `years from study start to enrollment`)
-  {
+  cum_haz_fn <- function(years_since_study_start,
+                         `years from study start to enrollment`) {
     cum_haz_fn0(years_since_study_start) - cum_haz_fn0(`years from study start to enrollment`)
   }
 
-  surv_fn = function(years_since_study_start,
-                     `years from study start to enrollment`)
+  surv_fn <- function(years_since_study_start,
+                      `years from study start to enrollment`) {
     exp(-cum_haz_fn(
       years_since_study_start,
       `years from study start to enrollment`
     ))
+  }
 
-  true_model_label = "Data-generating model"
-  est_model_label = "Estimated model"
+  true_model_label <- "Data-generating model"
+  est_model_label <- "Estimated model"
 
-  lwd1 = 1
+  lwd1 <- 1
   omega.hat %<>%
     dplyr::mutate(
       "P(S>s|E=0)" = cumprod(`P(S>s|S>=s,E=e)`),
       "P(S>=s|E=0)" = dplyr::lag(`P(S>s|E=0)`, default = 1)
     )
 
-  plot1 = ggplot2::ggplot(
+  plot1 <- ggplot2::ggplot(
     ggplot2::aes(
       y = 1 - `P(S>=s|E=0)`,
       x = (S - lubridate::ymd("2001-01-01")) / lubridate::ddays(365)
     ),
-    data = omega.hat %>% dplyr::filter(S < max(S))) +
-
+    data = omega.hat %>% dplyr::filter(S < max(S))
+  ) +
     ggplot2::geom_step(
       direction = "hv",
-      ggplot2::aes(col = est_model_label,
-                   linetype = est_model_label),
+      ggplot2::aes(
+        col = est_model_label,
+        linetype = est_model_label
+      ),
       lwd = lwd1
     ) +
-
     ggplot2::xlab("Calendar time (years since start of study)") +
     ggplot2::ylab("Probability of seroconversion") +
     ggplot2::geom_function(
-      fun = function(x)
-        1 - surv_fn(x, 0),
-      ggplot2::aes(col = true_model_label,
-                   linetype = true_model_label),
+      fun = function(x) {
+        1 - surv_fn(x, 0)
+      },
+      ggplot2::aes(
+        col = true_model_label,
+        linetype = true_model_label
+      ),
       lwd = lwd1
     ) +
-
     ggplot2::scale_colour_discrete("") +
     ggplot2::scale_linetype_discrete("") +
     ggplot2::theme(
@@ -86,6 +84,7 @@ plot_CDF = function(
       legend.text =
         ggplot2::element_text(
           # size = 14,
-          margin = ggplot2::margin(r = 10, unit = "pt"))
+          margin = ggplot2::margin(r = 10, unit = "pt")
+        )
     )
 }
