@@ -91,20 +91,17 @@
 #' @importFrom pryr mem_used
 
 #' @examples
+#' \dontrun{
+#'
 #' # simulate data:
 #' study_data <- simulate_interval_censoring()
 #'
-#' # extract participant-level and longitudinal data sets:
-#' participant_characteristics <- study_data$pt_data
-#' longitudinal_observations <- study_data$obs_data
-#'
 #' # fit model:
 #' EM_algorithm_outputs <- fit_joint_model(
-#'   obs_level_data = longitudinal_observations,
-#'   participant_level_data = participant_characteristics,
-#'   bin_width = 42, # smaller bin widths produce more accurate results but take longer to run
-#'   verbose = FALSE
+#'   obs_level_data = study_data$obs_data,
+#'   participant_level_data = study_data$pt_data
 #' )
+#' }
 fit_joint_model <- function(participant_level_data,
                             obs_level_data,
                             model_formula = stats::formula(Y ~ T),

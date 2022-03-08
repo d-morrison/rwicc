@@ -31,6 +31,13 @@ code or the paper!
 
 ## Installation
 
+You can install the current released version from
+[CRAN](https://cran.r-project.org) with:
+
+``` r
+install.packages("rwicc")
+```
+
 You can install the development version from
 [GitHub](https://github.com/) with:
 
@@ -125,7 +132,8 @@ names(EM_algorithm_outputs)
 ```
 
 `Theta` is the vector of estimated logistic regression coefficients for
-*P*(*Y*\|*T*) (intercept and slope):
+![P(Y\|T)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;P%28Y%7CT%29 "P(Y|T)")
+(intercept and slope):
 
 ``` r
 pander(EM_algorithm_outputs$Theta)
@@ -135,7 +143,9 @@ pander(EM_algorithm_outputs$Theta)
 |:-----------:|:------:|
 |    1.019    | -3.953 |
 
-`Mu` is the corresponding *μ̂* estimate:
+`Mu` is the corresponding
+![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
+estimate:
 
 ``` r
 mu_est_EM = EM_algorithm_outputs$Mu
@@ -163,11 +173,12 @@ EM_algorithm_outputs$iterations
 use to evaluate convergence:
 
 -   `diff logL`: change in log-likelihood between iterations
--   `diff mu`: change in *μ̂*
+-   `diff mu`: change in
+    ![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
 -   `max abs diff coefs`:
-    max<sub>*j* ∈ 0 : 1</sub>{\|*θ̂*<sub>*j*</sub><sup>(*k*)</sup>−*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>\|}
+    ![\\max\_{j\\in 0:1} \\{\|\\hat{\\theta}\_j^{(k)} - \\hat{\\theta}\_j^{(k-1)}\|\\}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cmax_%7Bj%5Cin%200%3A1%7D%20%5C%7B%7C%5Chat%7B%5Ctheta%7D_j%5E%7B%28k%29%7D%20-%20%5Chat%7B%5Ctheta%7D_j%5E%7B%28k-1%29%7D%7C%5C%7D "\max_{j\in 0:1} \{|\hat{\theta}_j^{(k)} - \hat{\theta}_j^{(k-1)}|\}")
 -   `max abs rel diff coefs`:
-    max<sub>*j* ∈ 0 : 1</sub>{\|(*θ̂*<sub>*j*</sub><sup>(*k*)</sup>−*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>)/*θ̂*<sub>*j*</sub><sup>(*k*−1)</sup>\|}
+    ![\\max\_{j\\in 0:1} \\{\|(\\hat{\\theta}\_j^{(k)} - \\hat{\\theta}\_j^{(k-1)})/\\hat{\\theta}\_j^{(k-1)}\|\\}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cmax_%7Bj%5Cin%200%3A1%7D%20%5C%7B%7C%28%5Chat%7B%5Ctheta%7D_j%5E%7B%28k%29%7D%20-%20%5Chat%7B%5Ctheta%7D_j%5E%7B%28k-1%29%7D%29%2F%5Chat%7B%5Ctheta%7D_j%5E%7B%28k-1%29%7D%7C%5C%7D "\max_{j\in 0:1} \{|(\hat{\theta}_j^{(k)} - \hat{\theta}_j^{(k-1)})/\hat{\theta}_j^{(k-1)}|\}")
 
 By default, the convergence criterion is: `diff logL` \< 0.1 and
 `max abs rel diff coefs` \< 0.0001.
@@ -229,8 +240,10 @@ print(plot1)
 We can see that our joint modeling approach hasn’t estimated this
 distribution very accurately for this particular simulated dataset.
 Nevertheless, the next graph will show us that the joint model very
-accurately estimates the true distribution *P*(*Y*\|*T*) and the true
-value of *μ*:
+accurately estimates the true distribution
+![P(Y\|T)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;P%28Y%7CT%29 "P(Y|T)")
+and the true value of
+![\\mu](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cmu "\mu"):
 
 ``` r
 plot2 = plot_phi_curves(

@@ -102,19 +102,17 @@ This function fits a logistic regression model for a binary outcome Y with an
 interval-censored covariate T, using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
 }
 \examples{
-# simulate data:
-study_data = simulate_interval_censoring()
+\dontrun{
 
-# extract participant-level and longitudinal data sets:
-participant_characteristics = study_data$pt_data
-longitudinal_observations = study_data$obs_data
+# simulate data:
+study_data <- simulate_interval_censoring()
 
 # fit model:
-EM_algorithm_outputs = fit_joint_model(
-   obs_level_data = longitudinal_observations,
-   participant_level_data = participant_characteristics,
-   bin_width = 42, # smaller bin widths produce more accurate results but take longer to run
-   verbose = FALSE)
+EM_algorithm_outputs <- fit_joint_model(
+  obs_level_data = study_data$obs_data,
+  participant_level_data = study_data$pt_data
+)
+}
 }
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).
