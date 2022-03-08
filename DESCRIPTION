@@ -35,6 +35,5 @@ Suggests:
     markdown,
     pander
 Language: en-US
-URL: https://d-morrison.github.io/rwicc/,
-    https://github.com/d-morrison/rwicc
+URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues
