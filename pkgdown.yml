@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   how-to-use-rwicc: how-to-use-rwicc.html
-last_built: 2022-03-08T19:34Z
+last_built: 2022-03-08T19:46Z
 urls:
   reference: https://d-morrison.github.io/rwicc/reference
   article: https://d-morrison.github.io/rwicc/articles
