@@ -1,4 +1,4 @@
 library(testthat)
 library(rwicc)
 
-#test_check("rwicc")
+# test_check("rwicc")

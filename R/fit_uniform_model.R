@@ -27,41 +27,41 @@
 #' @importFrom dplyr mutate n select any_of left_join
 #' @importFrom lubridate ddays
 #' @importFrom stats runif binomial coef
-fit_uniform_model = function(
-  participant_level_data,
-  obs_level_data,
-  maxit = 1000,
-  tolerance = 1e-8,
-  n_imputations = 10
-)
-{
-
-  L = R = ID = S_imputed = O = NULL
+fit_uniform_model <- function(participant_level_data,
+                              obs_level_data,
+                              maxit = 1000,
+                              tolerance = 1e-8,
+                              n_imputations = 10) {
+  L <- R <- ID <- S_imputed <- O <- NULL
 
   # create a matrix to store the results from each imputed data set
-  imputed_coef_ests = matrix(nrow = n_imputations,
-                             ncol = 2,
-                             dimnames = list(NULL, c("theta0", "theta1")))
+  imputed_coef_ests <- matrix(
+    nrow = n_imputations,
+    ncol = 2,
+    dimnames = list(NULL, c("theta0", "theta1"))
+  )
 
   for (i in 1:n_imputations)
   {
-
     participant_level_data %<>%
-      dplyr::mutate(S_imputed =
-               L +
-               stats::runif(
-                 n = dplyr::n(),
-                 min = 0,
-                 max = (R - L) / lubridate::ddays(1)
-               ))
+      dplyr::mutate(
+        S_imputed =
+          L +
+            stats::runif(
+              n = dplyr::n(),
+              min = 0,
+              max = (R - L) / lubridate::ddays(1)
+            )
+      )
 
     obs_level_data %<>%
       dplyr::select(-dplyr::any_of("S_imputed")) %>%
       dplyr::left_join(participant_level_data %>% dplyr::select(ID, S_imputed),
-                by = "ID") %>%
+        by = "ID"
+      ) %>%
       dplyr::mutate(T_imputed = (O - S_imputed) / lubridate::ddays(365))
 
-    phi_model_est_imputed =
+    phi_model_est_imputed <-
       biglm::bigglm(
         epsilon = tolerance,
         maxit = maxit,
@@ -71,13 +71,8 @@ fit_uniform_model = function(
         Y ~ T_imputed
       )
 
-    imputed_coef_ests[i, ] = stats::coef(phi_model_est_imputed)
-
+    imputed_coef_ests[i, ] <- stats::coef(phi_model_est_imputed)
   }
 
-  imputed_coef_ests_mean = colMeans(imputed_coef_ests)
-
-
-
-
+  imputed_coef_ests_mean <- colMeans(imputed_coef_ests)
 }

@@ -1,5 +1,5 @@
 ---
-title: "Introduction to `rwicc`"
+title: "how-to-use-rwicc"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{how-to-use-rwicc}
