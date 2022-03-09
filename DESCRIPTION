@@ -1,6 +1,6 @@
 Package: rwicc
 Title: Regression with Interval-Censored Covariates
-Version: 0.1.3
+Version: 0.1.3.9000
 Authors@R: c(
     person(given = "Douglas",
            family = "Morrison",
