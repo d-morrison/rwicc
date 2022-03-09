@@ -32,13 +32,6 @@ code or the paper!
 
 ## Installation
 
-You can install the current released version from
-[CRAN](https://cran.r-project.org) with:
-
-``` r
-install.packages("rwicc")
-```
-
 You can install the development version from
 [GitHub](https://github.com/) with:
 
