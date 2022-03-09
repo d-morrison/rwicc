@@ -1,4 +1,5 @@
 # rwicc 0.1.3
+* Documentation improvements.
 
 # rwicc 0.1.2
 * Fixed contact info.
