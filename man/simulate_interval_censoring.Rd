@@ -74,10 +74,9 @@ data-generating model based on the typical structure of a cohort study of HIV
 biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
 }
 \examples{
-study_data = simulate_interval_censoring()
-participant_characteristics = study_data$pt_data
-longitudinal_observations = study_data$obs_data
-
+study_data <- simulate_interval_censoring()
+participant_characteristics <- study_data$pt_data
+longitudinal_observations <- study_data$obs_data
 }
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).

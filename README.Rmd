@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 `rwicc` ("Regression With Interval-Censored Covariates") is an R software package 
 implementing an analysis for a regression model involving an interval-censored covariate,
 as described in "Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence
-Estimation" by Morrison, Laeyendecker, and Brookmeyer (Biometrics, 2021): https://doi.org/10.1111/biom.13472.
+Estimation" by Morrison, Laeyendecker, and Brookmeyer (Biometrics, 2021): https://onlinelibrary.wiley.com/doi/10.1111/biom.13472.
 
 This analysis uses a joint model for the distributions of the outcome of interest and the interval-censored covariate, which is treated as a latent variable; the model parameters are estimated by maximum likelihood using an EM algorithm. 
 The submodel used for the distribution of the interval-censored covariate is
@@ -34,6 +34,12 @@ for their own applications. Please feel free to [contact us](mailto:dmorrison01@
 
 ## Installation
 
+You can install the current released version from [CRAN](https://cran.r-project.org) with:
+
+``` r
+install.packages("rwicc")
+```
+
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
@@ -41,158 +47,10 @@ install.packages("devtools")
 devtools::install_github("d-morrison/rwicc")
 ```
 
-## Example of use
+## Examples of use
 
-First, we simulate some data:
+Vignettes are available on the [package website](https://d-morrison.github.io/rwicc/)
 
-```{r}
+## Code of Conduct
 
-set.seed(1)
-
-library(rwicc)
-theta_true = c(0.986, -3.88)
-hazard_alpha = 1
-hazard_beta = 0.5
-sim_data = simulate_interval_censoring(
-  theta = theta_true,
-  "study_cohort_size" = 4500,
-  "preconversion_interval_length" = 365,
-  "hazard_alpha" = hazard_alpha,
-  "hazard_beta" = hazard_beta)
-
-# extract the participant-level and observation-level simulated data:
-sim_participant_data = sim_data$pt_data
-sim_obs_data = sim_data$obs_data
-rm(sim_data)
-
-```
-
-Here's a look at the first few rows of participant-level data:
-
-```{r}
-library(pander)
-pander(head(sim_participant_data))
-```
-
-* `E` is the individual's enrollment date
-* `L` is the date of the last HIV-negative test
-* `R` is the date of the first HIV-positive test
-
-Next, let's look at the first few rows of observation-level (longitudinal) data:
-
-```{r}
-pander(head(sim_obs_data))
-```
-
-* `O` is the observation date
-* `Y` is the MAA classification (1 = "recent infection", 0 = "long-term infection")
-
-The two tables are linked by the variable `ID`.
-
-Now, we will apply our proposed analysis (this takes a couple of minutes; use argument `verbose = TRUE` to print progress messages):
-
-```{r}
-EM_algorithm_outputs = fit_joint_model(
-  obs_level_data = sim_obs_data,
-  participant_level_data = sim_participant_data,
-  bin_width = 7,
-  verbose = FALSE)
-
-```
-
-The output of `fit_joint_model()` is a list with several components:
-
-```{r}
-names(EM_algorithm_outputs)
-```
-
-`Theta` is the vector of estimated logistic regression coefficients for $P(Y|T)$ (intercept and slope):
-```{r}
-
-pander(EM_algorithm_outputs$Theta)
-```
-
-`Mu` is the corresponding $\hat{\mu}$ estimate:
-
-```{r}
-mu_est_EM = EM_algorithm_outputs$Mu
-print(mu_est_EM)
-```
-
-`converged` indicates whether the algorithm reached its convergence criterion (= 1 if converged, = 0 if not).
-
-```{r}
-EM_algorithm_outputs$converged
-```
-
-`iterations` is the number of EM iterations that the algorithm performed:
-```{r}
-EM_algorithm_outputs$iterations
-```
-
-`convergence_metrics` gives the values of all four metrics that we might use to evaluate convergence:
-
-* `diff logL`: change in log-likelihood between iterations
-* `diff mu`: change in $\hat{\mu}$
-* `max abs diff coefs`: $\max_{j\in 0:1} \{|\hat{\theta}_j^{(k)} - \hat{\theta}_j^{(k-1)}|\}$
-* `max abs rel diff coefs`: $\max_{j\in 0:1} \{|(\hat{\theta}_j^{(k)} - \hat{\theta}_j^{(k-1)})/\hat{\theta}_j^{(k-1)}|\}$
-
-By default, the convergence criterion is: `diff logL` < 0.1 and `max abs rel diff coefs` < 0.0001.
-
-```{r}
-pander(EM_algorithm_outputs$convergence_metrics)
-```
-
-Next, we perform an alternative analysis using midpoint imputation:
-
-```{r}
-
-theta_est_midpoint = fit_midpoint_model(
-  obs_level_data = sim_obs_data,
-  participant_level_data = sim_participant_data
-)
-
-pander(theta_est_midpoint)
-```
-
-Here, we perform an alternative analysis using uniform imputation:
-```{r}
-# uniform imputation:
-theta_est_uniform = fit_uniform_model(
-  obs_level_data = sim_obs_data,
-  participant_level_data = sim_participant_data
-)
-
-pander(theta_est_uniform)
-```
-
-Now, let's graph the results. First, let's plot the true and estimated CDFs for the distribution of seroconversion date,
-for individuals who enroll on the first calendar day of the cohort study:
-
-
-```{r, fig.width = 6, fig.asp = .75}
-
-plot1 = plot_CDF(
-  true_hazard_alpha = hazard_alpha,
-  true_hazard_beta = hazard_beta,
-  omega.hat = EM_algorithm_outputs$Omega)
-
-print(plot1)
-
-```
-
-We can see that our joint modeling approach hasn't estimated this distribution very accurately for this particular simulated dataset.
-Nevertheless, the next graph will show us that the joint model very accurately estimates the true distribution $P(Y|T)$
-and the true value of $\mu$:
-
-```{r, fig.width = 6, fig.asp = .8}
-
-plot2 = plot_phi_curves(
-  theta_true = theta_true,
-  theta.hat_uniform = theta_est_uniform,
-  theta.hat_midpoint = theta_est_midpoint,
-  theta.hat_joint = EM_algorithm_outputs$Theta)
-
-print(plot2)
-```
-
+Please note that the rwicc project is released with a [Contributor Code of Conduct](https://d-morrison.github.io/rwicc/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

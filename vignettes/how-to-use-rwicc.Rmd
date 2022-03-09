@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 This vignette shows how generate a simulated data set and analyze it using the model and estimation algorithm
 described in "Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence
-Estimation" by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: https://doi.org/10.1111/biom.13472.
+Estimation" by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: https://onlinelibrary.wiley.com/doi/10.1111/biom.13472.
 
 First, we simulate some data:
 
@@ -33,7 +33,7 @@ theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
 sim_data = simulate_interval_censoring(
-  theta = theta_true,
+  "theta" = theta_true,
   "study_cohort_size" = 4500,
   "preconversion_interval_length" = 365,
   "hazard_alpha" = hazard_alpha,
