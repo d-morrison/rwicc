@@ -1,4 +1,4 @@
-# rwicc (development version)
+# rwicc 0.1.3
 
 # rwicc 0.1.2
 * Fixed contact info.
