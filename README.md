@@ -49,8 +49,7 @@ devtools::install_github("d-morrison/rwicc")
 
 ## Examples of use
 
-Vignettes are available on the [package
-website](https://d-morrison.github.io/rwicc/)
+See: <https://d-morrison.github.io/rwicc/articles/how-to-use-rwicc.html>
 
 ## Code of Conduct
 
