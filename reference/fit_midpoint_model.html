@@ -90,6 +90,22 @@ the seroconversion distribution.</p></li>
     <p>a vector of logistic regression coefficient estimates</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">sim_data</span> <span class="op">=</span> <span class="fu"><a href="simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"theta"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="st">"study_cohort_size"</span> <span class="op">=</span> <span class="fl">4500</span>,</span>
+<span class="r-in">  <span class="st">"preconversion_interval_length"</span> <span class="op">=</span> <span class="fl">365</span>,</span>
+<span class="r-in">  <span class="st">"hazard_alpha"</span> <span class="op">=</span> <span class="fl">1</span>,</span>
+<span class="r-in">  <span class="st">"hazard_beta"</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">theta_est_midpoint</span> <span class="op">=</span> <span class="fu">fit_midpoint_model</span><span class="op">(</span></span>
+<span class="r-in">  obs_level_data <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">obs_data</span>,</span>
+<span class="r-in">  participant_level_data <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">pt_data</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

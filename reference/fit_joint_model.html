@@ -161,19 +161,17 @@ Biometrics. doi: <a href="https://doi.org/10.1111/biom.13472" class="external-li
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simulate data:</span></span>
-<span class="r-in"><span class="va">study_data</span> <span class="op">=</span> <span class="fu"><a href="simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># extract participant-level and longitudinal data sets:</span></span>
-<span class="r-in"><span class="va">participant_characteristics</span> <span class="op">=</span> <span class="va">study_data</span><span class="op">$</span><span class="va">pt_data</span></span>
-<span class="r-in"><span class="va">longitudinal_observations</span> <span class="op">=</span> <span class="va">study_data</span><span class="op">$</span><span class="va">obs_data</span></span>
+<span class="r-in"><span class="co"># simulate data:</span></span>
+<span class="r-in"><span class="va">study_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># fit model:</span></span>
-<span class="r-in"><span class="va">EM_algorithm_outputs</span> <span class="op">=</span> <span class="fu">fit_joint_model</span><span class="op">(</span></span>
-<span class="r-in">   obs_level_data <span class="op">=</span> <span class="va">longitudinal_observations</span>,</span>
-<span class="r-in">   participant_level_data <span class="op">=</span> <span class="va">participant_characteristics</span>,</span>
-<span class="r-in">   bin_width <span class="op">=</span> <span class="fl">42</span>, <span class="co"># smaller bin widths produce more accurate results but take longer to run</span></span>
-<span class="r-in">   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">EM_algorithm_outputs</span> <span class="op">&lt;-</span> <span class="fu">fit_joint_model</span><span class="op">(</span></span>
+<span class="r-in">  obs_level_data <span class="op">=</span> <span class="va">study_data</span><span class="op">$</span><span class="va">obs_data</span>,</span>
+<span class="r-in">  participant_level_data <span class="op">=</span> <span class="va">study_data</span><span class="op">$</span><span class="va">pt_data</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

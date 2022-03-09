@@ -79,7 +79,7 @@
 
     
     
-<p>This vignette shows how generate a simulated data set and analyze it using the model and estimation algorithm described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: <a href="https://doi.org/10.1111/biom.13472" class="external-link uri">https://doi.org/10.1111/biom.13472</a>.</p>
+<p>This vignette shows how generate a simulated data set and analyze it using the model and estimation algorithm described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: <a href="https://onlinelibrary.wiley.com/doi/10.1111/biom.13472" class="external-link uri">https://onlinelibrary.wiley.com/doi/10.1111/biom.13472</a>.</p>
 <p>First, we simulate some data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -90,7 +90,7 @@
 <span class="va">hazard_alpha</span> <span class="op">=</span> <span class="fl">1</span>
 <span class="va">hazard_beta</span> <span class="op">=</span> <span class="fl">0.5</span>
 <span class="va">sim_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span>
-  theta <span class="op">=</span> <span class="va">theta_true</span>,
+  <span class="st">"theta"</span> <span class="op">=</span> <span class="va">theta_true</span>,
   <span class="st">"study_cohort_size"</span> <span class="op">=</span> <span class="fl">4500</span>,
   <span class="st">"preconversion_interval_length"</span> <span class="op">=</span> <span class="fl">365</span>,
   <span class="st">"hazard_alpha"</span> <span class="op">=</span> <span class="va">hazard_alpha</span>,
