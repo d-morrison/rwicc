@@ -4,7 +4,7 @@
 # rwicc
 
 <!-- badges: start -->
-[![](https://cranlogs.r-pkg.org/badges/seroincidence)](https://cran.r-project.org/package=rwicc)
+[![](https://cranlogs.r-pkg.org/badges/rwicc)](https://cran.r-project.org/package=rwicc)
 [![R-CMD-check](https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg)](https://github.com/d-morrison/rwicc/actions)
 <!-- badges: end -->
 
