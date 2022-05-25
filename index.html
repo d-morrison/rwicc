@@ -70,7 +70,6 @@
 <div class="page-header"><h1 id="rwicc">rwicc<a class="anchor" aria-label="anchor" href="#rwicc"></a>
 </h1></div>
 <!-- badges: start -->
-
 <p><code>rwicc</code> (“Regression With Interval-Censored Covariates”) is an R software package implementing an analysis for a regression model involving an interval-censored covariate, as described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (Biometrics, 2021): <a href="https://onlinelibrary.wiley.com/doi/10.1111/biom.13472" class="external-link uri">https://onlinelibrary.wiley.com/doi/10.1111/biom.13472</a>.</p>
 <p>This analysis uses a joint model for the distributions of the outcome of interest and the interval-censored covariate, which is treated as a latent variable; the model parameters are estimated by maximum likelihood using an EM algorithm. The submodel used for the distribution of the interval-censored covariate is somewhat specific to the application of interest (estimation of the mean duration of a biomarker-defined window period for cross-sectional incidence estimation), so this package may not be immediately applicable to other problems. We are publishing it with the goal of making the results in our paper easier to reproduce and with the hope that others might adapt pieces of this code for their own applications. Please feel free to <a href="mailto:dmorrison01@ucla.edu">contact us</a> with any questions about the code or the paper!</p>
 <div class="section level2">
@@ -137,6 +136,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=rwicc" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/seroincidence"></a></li>
 <li><a href="https://github.com/d-morrison/rwicc/actions" class="external-link"><img src="https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
@@ -152,7 +152,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
