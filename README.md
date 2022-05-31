@@ -6,6 +6,7 @@
 <!-- badges: start -->
 [![](https://cranlogs.r-pkg.org/badges/rwicc)](https://cran.r-project.org/package=rwicc)
 [![R-CMD-check](https://github.com/d-morrison/rwicc/workflows/R-CMD-check/badge.svg)](https://github.com/d-morrison/rwicc/actions)
+[![DOI](https://zenodo.org/badge/369426827.svg)](https://zenodo.org/badge/latestdoi/369426827)
 <!-- badges: end -->
 
 `rwicc` (“Regression With Interval-Censored Covariates”) is an R
