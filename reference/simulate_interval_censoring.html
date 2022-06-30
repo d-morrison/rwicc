@@ -66,18 +66,18 @@ biomarker progression, as described in Morrison et al (2021); <a href="https://d
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_interval_censoring</span><span class="op">(</span>
-  study_cohort_size <span class="op">=</span> <span class="fl">4500</span>,
-  hazard_alpha <span class="op">=</span> <span class="fl">1</span>,
-  hazard_beta <span class="op">=</span> <span class="fl">0.5</span>,
-  preconversion_interval_length <span class="op">=</span> <span class="fl">84</span>,
-  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span>,
-  probability_of_ever_seroconverting <span class="op">=</span> <span class="fl">0.05</span>,
-  years_in_study <span class="op">=</span> <span class="fl">10</span>,
-  max_scheduling_offset <span class="op">=</span> <span class="fl">7</span>,
-  days_from_study_start_to_recruitment_end <span class="op">=</span> <span class="fl">365</span>,
-  study_start_date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2001-01-01"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_interval_censoring</span><span class="op">(</span></span>
+<span>  study_cohort_size <span class="op">=</span> <span class="fl">4500</span>,</span>
+<span>  hazard_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  hazard_beta <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  preconversion_interval_length <span class="op">=</span> <span class="fl">84</span>,</span>
+<span>  theta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span>,</span>
+<span>  probability_of_ever_seroconverting <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  years_in_study <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  max_scheduling_offset <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>  days_from_study_start_to_recruitment_end <span class="op">=</span> <span class="fl">365</span>,</span>
+<span>  study_start_date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="st">"2001-01-01"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,39 +85,63 @@ biomarker progression, as described in Morrison et al (2021); <a href="https://d
     <dl><dt>study_cohort_size</dt>
 <dd><p>the number of participants to simulate (N_0 in the
 paper)</p></dd>
+
+
 <dt>hazard_alpha</dt>
 <dd><p>the hazard (instantaneous risk) of seroconversion at the
 start date of the cohort study for those participants at risk of
 seroconversion</p></dd>
+
+
 <dt>hazard_beta</dt>
 <dd><p>the change in hazard per calendar year</p></dd>
+
+
 <dt>preconversion_interval_length</dt>
 <dd><p>the number of days between tests for
 seroconversion</p></dd>
+
+
 <dt>theta</dt>
 <dd><p>the parameters of a logistic model (with linear functional from)
 specifying the probability of MAA-positive biomarkers as a function of time
 since seroconversion</p></dd>
+
+
 <dt>probability_of_ever_seroconverting</dt>
 <dd><p>the probability that each
 participant is at risk of HIV seroconversion</p></dd>
+
+
 <dt>years_in_study</dt>
 <dd><p>the duration of follow-up for each participant</p></dd>
+
+
 <dt>max_scheduling_offset</dt>
 <dd><p>the maximum divergence of pre-seroconversion
 followup visits from the prescribed schedule</p></dd>
+
+
 <dt>days_from_study_start_to_recruitment_end</dt>
 <dd><p>the length of the recruitment
 period</p></dd>
+
+
 <dt>study_start_date</dt>
 <dd><p>the date when the study starts recruitment ("d_0" in
 the main text). The value of this parameter does not affect the simulation
 results; it is only necessary as a reference point for generating E, L, R,
 O, and S.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list containing the following two tibbles:</p><ul><li><p><code>pt_data</code>: a tibble of participant-level information, with the following columns:</p><ul><li><p><code>ID</code>: participant ID</p></li>
+    
+
+<p>A list containing the following two tibbles:</p>
+
+
+<ul><li><p><code>pt_data</code>: a tibble of participant-level information, with the following columns:</p><ul><li><p><code>ID</code>: participant ID</p></li>
 <li><p><code>E</code>: enrollment date</p></li>
 <li><p><code>L</code>: date of last HIV test prior to seroconversion</p></li>
 <li><p><code>R</code>: date of first HIV test after seroconversion</p></li>
@@ -137,9 +161,9 @@ Biometrics. <a href="https://doi.org/10.1111/biom.13472" class="external-link">d
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">study_data</span> <span class="op">&lt;-</span> <span class="fu">simulate_interval_censoring</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">participant_characteristics</span> <span class="op">&lt;-</span> <span class="va">study_data</span><span class="op">$</span><span class="va">pt_data</span></span>
-<span class="r-in"><span class="va">longitudinal_observations</span> <span class="op">&lt;-</span> <span class="va">study_data</span><span class="op">$</span><span class="va">obs_data</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">study_data</span> <span class="op">&lt;-</span> <span class="fu">simulate_interval_censoring</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">participant_characteristics</span> <span class="op">&lt;-</span> <span class="va">study_data</span><span class="op">$</span><span class="va">pt_data</span></span></span>
+<span class="r-in"><span><span class="va">longitudinal_observations</span> <span class="op">&lt;-</span> <span class="va">study_data</span><span class="op">$</span><span class="va">obs_data</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -147,11 +171,11 @@ Biometrics. <a href="https://doi.org/10.1111/biom.13472" class="external-link">d
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Douglas Morrison, Ron Brookmeyer.</p>
+  <p></p><p>Developed by Douglas Ezra Morrison, Ron Brookmeyer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

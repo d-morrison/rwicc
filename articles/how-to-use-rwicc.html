@@ -69,7 +69,7 @@
 
 
 <script src="how-to-use-rwicc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>how-to-use-rwicc</h1>
             
       
@@ -82,28 +82,28 @@
 <p>This vignette shows how to generate a simulated data set and analyze it using the model and estimation algorithm described in “Regression with Interval-Censored Covariates: Application to Cross-Sectional Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer (2021) in Biometrics: <a href="https://onlinelibrary.wiley.com/doi/10.1111/biom.13472" class="external-link uri">https://onlinelibrary.wiley.com/doi/10.1111/biom.13472</a>.</p>
 <p>First, we simulate some data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://d-morrison.github.io/rwicc/">rwicc</a></span><span class="op">)</span>
-<span class="va">theta_true</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span>
-<span class="va">hazard_alpha</span> <span class="op">=</span> <span class="fl">1</span>
-<span class="va">hazard_beta</span> <span class="op">=</span> <span class="fl">0.5</span>
-<span class="va">sim_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span>
-  <span class="st">"theta"</span> <span class="op">=</span> <span class="va">theta_true</span>,
-  <span class="st">"study_cohort_size"</span> <span class="op">=</span> <span class="fl">4500</span>,
-  <span class="st">"preconversion_interval_length"</span> <span class="op">=</span> <span class="fl">365</span>,
-  <span class="st">"hazard_alpha"</span> <span class="op">=</span> <span class="va">hazard_alpha</span>,
-  <span class="st">"hazard_beta"</span> <span class="op">=</span> <span class="va">hazard_beta</span><span class="op">)</span>
-
-<span class="co"># extract the participant-level and observation-level simulated data:</span>
-<span class="va">sim_participant_data</span> <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">pt_data</span>
-<span class="va">sim_obs_data</span> <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">obs_data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://d-morrison.github.io/rwicc/">rwicc</a></span><span class="op">)</span></span>
+<span><span class="va">theta_true</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.986</span>, <span class="op">-</span><span class="fl">3.88</span><span class="op">)</span></span>
+<span><span class="va">hazard_alpha</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="va">hazard_beta</span> <span class="op">=</span> <span class="fl">0.5</span></span>
+<span><span class="va">sim_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/simulate_interval_censoring.html">simulate_interval_censoring</a></span><span class="op">(</span></span>
+<span>  <span class="st">"theta"</span> <span class="op">=</span> <span class="va">theta_true</span>,</span>
+<span>  <span class="st">"study_cohort_size"</span> <span class="op">=</span> <span class="fl">4500</span>,</span>
+<span>  <span class="st">"preconversion_interval_length"</span> <span class="op">=</span> <span class="fl">365</span>,</span>
+<span>  <span class="st">"hazard_alpha"</span> <span class="op">=</span> <span class="va">hazard_alpha</span>,</span>
+<span>  <span class="st">"hazard_beta"</span> <span class="op">=</span> <span class="va">hazard_beta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># extract the participant-level and observation-level simulated data:</span></span>
+<span><span class="va">sim_participant_data</span> <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">pt_data</span></span>
+<span><span class="va">sim_obs_data</span> <span class="op">=</span> <span class="va">sim_data</span><span class="op">$</span><span class="va">obs_data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s a look at the first few rows of participant-level data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rapporter.github.io/pander/" class="external-link">pander</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim_participant_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rapporter.github.io/pander/" class="external-link">pander</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim_participant_data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:61%;" class="table">
 <colgroup>
 <col width="6%">
@@ -166,7 +166,7 @@
 </ul>
 <p>Next, let’s look at the first few rows of observation-level (longitudinal) data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim_obs_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim_obs_data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:31%;" class="table">
 <colgroup>
 <col width="6%">
@@ -220,20 +220,20 @@
 <p>The two tables are linked by the variable <code>ID</code>.</p>
 <p>Now, we will apply our proposed analysis (this takes a couple of minutes; use argument <code>verbose = TRUE</code> to print progress messages):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">EM_algorithm_outputs</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_joint_model.html">fit_joint_model</a></span><span class="op">(</span>
-  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,
-  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span>,
-  bin_width <span class="op">=</span> <span class="fl">7</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">EM_algorithm_outputs</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_joint_model.html">fit_joint_model</a></span><span class="op">(</span></span>
+<span>  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,</span>
+<span>  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span>,</span>
+<span>  bin_width <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The output of <code><a href="../reference/fit_joint_model.html">fit_joint_model()</a></code> is a list with several components:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Theta"               "Mu"                  "Omega"              </span>
-<span class="co">#&gt; [4] "converged"           "iterations"          "convergence_metrics"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Theta"               "Mu"                  "Omega"              </span></span>
+<span><span class="co">#&gt; [4] "converged"           "iterations"          "convergence_metrics"</span></span></code></pre></div>
 <p><code>Theta</code> is the vector of estimated logistic regression coefficients for <span class="math inline">\(P(Y|T)\)</span> (intercept and slope):</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Theta</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Theta</span><span class="op">)</span></span></code></pre></div>
 <table style="width:32%;" class="table">
 <colgroup>
 <col width="19%">
@@ -250,17 +250,17 @@
 </table>
 <p><code>Mu</code> is the corresponding <span class="math inline">\(\hat{\mu}\)</span> estimate:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mu_est_EM</span> <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Mu</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mu_est_EM</span><span class="op">)</span>
-<span class="co">#&gt; [1] 122.5193</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mu_est_EM</span> <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Mu</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mu_est_EM</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 122.5193</span></span></code></pre></div>
 <p><code>converged</code> indicates whether the algorithm reached its convergence criterion (= 1 if converged, = 0 if not).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">converged</span>
-<span class="co">#&gt; [1] 1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">converged</span></span>
+<span><span class="co">#&gt; [1] 1</span></span></code></pre></div>
 <p><code>iterations</code> is the number of EM iterations that the algorithm performed:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">iterations</span>
-<span class="co">#&gt; [1] 112</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">iterations</span></span>
+<span><span class="co">#&gt; [1] 112</span></span></code></pre></div>
 <p><code>convergence_metrics</code> gives the values of all four metrics that we might use to evaluate convergence:</p>
 <ul>
 <li>
@@ -277,7 +277,7 @@
 </ul>
 <p>By default, the convergence criterion is: <code>diff logL</code> &lt; 0.1 and <code>max abs rel diff coefs</code> &lt; 0.0001.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">convergence_metrics</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">convergence_metrics</span><span class="op">)</span></span></code></pre></div>
 <table style="width:96%;" class="table">
 <colgroup>
 <col width="16%">
@@ -300,13 +300,13 @@
 </table>
 <p>Next, we perform an alternative analysis using midpoint imputation:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">theta_est_midpoint</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_midpoint_model.html">fit_midpoint_model</a></span><span class="op">(</span>
-  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,
-  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">theta_est_midpoint</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">theta_est_midpoint</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_midpoint_model.html">fit_midpoint_model</a></span><span class="op">(</span></span>
+<span>  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,</span>
+<span>  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">theta_est_midpoint</span><span class="op">)</span></span></code></pre></div>
 <table style="width:39%;" class="table">
 <colgroup>
 <col width="19%">
@@ -323,13 +323,13 @@
 </table>
 <p>Here, we perform an alternative analysis using uniform imputation:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># uniform imputation:</span>
-<span class="va">theta_est_uniform</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_uniform_model.html">fit_uniform_model</a></span><span class="op">(</span>
-  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,
-  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">theta_est_uniform</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># uniform imputation:</span></span>
+<span><span class="va">theta_est_uniform</span> <span class="op">=</span> <span class="fu"><a href="../reference/fit_uniform_model.html">fit_uniform_model</a></span><span class="op">(</span></span>
+<span>  obs_level_data <span class="op">=</span> <span class="va">sim_obs_data</span>,</span>
+<span>  participant_level_data <span class="op">=</span> <span class="va">sim_participant_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pander.html" class="external-link">pander</a></span><span class="op">(</span><span class="va">theta_est_uniform</span><span class="op">)</span></span></code></pre></div>
 <table style="width:25%;" class="table">
 <colgroup>
 <col width="12%">
@@ -346,24 +346,24 @@
 </table>
 <p>Now, let’s graph the results. First, let’s plot the true and estimated CDFs for the distribution of seroconversion date, for individuals who enroll on the first calendar day of the cohort study:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">plot1</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_CDF.html">plot_CDF</a></span><span class="op">(</span>
-  true_hazard_alpha <span class="op">=</span> <span class="va">hazard_alpha</span>,
-  true_hazard_beta <span class="op">=</span> <span class="va">hazard_beta</span>,
-  omega.hat <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Omega</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plot1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">plot1</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_CDF.html">plot_CDF</a></span><span class="op">(</span></span>
+<span>  true_hazard_alpha <span class="op">=</span> <span class="va">hazard_alpha</span>,</span>
+<span>  true_hazard_beta <span class="op">=</span> <span class="va">hazard_beta</span>,</span>
+<span>  omega.hat <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Omega</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plot1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how-to-use-rwicc_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
 <p>We can see that our joint modeling approach hasn’t estimated this distribution very accurately for this particular simulated dataset. Nevertheless, the next graph will show us that the joint model very accurately estimates the true distribution <span class="math inline">\(P(Y|T)\)</span> and the true value of <span class="math inline">\(\mu\)</span>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">plot2</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_phi_curves.html">plot_phi_curves</a></span><span class="op">(</span>
-  theta_true <span class="op">=</span> <span class="va">theta_true</span>,
-  theta.hat_uniform <span class="op">=</span> <span class="va">theta_est_uniform</span>,
-  theta.hat_midpoint <span class="op">=</span> <span class="va">theta_est_midpoint</span>,
-  theta.hat_joint <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Theta</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plot2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">plot2</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_phi_curves.html">plot_phi_curves</a></span><span class="op">(</span></span>
+<span>  theta_true <span class="op">=</span> <span class="va">theta_true</span>,</span>
+<span>  theta.hat_uniform <span class="op">=</span> <span class="va">theta_est_uniform</span>,</span>
+<span>  theta.hat_midpoint <span class="op">=</span> <span class="va">theta_est_midpoint</span>,</span>
+<span>  theta.hat_joint <span class="op">=</span> <span class="va">EM_algorithm_outputs</span><span class="op">$</span><span class="va">Theta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">plot2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="how-to-use-rwicc_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
   </main>
 </div>
@@ -372,12 +372,12 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Douglas Morrison, Ron Brookmeyer.</p>
+<p>Developed by Douglas Ezra Morrison, Ron Brookmeyer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>
