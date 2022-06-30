@@ -2,10 +2,10 @@ Package: rwicc
 Title: Regression with Interval-Censored Covariates
 Version: 0.1.3.9000
 Authors@R: c(
-    person(given = "Douglas",
+    person(given = "Douglas Ezra",
            family = "Morrison",
            role = c("aut", "cre","cph"),
-           email = "dmorrison01@ucla.edu",
+           email = "demorrison@ucdavis.edu",
            comment = c(ORCID = "0000-0002-7195-830X")),
     person(given = "Ron",
            family = "Brookmeyer",
