@@ -18,10 +18,12 @@
 #' @return numeric vector of time differences between study start and seroconversion (in years)
 ###############################################################################
 
-seroconversion_inverse_survival_function <- function(u,
-                                                     e,
-                                                     hazard_alpha,
-                                                     hazard_beta) {
+seroconversion_inverse_survival_function <- function(
+    u,
+    e,
+    hazard_alpha,
+    hazard_beta)
+{
   if (hazard_beta != 0) {
     a <- hazard_beta / 2
     b <- hazard_alpha

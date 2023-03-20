@@ -128,9 +128,8 @@ fit_joint_model <- function(participant_level_data,
       `P(S>=s|e,l,r,o,y)` <- `P(S>s|S>=l,E=e)` <- `P(S>s|S>=s,E=e)` <- `P(Y=1|T=t)` <-
       `P(Y=y|T=t)` <-
       logL_i <- n_IDs <- n_at_risk <-
-      n_definitely_at_risk <- n_events <- risk_probabilities <-
-      `years from study start to sample date` <-
-      `years from study start to seroconversion` <- NULL
+      n_definitely_at_risk <- n_events <-
+      risk_probabilities <- NULL
 
     # starting message
     {

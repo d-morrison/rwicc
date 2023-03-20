@@ -60,20 +60,22 @@
 #' @importFrom lubridate days ddays
 #' @importFrom stats rbinom runif
 #' @importFrom magrittr %<>% %>%
-simulate_interval_censoring <- function(study_cohort_size = 4500,
-                                        hazard_alpha = 1,
-                                        hazard_beta = 0.5,
-                                        preconversion_interval_length = 84,
-                                        theta = c(0.986, -3.88),
-                                        probability_of_ever_seroconverting = 0.05,
-                                        years_in_study = 10,
-                                        max_scheduling_offset = 7,
-                                        days_from_study_start_to_recruitment_end = 365,
-                                        study_start_date = lubridate::ymd("2001-01-01")) {
+simulate_interval_censoring <- function(
+    study_cohort_size = 4500,
+    hazard_alpha = 1,
+    hazard_beta = 0.5,
+    preconversion_interval_length = 84,
+    theta = c(0.986, -3.88),
+    probability_of_ever_seroconverting = 0.05,
+    years_in_study = 10,
+    max_scheduling_offset = 7,
+    days_from_study_start_to_recruitment_end = 365,
+    study_start_date = lubridate::ymd("2001-01-01"))
+{
 
   # this bit of code just removes some notes produced by check(); see
   # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
-  ID <- E <- L <- R <- O <- Y <- S <- `exit date` <- `elapsed time` <- `years from study start to seroconversion` <-
+  ID <- E <- L <- R <- O <- Y <- S <- `exit date` <- `elapsed time` <-
     `years from study start to sample date` <- NULL
 
   # define p(Y=1|T=t):
@@ -104,13 +106,13 @@ simulate_interval_censoring <- function(study_cohort_size = 4500,
     "ID" = 1:n_at_risk,
     "E" =
       study_start_date +
-        lubridate::days(
-          sample(
-            x = 0:days_from_study_start_to_recruitment_end,
-            size = n_at_risk,
-            replace = TRUE
-          )
-        ),
+      lubridate::days(
+        sample(
+          x = 0:days_from_study_start_to_recruitment_end,
+          size = n_at_risk,
+          replace = TRUE
+        )
+      ),
     `exit date` = E + years_in_study * lubridate::days(365),
     "years from study start to seroconversion" =
       seroconversion_inverse_survival_function(
@@ -124,6 +126,8 @@ simulate_interval_censoring <- function(study_cohort_size = 4500,
     # below we will use the non-rounded value from `years from study start to
     # seroconversion`
   )
+
+sim_obs_data = NULL
 
   # generate L, R:
   for (i in rownames(sim_participant_data))
@@ -151,10 +155,13 @@ simulate_interval_censoring <- function(study_cohort_size = 4500,
       max(preconversion_obs_dates[preconversion_obs_dates <= S])
 
     sim_participant_data[i, "R"] <-
-      dplyr::if_else(any(preconversion_obs_dates > S),
+      dplyr::if_else(
+        any(preconversion_obs_dates > S),
         min(preconversion_obs_dates[preconversion_obs_dates > S]),
         as.Date(NA)
       )
+
+
   }
 
   # remove participants who wouldn't be diagnosed until after their their
@@ -165,9 +172,8 @@ simulate_interval_censoring <- function(study_cohort_size = 4500,
   # # generate O, Y:
   sim_obs_data <-
     sim_participant_data %>%
-    dplyr::group_by(ID, R, `exit date`, `years from study start to seroconversion`) %>%
-    dplyr::summarize(
-      .groups = "drop",
+    dplyr::reframe(
+      .by = c(ID, R, `exit date`, `years from study start to seroconversion`),
       "O" = R + post_seroconversion_obs_dates
     ) %>%
     # everyone gets 10 years of observation, total, no longer how long they took
@@ -194,7 +200,7 @@ simulate_interval_censoring <- function(study_cohort_size = 4500,
   {
     sim_participant_data %<>% dplyr::select(ID, E, L, R)
     sim_obs_data %<>% dplyr::select(ID, O, Y)
-  }
+    }
 
   return(list(
     obs_data = sim_obs_data,
