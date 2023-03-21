@@ -9,11 +9,12 @@ plot_censoring_data(
   label.size = 5,
   point_size = 5,
   min_n_MAA = 5,
-  use_shape = FALSE
+  use_shape = FALSE,
+  s_vjust = 2
 )
 }
 \arguments{
-\item{use_shape}{}
+\item{s_vjust}{}
 }
 \value{
 a ggplot

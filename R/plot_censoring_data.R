@@ -5,6 +5,7 @@
 #' @param point_size
 #' @param min_n_MAA
 #' @param use_shape
+#' @param s_vjust
 #'
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
@@ -18,13 +19,15 @@ plot_censoring_data = function(
     label.size = 5,
     point_size = 5,
     min_n_MAA = 5,
-    use_shape = FALSE
+    use_shape = FALSE,
+    s_vjust = 2
 )
 {
 
   plot1 =
     dataset$pt_data |>
     ggplot() +
+
     geom_point(
       size = point_size,
       data = dataset$obs_data0 |> filter(`HIV status` == "HIV-"),
@@ -50,27 +53,6 @@ plot_censoring_data = function(
     # ) +
 
 
-  geom_segment(
-    aes(
-      x = .data$L,
-      xend = .data$R,
-      y = .data$ID,
-      yend = .data$ID,
-      if(use_shape) shape = "censoring interval",
-      col = "censoring interval")
-  ) +
-
-    ggrepel::geom_text_repel(
-      size = label.size,
-      aes(
-        x = .data$E,
-        y = .data$ID,
-        label = paste0("E[", `ID`, "]")),
-      vjust = 2,
-      # hjust = 1,
-      # label = "S_1",
-      parse = TRUE
-    ) +
 
     ggrepel::geom_text_repel(
       size = label.size,
@@ -94,6 +76,8 @@ plot_censoring_data = function(
       parse = TRUE
     ) +
 
+
+
     geom_point(
       size = point_size,
       aes(
@@ -112,10 +96,21 @@ plot_censoring_data = function(
         x = .data$S,
         y = .data$ID,
         label = paste0("(S[", ID, "])")),
-      vjust = 2,
+      vjust = s_vjust,
       # hjust = 1,
       # label = "S_1",
       parse = TRUE
+    ) +
+
+
+    geom_segment(
+      aes(
+        x = .data$L,
+        xend = .data$R,
+        y = .data$ID,
+        yend = .data$ID,
+        if(use_shape) shape = "censoring interval",
+        col = "censoring interval")
     ) +
 
     geom_point(
@@ -124,7 +119,8 @@ plot_censoring_data = function(
       aes(
         x = .data$`O`,
         y = .data$ID,
-        col = `MAA status`,
+        # col = `MAA status`,
+        col = "HIV+",
         if(use_shape) shape = `MAA status`
 
       ),
@@ -147,10 +143,10 @@ plot_censoring_data = function(
     xlab("Event date") +
     ggplot2::scale_y_discrete(
       name = 'Participant ID #',
-      breaks = unique(dataset$pt_data$ID),
+      # trans = "reverse",
+      breaks = unique(dataset$pt_data$ID) |> rev(),
       limits = seq(0, nrow(dataset$pt_data) + 1) |> as.integer()
     ) +
-
     xlim(
       min(dataset$pt_data$E) - months(1),
       dataset$obs_data |> filter(`Obs ID` == min_n_MAA) |> pull(O) |> max()) +
@@ -159,6 +155,10 @@ plot_censoring_data = function(
     ggplot2::scale_color_discrete(name = "") +
     ggplot2::scale_shape_discrete(name = "") +
     ggplot2::theme(
+      panel.border = element_blank(),
+      # panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.line = element_line(colour = "black"),
       legend.position="bottom",
       text = element_text(size = 15)
     )
