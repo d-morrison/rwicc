@@ -9,7 +9,7 @@
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
 #' @importFrom plotly ggplotly
-#' @importFrom dplyr reframe
+#' @importFrom dplyr reframe bind_rows pull
 #' @export
 #'
 
@@ -144,7 +144,7 @@ plot_censoring_data = function(
       parse = TRUE
     ) +
 
-    xlab("") +
+    xlab("Event date") +
     ggplot2::scale_y_discrete(
       name = 'Participant ID #',
       breaks = unique(dataset$pt_data$ID),

@@ -3,14 +3,19 @@ title: "visualize-study-design"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{visualize-study-design}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+  
 )
 ```
 
@@ -21,7 +26,7 @@ library(rwicc)
 
 ```{r}
 
-set.seed(5); 
+set.seed(16); 
 simulate_interval_censoring(
     study_cohort_size = 2, 
     years_in_study = 10, 
