@@ -28,7 +28,8 @@ First, we simulate some data:
 
 set.seed(1)
 
-library(rwicc)
+# library(rwicc)
+load_all()
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5

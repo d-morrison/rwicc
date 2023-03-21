@@ -1,0 +1,35 @@
+---
+title: "visualize-study-design"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{visualize-study-design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rwicc)
+
+```
+
+```{r}
+
+set.seed(5); 
+simulate_interval_censoring(
+    study_cohort_size = 2, 
+    years_in_study = 10, 
+    probability_of_ever_seroconverting = 1) |> 
+    plot_censoring_data(
+        min_n_MAA = 3
+    ) |> 
+    print()
+
+```
+

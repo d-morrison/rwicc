@@ -4,10 +4,19 @@
 \alias{plot_censoring_data}
 \title{Title}
 \usage{
-plot_censoring_data(dataset = simulate_interval_censoring()$pt_data)
+plot_censoring_data(
+  dataset = simulate_interval_censoring(),
+  label.size = 5,
+  point_size = 5,
+  min_n_MAA = 5,
+  use_shape = FALSE
+)
 }
 \arguments{
-\item{dataset}{}
+\item{use_shape}{}
+}
+\value{
+a ggplot
 }
 \description{
 Title

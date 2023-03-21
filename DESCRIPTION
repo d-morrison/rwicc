@@ -26,7 +26,10 @@ Imports:
     pryr,
     arm,
     ggplot2,
-    scales
+    scales,
+    plotly,
+    rlang,
+    ggrepel
 Suggests:
     spelling,
     rmarkdown,

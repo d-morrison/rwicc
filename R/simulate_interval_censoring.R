@@ -127,11 +127,12 @@ simulate_interval_censoring <- function(
     # seroconversion`
   )
 
-sim_obs_data = NULL
+  sim_obs_data0 = NULL
 
   # generate L, R:
   for (i in rownames(sim_participant_data))
   {
+    ID = sim_participant_data[i, "ID", drop = TRUE]
     E <- sim_participant_data[i, "E", drop = TRUE]
     S <- sim_participant_data[i, "S", drop = TRUE]
 
@@ -161,6 +162,28 @@ sim_obs_data = NULL
         as.Date(NA)
       )
 
+    temp =
+      sim_participant_data[i, c("ID", "E", "R")] |>
+      reframe(
+        `Obs ID` = 1:length(preconversion_obs_dates),
+        O = preconversion_obs_dates,
+
+        .by =  c(ID, E, R)) |>
+      dplyr::filter(O <= R) |>
+      dplyr::mutate(
+        `HIV status` =
+          if_else(O >= R, "HIV+", "HIV-") |>
+          factor() |>
+          relevel(ref = "HIV-")
+      ) |>
+
+
+      dplyr::select(-R)
+
+
+    sim_obs_data0 =
+      sim_obs_data0 |>
+      bind_rows(temp)
 
   }
 
@@ -170,10 +193,11 @@ sim_obs_data = NULL
     dplyr::filter(R <= `exit date`)
 
   # # generate O, Y:
-  sim_obs_data <-
+  sim_obs_data =
     sim_participant_data %>%
     dplyr::reframe(
-      .by = c(ID, R, `exit date`, `years from study start to seroconversion`),
+      .by = c(ID, E, R, `exit date`, `years from study start to seroconversion`),
+      `Obs ID` = 1:length(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
     ) %>%
     # everyone gets 10 years of observation, total, no longer how long they took
@@ -184,25 +208,41 @@ sim_obs_data = NULL
       # time from the exact moment of seroconversion until the date of testing
       # (we assume that all testing occurs at midnight at the beginning of the
       # scheduled day):
-      "years from study start to sample date" = (O - study_start_date) / lubridate::ddays(365),
+      "years from study start to sample date" =
+        (O - study_start_date) / lubridate::ddays(365),
+
       "elapsed time" =
-        `years from study start to sample date` - `years from study start to seroconversion`,
-      "Y" = as.numeric(stats::rbinom(
-        size = 1,
-        n = dplyr::n(),
-        p = phi(`elapsed time`)
-        # could switch to rbernoulli here, but doing so would change a few of
-        # the generated values
-      ))
+        `years from study start to sample date` -
+        `years from study start to seroconversion`,
+
+      "Y" =
+        stats::rbinom(
+          size = 1,
+          n = dplyr::n(),
+          p = phi(`elapsed time`)
+          # could switch to rbernoulli here, but doing so would change a few of
+          # the generated values
+        ) |>
+        as.numeric(),
+
+      `MAA status` =
+        if_else(
+        Y == 1,
+        "Y = 1",
+        "Y = 0"
+      ) |>
+        factor(levels = c("Y = 0", "Y = 1"))
+
     )
 
   # remove variables not needed for analysis:
   {
-    sim_participant_data %<>% dplyr::select(ID, E, L, R)
-    sim_obs_data %<>% dplyr::select(ID, O, Y)
+    sim_participant_data %<>% dplyr::select(ID, E, L, R, S)
+    sim_obs_data %<>% dplyr::select(ID, E, O, Y, `MAA status`, `Obs ID`)
     }
 
   return(list(
+    obs_data0 = sim_obs_data0,
     obs_data = sim_obs_data,
     pt_data = sim_participant_data
   ))
