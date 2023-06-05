@@ -10,11 +10,14 @@ plot_censoring_data(
   point_size = 5,
   min_n_MAA = 5,
   use_shape = FALSE,
-  s_vjust = 2
+  s_vjust = 2,
+  labelled_IDs = 2
 )
 }
 \arguments{
-\item{s_vjust}{}
+\item{s_vjust}{test2}
+
+\item{labelled_IDs}{test}
 }
 \value{
 a ggplot
