@@ -196,7 +196,7 @@ simulate_interval_censoring <- function(
   sim_obs_data =
     sim_participant_data %>%
     dplyr::reframe(
-      .by = c(ID, E, R, `exit date`, `years from study start to seroconversion`),
+      .by = c(ID, E, R, S, `exit date`, `years from study start to seroconversion`),
       `Obs ID` = 1:length(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
     ) %>%
@@ -238,7 +238,7 @@ simulate_interval_censoring <- function(
   # remove variables not needed for analysis:
   {
     sim_participant_data %<>% dplyr::select(ID, E, L, R, S)
-    sim_obs_data %<>% dplyr::select(ID, E, O, Y, `MAA status`, `Obs ID`)
+    sim_obs_data %<>% dplyr::select(ID, E, O, Y, S, `MAA status`, `Obs ID`)
     }
 
   return(list(
