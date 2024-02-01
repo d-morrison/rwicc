@@ -238,7 +238,7 @@ simulate_interval_censoring <- function(
   # remove variables not needed for analysis:
   {
     sim_participant_data %<>% dplyr::select(ID, E, L, R, S)
-    sim_obs_data %<>% dplyr::select(ID, E, O, Y, S, `MAA status`, `Obs ID`)
+    sim_obs_data %<>% dplyr::select(ID, O, Y, S, `MAA status`, `Obs ID`)
     }
 
   return(list(

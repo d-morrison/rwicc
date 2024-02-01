@@ -58,6 +58,22 @@ pander(head(sim_participant_data))
 * `L` is the date of the last HIV-negative test
 * `R` is the date of the first HIV-positive test
 
+We can count the number of individuals whose censoring windows overlap with each day like so:
+
+```{r}
+sim_participant_data %>%
+  mutate("Stratum" = 1) |> 
+  build_event_date_possibilities_table(bin_width = 1) |> 
+  dplyr::count(S) |> 
+  ggplot(
+    aes(x = S, y = n)
+  ) +
+  # geom_point(alpha = .5) + 
+  geom_line(alpha = .5) +
+  theme_classic()
+```
+
+
 Next, let's look at the first few rows of observation-level (longitudinal) data:
 
 ```{r}
@@ -76,7 +92,7 @@ EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   participant_level_data = sim_participant_data,
   bin_width = 7,
-  verbose = FALSE)
+  verbose = TRUE)
 
 ```
 
@@ -97,6 +113,16 @@ pander(EM_algorithm_outputs$Theta)
 ```{r}
 mu_est_EM = EM_algorithm_outputs$Mu
 print(mu_est_EM)
+```
+
+`Omega` is the corresponding $\hat{\omega}(s)$ estimate:
+
+```{r}
+omega_est_EM = EM_algorithm_outputs$Omega
+
+library(ggplot2)
+omega_est_EM |> graph_omega()
+
 ```
 
 `converged` indicates whether the algorithm reached its convergence criterion (= 1 if converged, = 0 if not).

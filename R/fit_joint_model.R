@@ -9,20 +9,16 @@
 #' Biometrics. \doi{10.1111/biom.13472}.
 #'
 #' @param participant_level_data a data.frame or tibble with the following variables:
-#' \itemize{
-#' \item ID: participant ID
-#' \item E: study enrollment date
-#' \item L: date of last negative test for seroconversion
-#' \item R: date of first positive test for seroconversion
-#' \item Cohort` (optional): this variable can be used to stratify the modeling of
+#' * ID: participant ID
+#' * E: study enrollment date
+#' * L: date of last negative test for seroconversion
+#' * R: date of first positive test for seroconversion
+#' * Cohort` (optional): this variable can be used to stratify the modeling of
 #' the seroconversion distribution.
-#' }
 #' @param obs_level_data a data.frame or tibble with the following variables:
-#' \itemize{
-#' \item ID: participant ID
-#' \item O: biomarker sample collection dates
-#' \item Y: MAA classifications (binary outcomes)
-#' }
+#' * ID: participant ID
+#' * O: biomarker sample collection dates
+#' * Y: MAA classifications (binary outcomes)
 #' @param model_formula the functional form for the regression model for p(y|t) (as a
 #' formula() object)
 
@@ -102,20 +98,21 @@
 #'   participant_level_data = study_data$pt_data
 #' )
 #' }
-fit_joint_model <- function(participant_level_data,
-                            obs_level_data,
-                            model_formula = stats::formula(Y ~ T),
-                            mu_function = compute_mu,
-                            bin_width = 1,
-                            denom_offset = 0.1,
-                            EM_toler_loglik = 0.1,
-                            EM_toler_est = 0.0001,
-                            EM_max_iterations = Inf,
-                            glm_tolerance = 1e-7,
-                            glm_maxit = 20,
-                            initial_S_estimate_location = 0.25,
-                            coef_change_metric = "max abs rel diff coefs",
-                            verbose = FALSE) {
+fit_joint_model <- function(
+    participant_level_data,
+    obs_level_data,
+    model_formula = stats::formula(Y ~ T),
+    mu_function = compute_mu,
+    bin_width = 1,
+    denom_offset = 0.1,
+    EM_toler_loglik = 0.1,
+    EM_toler_est = 0.0001,
+    EM_max_iterations = Inf,
+    glm_tolerance = 1e-7,
+    glm_maxit = 20,
+    initial_S_estimate_location = 0.25,
+    coef_change_metric = "max abs rel diff coefs",
+    verbose = FALSE) {
 
   # setup
   {
@@ -142,15 +139,11 @@ fit_joint_model <- function(participant_level_data,
     }
 
     # check for basic errors in the data
-    {
-      if (with(participant_level_data, any(L > R))) stop("L must be <= R!")
+    check_pt_data(participant_level_data)
 
-      if (with(participant_level_data, any(duplicated(ID)))) stop("duplicate IDs")
-
-      # if `Stratum` is not provided in the input data, we create a placeholder:
-      if (!is.element("Stratum", colnames(participant_level_data))) {
-        participant_level_data$Stratum <- "Cohort 1"
-      }
+    # if `Stratum` is not provided in the input data, we create a placeholder:
+    if (!is.element("Stratum", colnames(participant_level_data))) {
+      participant_level_data$Stratum <- "Cohort 1"
     }
 
     # identify the set of unique (E,L) combinations and count occurrences
@@ -167,18 +160,11 @@ fit_joint_model <- function(participant_level_data,
       # omega.hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
       omega.hat <-
         participant_level_data %>%
-        dplyr::group_by(Stratum) %>%
-        dplyr::summarize(
-          .groups = "drop",
-          S = seq(min(L), max(R), by = bin_width)
-        )
+        build_omega_table(bin_width = bin_width)
 
       subject_level_data_possibilities <-
         participant_level_data %>%
-        dplyr::select(ID, Stratum, L, R) %>%
-        dplyr::left_join(omega.hat, by = "Stratum") %>%
-        dplyr::filter(L <= S, S <= R) %>%
-        dplyr::select(-c(L, R))
+        build_event_date_possibilities_table(omega.hat = omega.hat)
 
       # here we remove from omega.hat any stratum:seroconversion date combinations
       # that aren't in anyone's censoring interval; the best estimate for hazard
@@ -214,7 +200,7 @@ fit_joint_model <- function(participant_level_data,
           .groups = "drop",
           "n_definitely_at_risk" =
             denom_offset +
-              sum(n_IDs[E <= S & S < L])
+            sum(n_IDs[E <= S & S < L])
         ) %>%
         dplyr::ungroup()
     }
@@ -259,14 +245,15 @@ fit_joint_model <- function(participant_level_data,
 
     # Theta
     {
-      obs_level_data %<>%
+      obs_level_data =
+        obs_level_data %>%
         dplyr::left_join(
           participant_level_data %>%
             dplyr::select(ID, `S_hat - E`, E),
           by = "ID"
         ) %>%
         dplyr::mutate(
-          "T" = ((O - E) - (`S_hat - E`)) / lubridate::ddays(365)
+          "T" = ((O - E) - (`S_hat - E`))# / lubridate::ddays(365)
         ) %>%
         dplyr::select(ID, T, Y)
 
@@ -300,7 +287,8 @@ fit_joint_model <- function(participant_level_data,
   # observed-data likelihood function, with terms that cancel out of
   # diff(logLik) formula removed (see Supporting Information A.3)
   {
-    observed_data_log_likelihood <- function(subject_level_data_possibilities) {
+    observed_data_log_likelihood <- function(subject_level_data_possibilities)
+    {
       log_L <- subject_level_data_possibilities %>%
         dplyr::group_by(ID) %>%
         dplyr::summarize(
@@ -524,7 +512,7 @@ fit_joint_model <- function(participant_level_data,
             message("Fixing ", sum(to_fix), " value(s) of omega.hat with NaNs.")
             omega.hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
           }
-        }
+          }
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
         omega.hat %<>% dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)

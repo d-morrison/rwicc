@@ -32,7 +32,8 @@ plot_censoring_data = function(
 
     geom_point(
       size = point_size,
-      data = dataset$obs_data0 |> filter(`HIV status` == "HIV-"),
+      data = dataset$obs_data0 |>
+        filter(`HIV status` == "HIV-"),
       aes(
         x = .data$`O`,
         y = .data$ID,
@@ -56,7 +57,8 @@ plot_censoring_data = function(
 
 
   ggrepel::geom_text_repel(
-    data = dataset$pt_data |> filter(ID %in% labelled_IDs),
+    data = dataset$pt_data |>
+      filter(ID %in% labelled_IDs),
     size = label.size,
     aes(
       x = .data$E,
@@ -69,7 +71,8 @@ plot_censoring_data = function(
   ) +
 
     ggrepel::geom_text_repel(
-      data = dataset$pt_data |> filter(ID %in% labelled_IDs),
+      data = dataset$pt_data |>
+        filter(ID %in% labelled_IDs),
       size = label.size,
       aes(
         x = .data$L,
