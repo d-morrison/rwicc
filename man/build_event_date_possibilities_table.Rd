@@ -6,16 +6,35 @@
 \usage{
 build_event_date_possibilities_table(
   participant_level_data,
-  omega.hat = build_omega_table(participant_level_data, bin_width = bin_width),
-  ...
+  bin_width = 1,
+  omega.hat = build_omega_table(participant_level_data, bin_width = bin_width)
 )
 }
 \arguments{
-\item{participant_level_data}{a \link{data.frame}}
+\item{participant_level_data}{a \link{data.frame} with columns:
+\itemize{
+\item ID: participant identifier
+\item Stratum: indicator for which population stratum the participant belongs to
+\item E: study entry date
+\item L: left censoring interval endpoint
+\item R: left censoring interval endpoint
+}}
+
+\item{bin_width}{number of days per bin}
 }
 \value{
-a data.frame
+a \link{data.frame} with columns:
+\itemize{
+\item ID: participant identifier
+\item Stratum: indicator for which population stratum the participant belongs to
+\item S: possible seroconversion dates
+}
 }
 \description{
 Build table of event date possibilities
+}
+\examples{
+simulate_interval_censoring()$pt_data |>
+mutate(Stratum = 1) |>
+build_event_date_possibilities_table()
 }

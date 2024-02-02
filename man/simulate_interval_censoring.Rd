@@ -6,11 +6,13 @@
 \usage{
 simulate_interval_censoring(
   study_cohort_size = 4500,
+  probability_of_ever_seroconverting = 0.05,
+  n_at_risk = stats::rbinom(n = 1, size = study_cohort_size, prob =
+    probability_of_ever_seroconverting),
   hazard_alpha = 1,
   hazard_beta = 0.5,
   preconversion_interval_length = 84,
   theta = c(0.986, -3.88),
-  probability_of_ever_seroconverting = 0.05,
   years_in_study = 10,
   max_scheduling_offset = 7,
   days_from_study_start_to_recruitment_end = 365,
@@ -20,6 +22,11 @@ simulate_interval_censoring(
 \arguments{
 \item{study_cohort_size}{the number of participants to simulate (N_0 in the
 paper)}
+
+\item{probability_of_ever_seroconverting}{the probability that each
+participant is at risk of HIV seroconversion}
+
+\item{n_at_risk}{number of participants who are at risk of infection; by default, this number is determined stochastically from \code{study_cohort_size} and \code{probability_of_ever_seroconverting}.}
 
 \item{hazard_alpha}{the hazard (instantaneous risk) of seroconversion at the
 start date of the cohort study for those participants at risk of
@@ -34,9 +41,6 @@ seroconversion}
 specifying the probability of MAA-positive biomarkers as a function of time
 since seroconversion}
 
-\item{probability_of_ever_seroconverting}{the probability that each
-participant is at risk of HIV seroconversion}
-
 \item{years_in_study}{the duration of follow-up for each participant}
 
 \item{max_scheduling_offset}{the maximum divergence of pre-seroconversion
@@ -47,12 +51,10 @@ period}
 
 \item{study_start_date}{the date when the study starts recruitment ("d_0" in
 the main text). The value of this parameter does not affect the simulation
-results; it is only necessary as a reference point for generating E, L, R,
-O, and S.}
+results; it is only necessary as a reference point for generating E, L, R, O, and S.}
 }
 \value{
 A list containing the following two tibbles:
-
 \itemize{
 \item \code{pt_data}: a tibble of participant-level information, with the following columns:
 \itemize{
@@ -61,12 +63,14 @@ A list containing the following two tibbles:
 \item \code{L}: date of last HIV test prior to seroconversion
 \item \code{R}: date of first HIV test after seroconversion
 }
-\item \code{obs_data}: a tibble of longitudinal observations with the following columns:
+}
+
+*\code{obs_data}: a tibble of longitudinal observations with the following columns:
 \itemize{
 \item \code{ID}: participant ID
 \item \code{O}: dates of biomarker sample collection
 \item \code{Y}: MAA classifications of biomarker samples
-}}
+}
 }
 \description{
 \code{simulate_interval_censoring} generates a simulated data set from a

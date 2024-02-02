@@ -1,13 +1,24 @@
 #' Build table of event date possibilities
 #'
-#' @param participant_level_data a [data.frame]
+#' @param participant_level_data a [data.frame] with columns:
+#' * ID: participant identifier
+#' * Stratum: indicator for which population stratum the participant belongs to
+#' * E: study entry date
+#' * L: left censoring interval endpoint
+#' * R: left censoring interval endpoint
 #' @param omega.hat
 #' @inheritParams  build_omega_table
 #'
-#' @return a data.frame
+#' @returns a [data.frame] with columns:
+#' * ID: participant identifier
+#' * Stratum: indicator for which population stratum the participant belongs to
+#' * S: possible seroconversion dates
 #' @export
 #'
 #' @examples
+#' simulate_interval_censoring()$pt_data |>
+#' mutate(Stratum = 1) |>
+#' build_event_date_possibilities_table()
 build_event_date_possibilities_table = function(
     participant_level_data,
     bin_width = 1,

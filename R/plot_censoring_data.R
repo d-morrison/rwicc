@@ -1,4 +1,4 @@
-#' Title
+#' Pl
 #'
 #' @param dataset
 #' @param label.size
@@ -28,8 +28,7 @@ plot_censoring_data = function(
 
   plot1 =
     dataset$pt_data |>
-    ggplot() +
-
+    standard_ggplot() +
     geom_point(
       size = point_size,
       data = dataset$obs_data0 |>
@@ -38,7 +37,7 @@ plot_censoring_data = function(
         x = .data$`O`,
         y = .data$ID,
         col = .data$`HIV status`,
-        if(use_shape) shape = .data$`HIV status`
+        # if(use_shape) shape = .data$`HIV status`
 
       ),
       alpha = .5
@@ -100,24 +99,24 @@ plot_censoring_data = function(
     ) +
 
 
-    ggpubr::geom_bracket(
-      data = dataset$obs_data |> filter(ID %in% labelled_IDs),
-      aes(
-        xmin = S,
-        xmax = O,
-        y.position = ID - (`Obs ID` * .1),
-        label = "T = O - S",
-      ),
-
-      tip.length = 0.01
-    ) +
+    # ggpubr::geom_bracket(
+    #   data = dataset$obs_data |> filter(ID %in% labelled_IDs),
+    #   aes(
+    #     xmin = S,
+    #     xmax = O,
+    #     y.position = ID - (`Obs ID` * .1),
+    #     label = "T = O - S",
+    #   ),
+    #
+    #   tip.length = 0.01
+    # ) +
 
     geom_point(
       size = point_size,
       aes(
         x = .data$S,
         y = .data$ID,
-        if(use_shape) shape = "Seroconversion date (S)",
+        # if(use_shape) shape = "Seroconversion date (S)",
         col = "Seroconversion date (S)"
       ),
       alpha = .5
@@ -146,7 +145,7 @@ plot_censoring_data = function(
         xend = .data$R,
         y = .data$ID,
         yend = .data$ID,
-        if(use_shape) shape = "Censoring interval",
+        # if(use_shape) shape = "Censoring interval",
         col = "Censoring interval")
     ) +
 
@@ -158,7 +157,7 @@ plot_censoring_data = function(
         y = .data$ID,
         # col = `MAA status`,
         col = "HIV+",
-        if(use_shape) shape = `MAA status`
+        # if(use_shape) shape = `MAA status`
 
       ),
       alpha = .5
@@ -189,19 +188,9 @@ plot_censoring_data = function(
     # dplyr::expand_limits(y = c(0, nrow(dataset$pt_data) + 2)) +
     xlim(
       min(dataset$pt_data$E) - months(1),
-      dataset$obs_data |> filter(`Obs ID` == min_n_MAA) |> pull(O) |> max()) +
+      dataset$obs_data |> filter(`Obs ID` == min_n_MAA) |> pull(O) |> max())
     # ylab('Participant ID #') +
-    ggplot2::theme_bw() +
-    ggplot2::scale_color_discrete(name = "") +
-    ggplot2::scale_shape_discrete(name = "") +
-    ggplot2::theme(
-      panel.border = element_blank(),
-      # panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      axis.line = element_line(colour = "black"),
-      legend.position="bottom",
-      text = element_text(size = 15)
-    )
+
 
 
 }

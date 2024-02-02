@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_censoring_data.R
 \name{plot_censoring_data}
 \alias{plot_censoring_data}
-\title{Title}
+\title{Pl}
 \usage{
 plot_censoring_data(
   dataset = simulate_interval_censoring(),
@@ -23,5 +23,5 @@ plot_censoring_data(
 a ggplot
 }
 \description{
-Title
+Pl
 }

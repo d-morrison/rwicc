@@ -30,26 +30,21 @@
 #'   period
 #' @param study_start_date the date when the study starts recruitment ("d_0" in
 #'   the main text). The value of this parameter does not affect the simulation
-#'   results; it is only necessary as a reference point for generating E, L, R,
-#'   O, and S.
+#'   results; it is only necessary as a reference point for generating E, L, R, O, and S.
+#' @param n_at_risk number of participants who are at risk of infection; by default, this number is determined stochastically from `study_cohort_size` and `probability_of_ever_seroconverting`.
 
-#' @return A list containing the following two tibbles:
+#' @returns A list containing the following two tibbles:
 #'
-#' \itemize{
-#' \item \code{pt_data}: a tibble of participant-level information, with the following columns:
-#' \itemize{
-#' \item \code{ID}: participant ID
-#' \item \code{E}: enrollment date
-#' \item \code{L}: date of last HIV test prior to seroconversion
-#' \item \code{R}: date of first HIV test after seroconversion
-#' }
-#' \item \code{obs_data}: a tibble of longitudinal observations with the following columns:
-#' \itemize{
-#' \item \code{ID}: participant ID
-#' \item \code{O}: dates of biomarker sample collection
-#' \item \code{Y}: MAA classifications of biomarker samples
-#' }}
-
+#' * `pt_data`: a tibble of participant-level information, with the following columns:
+#'   - `ID`: participant ID
+#'   - `E`: enrollment date
+#'   - `L`: date of last HIV test prior to seroconversion
+#'   - `R`: date of first HIV test after seroconversion
+#'
+#' *`obs_data`: a tibble of longitudinal observations with the following columns:
+#'   - `ID`: participant ID
+#'   - `O`: dates of biomarker sample collection
+#'   - `Y`: MAA classifications of biomarker samples
 #' @export
 #'
 #' @examples
@@ -62,11 +57,17 @@
 #' @importFrom magrittr %<>% %>%
 simulate_interval_censoring <- function(
     study_cohort_size = 4500,
+    probability_of_ever_seroconverting = 0.05,
+    n_at_risk = stats::rbinom(
+      n = 1,
+      size = study_cohort_size,
+      prob = probability_of_ever_seroconverting
+    ),
     hazard_alpha = 1,
     hazard_beta = 0.5,
     preconversion_interval_length = 84,
     theta = c(0.986, -3.88),
-    probability_of_ever_seroconverting = 0.05,
+
     years_in_study = 10,
     max_scheduling_offset = 7,
     days_from_study_start_to_recruitment_end = 365,
@@ -95,11 +96,7 @@ simulate_interval_censoring <- function(
   # infection; this step takes the place of assigning A_i to each cohort
   # participant in the main text (the final data set only includes participants
   # with A_i = 1):
-  n_at_risk <- stats::rbinom(
-    n = 1,
-    size = study_cohort_size,
-    prob = probability_of_ever_seroconverting
-  )
+
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
   sim_participant_data <- dplyr::tibble(
