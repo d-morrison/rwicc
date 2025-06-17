@@ -100,7 +100,7 @@ simulate_interval_censoring <- function(
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
   sim_participant_data <- dplyr::tibble(
-    "ID" = 1:n_at_risk,
+    "ID" = 1:n_at_risk |> factor(),
     "E" =
       study_start_date +
       lubridate::days(
@@ -225,10 +225,10 @@ simulate_interval_censoring <- function(
       `MAA status` =
         if_else(
         Y == 1,
-        "Y = 1",
-        "Y = 0"
+        "MAA+",
+        "MAA-"
       ) |>
-        factor(levels = c("Y = 0", "Y = 1"))
+        factor(levels = c("MAA-", "MAA+"))
 
     )
 

@@ -34,7 +34,7 @@ simulate_interval_censoring(
     years_in_study = 10, 
     probability_of_ever_seroconverting = 1) |> 
     plot_censoring_data(
-      labelled_IDs = 2,
+      labelled_IDs = 1:2,
         min_n_MAA = 5,
         s_vjust = -1
     ) |> 

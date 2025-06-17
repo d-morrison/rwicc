@@ -157,7 +157,7 @@ plot_censoring_data = function(
         y = .data$ID,
         # col = `MAA status`,
         col = "HIV+",
-        # if(use_shape) shape = `MAA status`
+        shape = `MAA status`
 
       ),
       alpha = .5
@@ -179,12 +179,13 @@ plot_censoring_data = function(
     ) +
 
     xlab("Event date") +
-    ggplot2::scale_y_continuous(
-      name = 'Participant ID #',
-      # trans = "reverse",
-      breaks = unique(dataset$pt_data$ID),
-      limits = seq(0, nrow(dataset$pt_data) + 2) |> as.integer()
-    ) +
+    ylab('Participant ID #') +
+    # ggplot2::scale_y_discrete(
+    #   name = 'Participant ID #',
+    #   # trans = "reverse",
+    #   breaks = unique(dataset$pt_data$ID),
+    #   limits = seq(0, nrow(dataset$pt_data) + 2) |> as.integer()
+    # ) +
     # dplyr::expand_limits(y = c(0, nrow(dataset$pt_data) + 2)) +
     xlim(
       min(dataset$pt_data$E) - months(1),
