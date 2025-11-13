@@ -26,7 +26,7 @@ plot_censoring_data <- function(
   point_size = 5,
   s_vjust = 2,
   labelled_IDs = included_IDs,
-  xmin = min(dataset$pt_data$E) - months(1),
+  xmin = min(dataset$pt_data$E) - base::months(1),
   xmax = max(dataset$obs_data$O)
 ) {
 
