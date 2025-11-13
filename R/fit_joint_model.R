@@ -156,19 +156,19 @@ fit_joint_model <- function(
     # identify the set of possible seroconversion dates
     {
 
-      # omega.hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
-      omega.hat <-
+      # omega_hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
+      omega_hat <-
         participant_level_data |>
         build_omega_table(bin_width = bin_width)
 
       subj_level_possible_data <-
         participant_level_data |>
-        build_event_date_possibilities_table(omega.hat = omega.hat)
+        build_event_date_possibilities_table(omega_hat = omega_hat)
 
-      # here we remove from omega.hat any stratum:seroconversion date combinations
+      # here we remove from omega_hat any stratum:seroconversion date combinations
       # that aren't in anyone's censoring interval; the best estimate for hazard
       # in those cases is 0, which will drop out of all subsequent calculations:
-      omega.hat <- omega.hat |>
+      omega_hat <- omega_hat |>
         dplyr::semi_join(
           subj_level_possible_data,
           by = c("Stratum", "S")
@@ -189,7 +189,7 @@ fit_joint_model <- function(
     # count the number of participants definitely at risk of seroconversion
     # (i.e. between E and L) for each time point S:
     {
-      omega.hat <- omega.hat |>
+      omega_hat <- omega_hat |>
         dplyr::left_join(
           E_L_combinations,
           by = "Stratum"
@@ -235,7 +235,7 @@ fit_joint_model <- function(
 
         dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
 
-      omega.hat <- omega.hat |>
+      omega_hat <- omega_hat |>
         dplyr::left_join(
           est_hazard_by_stratum,
           by = "Stratum"
@@ -325,7 +325,7 @@ fit_joint_model <- function(
       {
         E_L_combinations <- E_L_combinations |>
           dplyr::left_join(
-            omega.hat |> dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
+            omega_hat |> dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
             by = "Stratum"
           ) |>
           dplyr::group_by(Stratum, E, L) |>
@@ -351,7 +351,7 @@ fit_joint_model <- function(
             obs_data_possibilities,
             MAA_model,
             participant_level_data,
-            omega.hat
+            omega_hat
           )
 
         obs_data_possibilities <- obs_data_possibilities |>
@@ -422,7 +422,7 @@ fit_joint_model <- function(
 
       # update omega (hazard model):
       {
-        omega.hat_old <- omega.hat
+        omega_hat_old <- omega_hat
 
         # sum the estimated at-risk and event probabilities by date:
         n_events_by_date <-
@@ -438,7 +438,7 @@ fit_joint_model <- function(
           stop(message("more events than participants at risk"))
         }
 
-        omega.hat <- omega.hat |>
+        omega_hat <- omega_hat |>
           dplyr::left_join(n_events_by_date, by = c("S", "Stratum")) |>
           dplyr::mutate(
             "n_at_risk" = .data$risk_probabilities + .data$n_definitely_at_risk,
@@ -456,15 +456,15 @@ fit_joint_model <- function(
           # this prevents occasional cases where the denominator approaches 0
           # for the person with the latest seroconversion window
 
-          to_fix <- (omega.hat$"P(S=s|S>=s,E=e)" > 1) | is.na(omega.hat$"P(S=s|S>=s,E=e)")
+          to_fix <- (omega_hat$"P(S=s|S>=s,E=e)" > 1) | is.na(omega_hat$"P(S=s|S>=s,E=e)")
           if (any(to_fix)) {
-            message("Fixing ", sum(to_fix), " value(s) of omega.hat with NaNs.")
-            omega.hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
+            message("Fixing ", sum(to_fix), " value(s) of omega_hat with NaNs.")
+            omega_hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
           }
           }
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
-        omega.hat <- omega.hat |>
+        omega_hat <- omega_hat |>
           dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
       }
 
@@ -539,7 +539,7 @@ fit_joint_model <- function(
   to_return <- list(
     Theta = theta.hat,
     Mu = mu.hat,
-    Omega = omega.hat,
+    Omega = omega_hat,
     converged = as.numeric(converged),
     iterations = current_iteration,
     convergence_metrics = c("diff logL" = diff_log_L, coef_diffs)

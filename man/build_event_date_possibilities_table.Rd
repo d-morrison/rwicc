@@ -7,7 +7,7 @@
 build_event_date_possibilities_table(
   participant_level_data,
   bin_width = 1,
-  omega.hat = build_omega_table(participant_level_data, bin_width = bin_width)
+  omega_hat = build_omega_table(participant_level_data, bin_width = bin_width)
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ build_event_date_possibilities_table(
 
 \item{bin_width}{number of days per bin}
 
-\item{omega.hat}{a \link{data.frame} from \code{\link[=build_omega_table]{build_omega_table()}} representing the
+\item{omega_hat}{a \link{data.frame} from \code{\link[=build_omega_table]{build_omega_table()}} representing the
 seroconversion hazard model.}
 }
 \value{

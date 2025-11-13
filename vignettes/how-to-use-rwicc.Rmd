@@ -180,7 +180,7 @@ for individuals who enroll on the first calendar day of the cohort study:
 plot1 = plot_CDF(
   true_hazard_alpha = hazard_alpha,
   true_hazard_beta = hazard_beta,
-  omega.hat = EM_algorithm_outputs$Omega)
+  omega_hat = EM_algorithm_outputs$Omega)
 
 print(plot1)
 

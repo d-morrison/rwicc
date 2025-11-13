@@ -1,9 +1,9 @@
 update_possible_subj_data <- function(
-    obs_data_possibilities,
-    MAA_model,
-    participant_level_data,
-    omega.hat
-    ) {
+  obs_data_possibilities,
+  MAA_model,
+  participant_level_data,
+  omega_hat
+) {
   obs_data_possibilities |>
     dplyr::mutate(
       # could speed up this step by implementing the needed computations
@@ -33,7 +33,7 @@ update_possible_subj_data <- function(
     ) |>
     # update `P(S=s|e,l,r,o,y)`:
     dplyr::left_join(
-      omega.hat |> dplyr::select(c("S", "Stratum", "P(S=s|S>=s,E=e)", "P(S>s|S>=s,E=e)")),
+      omega_hat |> dplyr::select(c("S", "Stratum", "P(S=s|S>=s,E=e)", "P(S>s|S>=s,E=e)")),
       by = c("S", "Stratum")
     ) |>
     dplyr::group_by(ID) |>
@@ -44,7 +44,7 @@ update_possible_subj_data <- function(
 
       "P(S=s|S>=l,E=e)" = .data$`P(S=s|S>=s,E=e)` * .data$`P(S>=s|S>=l,E=e)`, # used in next two calculations
 
-      "P(S=s|E=e)" =  .data$`P(S=s|S>=l,E=e)` * .data$`P(S>=l|E=e)`, # used to compute likelihood
+      "P(S=s|E=e)" = .data$`P(S=s|S>=l,E=e)` * .data$`P(S>=l|E=e)`, # used to compute likelihood
 
       "P(S=s|E=e,L=l,R=r)" = prop.table(.data$`P(S=s|S>=l,E=e)`), # used in next calculation
 

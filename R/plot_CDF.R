@@ -2,7 +2,7 @@
 #'
 #' @param true_hazard_alpha The data-generating hazard at the start of the study
 #' @param true_hazard_beta The change in data-generating hazard per calendar year
-#' @param omega.hat tibble of estimated discrete hazards
+#' @param omega_hat tibble of estimated discrete hazards
 #'
 #' @return a ggplot
 #' @export
@@ -23,7 +23,7 @@
 #' plot1 = plot_CDF(
 #'   true_hazard_alpha = hazard_alpha,
 #'   true_hazard_beta = hazard_beta,
-#'   omega.hat = EM_algorithm_outputs$Omega)
+#'   omega_hat = EM_algorithm_outputs$Omega)
 #'
 #' print(plot1)
 #' }
@@ -33,7 +33,7 @@
 #' @importFrom lubridate ymd ddays
 plot_CDF <- function(true_hazard_alpha,
                      true_hazard_beta,
-                     omega.hat) {
+                     omega_hat) {
   `P(S>s|S>=s,E=e)` <- `P(S>s|E=0)` <- `P(S>=s|E=0)` <- S <- NULL
   cum_haz_fn0 <- function(years_since_study_start) {
     true_hazard_alpha * years_since_study_start + true_hazard_beta / 2 * years_since_study_start^2
@@ -56,7 +56,7 @@ plot_CDF <- function(true_hazard_alpha,
   est_model_label <- "Estimated model"
 
   lwd1 <- 1
-  omega.hat <- omega.hat |>
+  omega_hat <- omega_hat |>
     dplyr::mutate(
       "P(S>s|E=0)" = cumprod(`P(S>s|S>=s,E=e)`),
       "P(S>=s|E=0)" = dplyr::lag(`P(S>s|E=0)`, default = 1)
@@ -67,7 +67,7 @@ plot_CDF <- function(true_hazard_alpha,
       y = 1 - `P(S>=s|E=0)`,
       x = (S - lubridate::ymd("2001-01-01")) / lubridate::ddays(365)
     ),
-    data = omega.hat |> dplyr::filter(S < max(S))
+    data = omega_hat |> dplyr::filter(S < max(S))
   ) +
     ggplot2::geom_step(
       direction = "hv",
