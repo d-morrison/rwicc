@@ -84,7 +84,7 @@
 #' @importFrom lubridate ddays
 #' @importFrom stats binomial coef predict glm quasibinomial
 #' @importFrom magrittr %<>% %>%
-#' @importFrom pryr mem_used
+#' @importFrom lobstr mem_used
 
 #' @examples
 #' \dontrun{
@@ -133,7 +133,7 @@ fit_joint_model <- function(
       if (verbose) {
         message(
           "Starting `fit_joint_model();`, mem used = ",
-          round(pryr::mem_used() / 10^6), " MB"
+          round(lobstr::mem_used() / 10^6), " MB"
         )
       }
     }
@@ -314,7 +314,7 @@ fit_joint_model <- function(
       if (verbose) {
         message(
           Sys.time(), ": starting EM iteration (E step) ", current_iteration,
-          "; mem used = ", round(pryr::mem_used() / 10^6), " MB"
+          "; mem used = ", round(lobstr::mem_used() / 10^6), " MB"
         )
       }
     }
@@ -472,7 +472,7 @@ fit_joint_model <- function(
     # M step: Updated estimation of theta, omega
     {
       if (verbose) {
-        message("Starting M step, mem used = ", round(pryr::mem_used() / 10^6), " MB")
+        message("Starting M step, mem used = ", round(lobstr::mem_used() / 10^6), " MB")
       }
 
       # update omega (hazard model):

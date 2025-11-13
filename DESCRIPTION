@@ -23,7 +23,7 @@ Imports:
     lubridate,
     magrittr,
     stats,
-    pryr,
+    lobstr,
     arm,
     ggplot2,
     scales,
