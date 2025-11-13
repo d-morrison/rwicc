@@ -1,8 +1,10 @@
-#' Pl
+#' Plot censoring data
 #'
-#' @param dataset
-#' @param label.size
+#' @param dataset output from [simulate_interval_censoring()]
+#' @param label.size [numeric]:
+#' passed to [ggrepel::geom_text_repel()]'s `size` argument
 #' @param point_size
+#' [numeric]: passed to [ggplot2::geom_point]'s `size` argument
 #' @param min_n_MAA
 #' @param use_shape
 #' @param s_vjust test2

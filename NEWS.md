@@ -1,5 +1,11 @@
 # rwicc (development version)
 
+* Replaced dependency on `pryr` with `lobstr`, 
+since `pryr` is being archived (#11).
+
+* Improved plot labels (#11).
+
+
 # rwicc 0.1.3
 * Documentation improvements.
 

@@ -21,6 +21,9 @@ build_event_date_possibilities_table(
 }}
 
 \item{bin_width}{number of days per bin}
+
+\item{omega.hat}{a \link{data.frame} from \code{\link[=build_omega_table]{build_omega_table()}} representing the
+seroconversion hazard model.}
 }
 \value{
 a \link{data.frame} with columns:

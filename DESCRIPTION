@@ -14,7 +14,7 @@ Description: Provides functions to simulate and analyze data for a regression mo
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3.9000
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Imports: 
@@ -34,9 +34,11 @@ Suggests:
     spelling,
     rmarkdown,
     knitr,
-    testthat,
+    testthat (>= 3.0.0),
     markdown,
-    pander
+    pander,
+    vdiffr,
+    withr
 Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues

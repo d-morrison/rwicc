@@ -2,7 +2,6 @@
 % Please edit documentation in R/rwicc-package.R
 \docType{package}
 \name{rwicc-package}
-\alias{rwicc}
 \alias{rwicc-package}
 \title{rwicc: Regression with Interval-Censored Covariates}
 \description{

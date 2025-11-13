@@ -6,7 +6,8 @@
 #' * E: study entry date
 #' * L: left censoring interval endpoint
 #' * R: left censoring interval endpoint
-#' @param omega.hat
+#' @param omega.hat a [data.frame] from [build_omega_table()] representing the
+#' seroconversion hazard model.
 #' @inheritParams  build_omega_table
 #'
 #' @returns a [data.frame] with columns:
