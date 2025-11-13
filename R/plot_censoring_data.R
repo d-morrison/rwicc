@@ -5,9 +5,9 @@
 #' passed to [ggrepel::geom_text_repel()]'s `size` argument
 #' @param point_size
 #' [numeric]: passed to [ggplot2::geom_point]'s `size` argument
-#' @param use_shape
-#' @param s_vjust test2
-#' @param labelled_IDs test
+#' @param s_vjust passed to [ggrepel::geom_text_repel]'s `vjust` argument
+#' @param labelled_IDs [character] [vector]
+#' indicating which IDs to label events for
 #'
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
@@ -20,7 +20,6 @@ plot_censoring_data <- function(
   dataset,
   label_size = 5,
   point_size = 5,
-  use_shape = FALSE,
   s_vjust = 2,
   labelled_IDs = unique(dataset$pt_data$ID),
   xmin = min(dataset$pt_data$E) - months(1),

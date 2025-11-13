@@ -8,7 +8,6 @@ plot_censoring_data(
   dataset,
   label_size = 5,
   point_size = 5,
-  use_shape = FALSE,
   s_vjust = 2,
   labelled_IDs = unique(dataset$pt_data$ID),
   xmin = min(dataset$pt_data$E) - months(1),
@@ -23,9 +22,10 @@ passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \c
 
 \item{point_size}{\link{numeric}: passed to \link[ggplot2:geom_point]{ggplot2::geom_point}'s \code{size} argument}
 
-\item{s_vjust}{test2}
+\item{s_vjust}{passed to \link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel}'s \code{vjust} argument}
 
-\item{labelled_IDs}{test}
+\item{labelled_IDs}{\link{character} \link{vector}
+indicating which IDs to label events for}
 }
 \value{
 a ggplot
