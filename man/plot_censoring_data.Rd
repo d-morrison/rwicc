@@ -11,7 +11,7 @@ plot_censoring_data(
   point_size = 5,
   s_vjust = 2,
   labelled_IDs = included_IDs,
-  xmin = min(dataset$pt_data$E) - months(1),
+  xmin = min(dataset$pt_data$E) - base::months(1),
   xmax = max(dataset$obs_data$O)
 )
 }
@@ -27,12 +27,12 @@ passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \c
 
 \item{s_vjust}{passed to \link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel}'s \code{vjust} argument}
 
-\item{labelled_IDs}{\link{character} \link{vector}}
+\item{labelled_IDs}{\link{character} \link{vector}
+indicating which IDs to label events for}
 
 \item{xmin}{minimum displayed value for x-axis}
 
-\item{xmax}{maximum displayed value for x-axis
-indicating which IDs to label events for}
+\item{xmax}{maximum displayed value for x-axis}
 }
 \value{
 a ggplot

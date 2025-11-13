@@ -8,9 +8,9 @@
 #' [numeric]: passed to [ggplot2::geom_point]'s `size` argument
 #' @param s_vjust passed to [ggrepel::geom_text_repel]'s `vjust` argument
 #' @param labelled_IDs [character] [vector]
+#' indicating which IDs to label events for
 #' @param xmin minimum displayed value for x-axis
 #' @param xmax maximum displayed value for x-axis
-#' indicating which IDs to label events for
 #'
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
