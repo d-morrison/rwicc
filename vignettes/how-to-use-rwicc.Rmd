@@ -117,7 +117,7 @@ print(mu_est_EM)
 `Omega` is the corresponding $\hat{\omega}(s)$ estimate:
 
 ```{r}
-omega_est_EM = EM_algorithm_outputs$Omega
+omega_est_EM <- EM_algorithm_outputs$Omega
 
 library(ggplot2)
 omega_est_EM |> graph_omega()
