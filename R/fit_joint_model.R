@@ -260,7 +260,7 @@ fit_joint_model <- function(participant_level_data,
     # Theta
     {
       obs_level_data <- obs_level_data |>
-        select(-any_of("E")) |>
+        dplyr::select(-any_of("E")) |>
         dplyr::left_join(
           participant_level_data %>%
             dplyr::select(ID, `S_hat - E`, E),
