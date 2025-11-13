@@ -1,6 +1,7 @@
 #' Plot censoring data
 #'
 #' @param dataset output from [simulate_interval_censoring()]
+#' @param included_IDs [character] [vector] of IDs from `dataset` to include
 #' @param label_size [numeric]:
 #' passed to [ggrepel::geom_text_repel()]'s `size` argument
 #' @param point_size
@@ -18,15 +19,20 @@
 
 plot_censoring_data <- function(
   dataset,
+  included_IDs = unique(dataset$pt_data$ID),
   label_size = 5,
   point_size = 5,
   s_vjust = 2,
-  labelled_IDs = unique(dataset$pt_data$ID),
+  labelled_IDs = included_IDs,
   xmin = min(dataset$pt_data$E) - months(1),
   xmax = max(dataset$obs_data$O)
 ) {
+
+  dataset <- dataset |> filter_data_by_ID(included_IDs)
+
   plot1 <-
     dataset$pt_data |>
+    dplyr::filter(.data$ID %in% included_IDs) |>
     standard_ggplot() +
     geom_point(
       size = point_size,

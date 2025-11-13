@@ -6,16 +6,19 @@
 \usage{
 plot_censoring_data(
   dataset,
+  included_IDs = unique(dataset$pt_data$ID),
   label_size = 5,
   point_size = 5,
   s_vjust = 2,
-  labelled_IDs = unique(dataset$pt_data$ID),
+  labelled_IDs = included_IDs,
   xmin = min(dataset$pt_data$E) - months(1),
   xmax = max(dataset$obs_data$O)
 )
 }
 \arguments{
 \item{dataset}{output from \code{\link[=simulate_interval_censoring]{simulate_interval_censoring()}}}
+
+\item{included_IDs}{\link{character} \link{vector} of IDs from \code{dataset} to include}
 
 \item{label_size}{\link{numeric}:
 passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \code{size} argument}

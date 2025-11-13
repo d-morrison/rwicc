@@ -98,24 +98,23 @@
 #' )
 #' }
 fit_joint_model <- function(
-    participant_level_data,
-    obs_level_data,
-    model_formula = stats::formula(Y ~ T),
-    mu_function = compute_mu,
-    bin_width = 1,
-    denom_offset = 0.1,
-    EM_toler_loglik = 0.1,
-    EM_toler_est = 0.0001,
-    EM_max_iterations = Inf,
-    glm_tolerance = 1e-7,
-    glm_maxit = 20,
-    initial_S_estimate_location = 0.25,
-    coef_change_metric = "max abs rel diff coefs",
-    verbose = FALSE) {
-
+  participant_level_data,
+  obs_level_data,
+  model_formula = stats::formula(Y ~ T),
+  mu_function = compute_mu,
+  bin_width = 1,
+  denom_offset = 0.1,
+  EM_toler_loglik = 0.1,
+  EM_toler_est = 0.0001,
+  EM_max_iterations = Inf,
+  glm_tolerance = 1e-7,
+  glm_maxit = 20,
+  initial_S_estimate_location = 0.25,
+  coef_change_metric = "max abs rel diff coefs",
+  verbose = FALSE
+) {
   # setup
   {
-
     # this bit of code just removes some notes produced by check(); see
     # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
     ID <- E <- L <- R <- O <- Y <- S <- Stratum <- `S_hat - E` <-
@@ -126,6 +125,17 @@ fit_joint_model <- function(
       logL_i <- n_IDs <- n_at_risk <-
       n_definitely_at_risk <- n_events <-
       risk_probabilities <- NULL
+
+    if (EM_max_iterations < Inf) {
+      convergence_stats <- dplyr::tibble(
+        Iteration = 1:EM_max_iterations,
+        logL = NA_real_
+      )
+    } else {
+      convergence_stats <- dplyr::tribble(
+        ~Iteration, ~logL
+      )
+    }
 
     # starting message
     {
@@ -155,7 +165,6 @@ fit_joint_model <- function(
 
     # identify the set of possible seroconversion dates
     {
-
       # omega_hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
       omega_hat <-
         participant_level_data |>
@@ -199,7 +208,7 @@ fit_joint_model <- function(
           .groups = "drop",
           "n_definitely_at_risk" =
             denom_offset +
-            sum(n_IDs[E <= S & S < L])
+              sum(n_IDs[E <= S & S < L])
         ) |>
         dplyr::ungroup()
     }
@@ -207,7 +216,6 @@ fit_joint_model <- function(
 
   # Initial estimates of omega and theta
   {
-
     # initial guess for S
     {
       participant_level_data <- participant_level_data |>
@@ -244,7 +252,7 @@ fit_joint_model <- function(
 
     # Theta
     {
-      obs_level_data =
+      obs_level_data <-
         obs_level_data |>
         dplyr::left_join(
           participant_level_data |>
@@ -252,7 +260,7 @@ fit_joint_model <- function(
           by = "ID"
         ) |>
         dplyr::mutate(
-          "T" = ((O - E) - (`S_hat - E`))# / lubridate::ddays(365)
+          "T" = ((O - E) - (`S_hat - E`)) # / lubridate::ddays(365)
         ) |>
         dplyr::select(ID, T, Y)
 
@@ -286,8 +294,7 @@ fit_joint_model <- function(
   # observed-data likelihood function, with terms that cancel out of
   # diff(logLik) formula removed (see Supporting Information A.3)
   {
-    observed_data_log_likelihood <- function(subj_level_possible_data)
-    {
+    observed_data_log_likelihood <- function(subj_level_possible_data) {
       log_L <- subj_level_possible_data |>
         dplyr::group_by(ID) |>
         dplyr::summarize(
@@ -305,7 +312,6 @@ fit_joint_model <- function(
   # algorithm loop:
   current_iteration <- 0
   while (current_iteration < EM_max_iterations) {
-
     # progress notifications
     {
       current_iteration <- current_iteration + 1
@@ -320,7 +326,6 @@ fit_joint_model <- function(
 
     # E step: calculate distribution of S, given omega, theta, and (E,L,R,O,Y)
     {
-
       # calculate P(S>=l|E=e) for each participant:
       {
         E_L_combinations <- E_L_combinations |>
@@ -378,6 +383,9 @@ fit_joint_model <- function(
       }
 
       log_L <- observed_data_log_likelihood(subj_level_possible_data)
+
+      convergence_stats[current_iteration, "logL"] = log_L
+
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 
       if (current_iteration > 1) {
@@ -387,6 +395,7 @@ fit_joint_model <- function(
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
+          browser()
           # note: if denom_offset != 0, we may lose the guarantee of increasing log likelihood.
         }
 
@@ -461,7 +470,7 @@ fit_joint_model <- function(
             message("Fixing ", sum(to_fix), " value(s) of omega_hat with NaNs.")
             omega_hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
           }
-          }
+        }
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
         omega_hat <- omega_hat |>
@@ -542,7 +551,8 @@ fit_joint_model <- function(
     Omega = omega_hat,
     converged = as.numeric(converged),
     iterations = current_iteration,
-    convergence_metrics = c("diff logL" = diff_log_L, coef_diffs)
+    convergence_metrics = c("diff logL" = diff_log_L, coef_diffs),
+    convergence_stats = convergence_stats
   )
 
   return(to_return)

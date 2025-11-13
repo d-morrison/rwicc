@@ -29,6 +29,7 @@ First, we simulate some data:
 set.seed(1)
 
 library(rwicc)
+library(tidyverse)
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
@@ -42,7 +43,6 @@ sim_data = simulate_interval_censoring(
 # extract the participant-level and observation-level simulated data:
 sim_participant_data = sim_data$pt_data
 sim_obs_data = sim_data$obs_data
-rm(sim_data)
 
 ```
 
@@ -84,6 +84,20 @@ pander(head(sim_obs_data))
 
 The two tables are linked by the variable `ID`.
 
+We can visualize the data:
+
+```{r}
+sim_data |> 
+plot_censoring_data(
+        included_IDs = 1:10,
+        labelled_IDs = NULL,
+        # xmax = lubridate::ymd("2003-01-01"),
+        s_vjust = -1
+    ) +
+  theme(axis.ticks.y = element_blank())
+```
+
+
 Now, we will apply our proposed analysis (this takes a couple of minutes; use argument `verbose = TRUE` to print progress messages):
 
 ```{r}
@@ -91,6 +105,7 @@ EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   participant_level_data = sim_participant_data,
   bin_width = 7,
+  EM_max_iterations = 20,
   verbose = TRUE)
 
 ```
