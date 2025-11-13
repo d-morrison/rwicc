@@ -20,7 +20,7 @@ graph_simulated_survival_curves = function()
     xlim(0, 2) +
     xlab("Time since study start (years)") +
     ylim(0, 1) +
-    ylab("p(S≥s)") +
+    ylab("p(S \u2265 s)") +
     # ggplot2::scale_y_log10() +
     ggplot2::labs(col = "")
 

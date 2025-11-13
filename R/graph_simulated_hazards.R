@@ -17,7 +17,7 @@ graph_simulated_hazards = function()
     ggplot2::geom_abline(aes(intercept = 10,slope = 0,  col = "10+ 0t")) +
     ggplot2::geom_abline(aes(intercept = 10,slope = .5,  col = "10+0.5t")) +
     xlim(0, 2) +
-    ylab("Hazard, p(S=s|S≥s)") +
+    ylab("Hazard, p(S=s|S \u2265 s)") +
     xlab("Time since study start (s, years)") +
     ylim(0, 12) +
     ggplot2::labs(col = "")

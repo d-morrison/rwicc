@@ -347,7 +347,7 @@ fit_joint_model <- function(
       # update subj_level_possible_data and obs_data_possibilities:
       {
         subj_level_possible_data <-
-          update_subj_level_possible_data(
+          update_possible_subj_data(
             obs_data_possibilities,
             MAA_model,
             participant_level_data,

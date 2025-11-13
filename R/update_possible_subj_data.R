@@ -1,4 +1,4 @@
-update_subj_level_possible_data <- function(
+update_possible_subj_data <- function(
     obs_data_possibilities,
     MAA_model,
     participant_level_data,
