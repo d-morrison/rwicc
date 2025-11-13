@@ -22,3 +22,21 @@ Morrison, Laeyendecker, and Brookmeyer (2021).
 "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
 Biometrics. \doi{10.1111/biom.13472}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://d-morrison.github.io/rwicc/}
+  \item \url{https://github.com/d-morrison/rwicc}
+  \item Report bugs at \url{https://github.com/d-morrison/rwicc/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Douglas Ezra Morrison \email{demorrison@ucdavis.edu} (\href{https://orcid.org/0000-0002-7195-830X}{ORCID}) [copyright holder]
+
+Authors:
+\itemize{
+  \item Ron Brookmeyer
+}
+
+}
