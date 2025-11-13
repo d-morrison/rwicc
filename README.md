@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/d-morrison/rwicc/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
 <!-- badges: end -->
 
 `rwicc` (“Regression With Interval-Censored Covariates”) is an R
