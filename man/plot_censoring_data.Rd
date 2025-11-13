@@ -2,23 +2,41 @@
 % Please edit documentation in R/plot_censoring_data.R
 \name{plot_censoring_data}
 \alias{plot_censoring_data}
-\title{Title}
+\title{Plot censoring data}
 \usage{
 plot_censoring_data(
-  dataset = simulate_interval_censoring(),
-  label.size = 5,
+  dataset,
+  included_IDs = unique(dataset$pt_data$ID),
+  label_size = 5,
   point_size = 5,
-  min_n_MAA = 5,
-  use_shape = FALSE,
-  s_vjust = 2
+  s_vjust = 2,
+  labelled_IDs = included_IDs,
+  xmin = min(dataset$pt_data$E) - base::months(1),
+  xmax = max(dataset$obs_data$O)
 )
 }
 \arguments{
-\item{s_vjust}{}
+\item{dataset}{output from \code{\link[=simulate_interval_censoring]{simulate_interval_censoring()}}}
+
+\item{included_IDs}{\link{character} \link{vector} of IDs from \code{dataset} to include}
+
+\item{label_size}{\link{numeric}:
+passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \code{size} argument}
+
+\item{point_size}{\link{numeric}: passed to \link[ggplot2:geom_point]{ggplot2::geom_point}'s \code{size} argument}
+
+\item{s_vjust}{passed to \link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel}'s \code{vjust} argument}
+
+\item{labelled_IDs}{\link{character} \link{vector}
+indicating which IDs to label events for}
+
+\item{xmin}{minimum displayed value for x-axis}
+
+\item{xmax}{maximum displayed value for x-axis}
 }
 \value{
 a ggplot
 }
 \description{
-Title
+Plot censoring data
 }

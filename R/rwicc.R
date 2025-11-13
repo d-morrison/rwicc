@@ -17,6 +17,4 @@
 #' }
 #'
 #' @docType package
-#' @name rwicc
-NULL
-#> NULL
+"_PACKAGE"

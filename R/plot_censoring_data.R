@@ -1,11 +1,16 @@
-#' Title
+#' Plot censoring data
 #'
-#' @param dataset
-#' @param label.size
+#' @param dataset output from [simulate_interval_censoring()]
+#' @param included_IDs [character] [vector] of IDs from `dataset` to include
+#' @param label_size [numeric]:
+#' passed to [ggrepel::geom_text_repel()]'s `size` argument
 #' @param point_size
-#' @param min_n_MAA
-#' @param use_shape
-#' @param s_vjust
+#' [numeric]: passed to [ggplot2::geom_point]'s `size` argument
+#' @param s_vjust passed to [ggrepel::geom_text_repel]'s `vjust` argument
+#' @param labelled_IDs [character] [vector]
+#' indicating which IDs to label events for
+#' @param xmin minimum displayed value for x-axis
+#' @param xmax maximum displayed value for x-axis
 #'
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
@@ -14,91 +19,92 @@
 #' @export
 #'
 
-plot_censoring_data = function(
-    dataset = simulate_interval_censoring(),
-    label.size = 5,
-    point_size = 5,
-    min_n_MAA = 5,
-    use_shape = FALSE,
-    s_vjust = 2
-)
-{
+plot_censoring_data <- function(
+  dataset,
+  included_IDs = unique(dataset$pt_data$ID),
+  label_size = 5,
+  point_size = 5,
+  s_vjust = 2,
+  labelled_IDs = included_IDs,
+  xmin = min(dataset$pt_data$E) - base::months(1),
+  xmax = max(dataset$obs_data$O)
+) {
 
-  plot1 =
+  dataset <- dataset |> filter_data_by_ID(included_IDs)
+
+  plot1 <-
     dataset$pt_data |>
-    ggplot() +
-
+    dplyr::filter(.data$ID %in% included_IDs) |>
+    standard_ggplot() +
     geom_point(
       size = point_size,
-      data = dataset$obs_data0 |> filter(`HIV status` == "HIV-"),
+      data = dataset$obs_data0 |>
+        filter(.data$`HIV status` == "HIV-"),
       aes(
         x = .data$`O`,
         y = .data$ID,
-        col = .data$`HIV status`,
-        if(use_shape) shape = .data$`HIV status`
-
+        col = .data$`HIV status`
       ),
       alpha = .5
     ) +
 
-    # ggplot2::geom_text(
-    #   data = dataset$obs_data0 |> filter(`HIV status` == "HIV-"),
-    #   aes(
-    #     x = .data$`O`,
-    #     y = .data$ID,
-    #     label = paste0("P[", `Obs ID`, "]")),
-    #   vjust = 2,
-    #   # label = "S_1",
-    #   parse = TRUE
-    # ) +
-
-
+    ggrepel::geom_text_repel(
+      data = dataset$pt_data |>
+        filter(.data$ID %in% labelled_IDs),
+      size = label_size,
+      aes(
+        x = .data$E,
+        y = .data$ID,
+        label = "E"
+      ),
+      vjust = -1,
+      parse = TRUE
+    ) +
 
     ggrepel::geom_text_repel(
-      size = label.size,
+      data = dataset$pt_data |>
+        filter(.data$ID %in% labelled_IDs),
+      size = label_size,
       aes(
         x = .data$L,
         y = .data$ID,
-        label = paste0("L[", `ID`, "]")),
+        label = "L"
+      ),
       vjust = -1,
-      # label = "S_1",
       parse = TRUE
     ) +
 
     ggrepel::geom_text_repel(
-      size = label.size,
+      data = dataset$pt_data |> filter(.data$ID %in% labelled_IDs),
+      size = label_size,
       aes(
         x = .data$R,
         y = .data$ID,
-        label = paste0("R[", `ID`, "]")),
+        label = "R"
+      ),
       vjust = -1,
-      # label = "S_1",
       parse = TRUE
     ) +
-
-
 
     geom_point(
       size = point_size,
       aes(
         x = .data$S,
         y = .data$ID,
-        if(use_shape) shape = "Seroconversion date (S)",
         col = "Seroconversion date (S)"
       ),
       alpha = .5
-
     ) +
 
     ggrepel::geom_text_repel(
-      size = label.size,
+      data = dataset$pt_data |> filter(.data$ID %in% labelled_IDs),
+      size = label_size,
       aes(
         x = .data$S,
         y = .data$ID,
-        label = paste0("(S[", ID, "])")),
+        label = "S"
+      ),
       vjust = s_vjust,
-      # hjust = 1,
-      # label = "S_1",
       parse = TRUE
     ) +
 
@@ -109,8 +115,8 @@ plot_censoring_data = function(
         xend = .data$R,
         y = .data$ID,
         yend = .data$ID,
-        if(use_shape) shape = "censoring interval",
-        col = "censoring interval")
+        col = "Censoring interval"
+      )
     ) +
 
     geom_point(
@@ -119,49 +125,31 @@ plot_censoring_data = function(
       aes(
         x = .data$`O`,
         y = .data$ID,
-        # col = `MAA status`,
         col = "HIV+",
-        if(use_shape) shape = `MAA status`
-
+        shape = .data$`MAA status`
       ),
       alpha = .5
     ) +
 
     ggrepel::geom_text_repel(
-      size = label.size,
-      data = dataset$obs_data,
+      data = dataset$obs_data |> filter(.data$ID %in% labelled_IDs),
+      size = label_size,
       aes(
         x = .data$`O`,
         y = .data$ID,
-        label = paste0("O[list(", `ID`,", ", `Obs ID`, ")]")),
+        label = paste0("O[", .data$`Obs ID`, "]")
+      ),
       vjust = 2,
       min.segment.length = 0,
-      # label = "S_1",
       parse = TRUE
     ) +
 
     xlab("Event date") +
-    ggplot2::scale_y_discrete(
-      name = 'Participant ID #',
-      # trans = "reverse",
-      breaks = unique(dataset$pt_data$ID) |> rev(),
-      limits = seq(0, nrow(dataset$pt_data) + 1) |> as.integer()
-    ) +
+    ylab("Participant ID #") +
     xlim(
-      min(dataset$pt_data$E) - months(1),
-      dataset$obs_data |> filter(`Obs ID` == min_n_MAA) |> pull(O) |> max()) +
-    # ylab('Participant ID #') +
-    ggplot2::theme_bw() +
-    ggplot2::scale_color_discrete(name = "") +
-    ggplot2::scale_shape_discrete(name = "") +
-    ggplot2::theme(
-      panel.border = element_blank(),
-      # panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      axis.line = element_line(colour = "black"),
-      legend.position="bottom",
-      text = element_text(size = 15)
+      xmin,
+      xmax
     )
 
-
+  return(plot1)
 }

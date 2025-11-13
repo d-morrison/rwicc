@@ -28,8 +28,7 @@ First, we simulate some data:
 
 set.seed(1)
 
-# library(rwicc)
-load_all()
+library(rwicc)
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
@@ -76,7 +75,9 @@ EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   participant_level_data = sim_participant_data,
   bin_width = 7,
-  verbose = FALSE)
+  EM_max_iterations = 150,
+  verbose = TRUE)
+
 
 ```
 
