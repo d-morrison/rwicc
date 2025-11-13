@@ -54,7 +54,6 @@
 #' @importFrom dplyr tibble if_else filter group_by summarize mutate n select
 #' @importFrom lubridate days ddays
 #' @importFrom stats rbinom runif
-#' @importFrom magrittr %<>% %>%
 simulate_interval_censoring <- function(
     study_cohort_size = 4500,
     probability_of_ever_seroconverting = 0.05,
@@ -186,20 +185,20 @@ simulate_interval_censoring <- function(
 
   # remove participants who wouldn't be diagnosed until after their their
   # followup period ends:
-  sim_participant_data %<>%
+  sim_participant_data <- sim_participant_data |>
     dplyr::filter(R <= `exit date`)
 
   # # generate O, Y:
   sim_obs_data =
-    sim_participant_data %>%
+    sim_participant_data |>
     dplyr::reframe(
       .by = c(ID, E, R, S, `exit date`, `years from study start to seroconversion`),
       `Obs ID` = 1:length(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
-    ) %>%
+    ) |>
     # everyone gets 10 years of observation, total, no longer how long they took
     # to seroconvert:
-    dplyr::filter(O <= `exit date`) %>%
+    dplyr::filter(O <= `exit date`) |>
     dplyr::mutate(
       # we use relative times in order to calculate phi(t) with t = the elapsed
       # time from the exact moment of seroconversion until the date of testing
@@ -234,8 +233,10 @@ simulate_interval_censoring <- function(
 
   # remove variables not needed for analysis:
   {
-    sim_participant_data %<>% dplyr::select(ID, E, L, R, S)
-    sim_obs_data %<>% dplyr::select(ID, O, Y, S, `MAA status`, `Obs ID`)
+    sim_participant_data <- sim_participant_data |>
+      dplyr::select(ID, E, L, R, S)
+    sim_obs_data <- sim_obs_data |>
+      dplyr::select(ID, O, Y, S, `MAA status`, `Obs ID`)
     }
 
   return(list(

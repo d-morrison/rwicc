@@ -56,7 +56,7 @@ plot_CDF <- function(true_hazard_alpha,
   est_model_label <- "Estimated model"
 
   lwd1 <- 1
-  omega.hat %<>%
+  omega.hat <- omega.hat |>
     dplyr::mutate(
       "P(S>s|E=0)" = cumprod(`P(S>s|S>=s,E=e)`),
       "P(S>=s|E=0)" = dplyr::lag(`P(S>s|E=0)`, default = 1)
@@ -67,7 +67,7 @@ plot_CDF <- function(true_hazard_alpha,
       y = 1 - `P(S>=s|E=0)`,
       x = (S - lubridate::ymd("2001-01-01")) / lubridate::ddays(365)
     ),
-    data = omega.hat %>% dplyr::filter(S < max(S))
+    data = omega.hat |> dplyr::filter(S < max(S))
   ) +
     ggplot2::geom_step(
       direction = "hv",

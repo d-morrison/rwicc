@@ -83,7 +83,6 @@
 #' @importFrom dplyr group_by summarize n select left_join filter semi_join mutate ungroup any_of if_else lag all_of group_by_at
 #' @importFrom lubridate ddays
 #' @importFrom stats binomial coef predict glm quasibinomial
-#' @importFrom magrittr %<>% %>%
 #' @importFrom lobstr mem_used
 
 #' @examples
@@ -149,8 +148,8 @@ fit_joint_model <- function(
     # identify the set of unique (E,L) combinations and count occurrences
     {
       E_L_combinations <-
-        participant_level_data %>%
-        dplyr::group_by(Stratum, E, L) %>%
+        participant_level_data |>
+        dplyr::group_by(Stratum, E, L) |>
         dplyr::summarize(.groups = "drop", n_IDs = dplyr::n())
     }
 
@@ -159,49 +158,49 @@ fit_joint_model <- function(
 
       # omega.hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
       omega.hat <-
-        participant_level_data %>%
+        participant_level_data |>
         build_omega_table(bin_width = bin_width)
 
-      subject_level_data_possibilities <-
-        participant_level_data %>%
+      subj_level_possible_data <-
+        participant_level_data |>
         build_event_date_possibilities_table(omega.hat = omega.hat)
 
       # here we remove from omega.hat any stratum:seroconversion date combinations
       # that aren't in anyone's censoring interval; the best estimate for hazard
       # in those cases is 0, which will drop out of all subsequent calculations:
-      omega.hat %<>%
+      omega.hat <- omega.hat |>
         dplyr::semi_join(
-          subject_level_data_possibilities,
+          subj_level_possible_data,
           by = c("Stratum", "S")
         )
 
       # here we enumerate all possible (T,Y) combinations (this tibble gets large):
       obs_data_possibilities <-
-        obs_level_data %>%
-        dplyr::select(ID, Y, O) %>%
+        obs_level_data |>
+        dplyr::select(ID, Y, O) |>
         dplyr::left_join(
-          subject_level_data_possibilities %>% dplyr::select(ID, S),
+          subj_level_possible_data |> dplyr::select(ID, S),
           by = "ID"
-        ) %>%
-        dplyr::mutate("T" = (O - S) / lubridate::ddays(365)) %>%
+        ) |>
+        dplyr::mutate("T" = (O - S) / lubridate::ddays(365)) |>
         dplyr::select(-O)
     }
 
     # count the number of participants definitely at risk of seroconversion
     # (i.e. between E and L) for each time point S:
     {
-      omega.hat %<>%
+      omega.hat <- omega.hat |>
         dplyr::left_join(
           E_L_combinations,
           by = "Stratum"
-        ) %>%
-        dplyr::group_by(Stratum, S) %>%
+        ) |>
+        dplyr::group_by(Stratum, S) |>
         dplyr::summarize(
           .groups = "drop",
           "n_definitely_at_risk" =
             denom_offset +
             sum(n_IDs[E <= S & S < L])
-        ) %>%
+        ) |>
         dplyr::ungroup()
     }
   }
@@ -211,7 +210,7 @@ fit_joint_model <- function(
 
     # initial guess for S
     {
-      participant_level_data %<>%
+      participant_level_data <- participant_level_data |>
         dplyr::mutate(
           "S_hat - E" = initial_S_estimate_location * (R - L) + (L - E)
         )
@@ -224,19 +223,19 @@ fit_joint_model <- function(
     # Omega
     {
       est_hazard_by_stratum <-
-        participant_level_data %>%
-        dplyr::group_by(Stratum) %>%
+        participant_level_data |>
+        dplyr::group_by(Stratum) |>
         dplyr::summarize(
           .groups = "drop",
           "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(`S_hat - E`))
-        ) %>%
+        ) |>
         # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
         # CDF of an exponential dist. with mean parameter estimated using S_hat -
         # E as approximate event times
 
         dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
 
-      omega.hat %<>%
+      omega.hat <- omega.hat |>
         dplyr::left_join(
           est_hazard_by_stratum,
           by = "Stratum"
@@ -246,15 +245,15 @@ fit_joint_model <- function(
     # Theta
     {
       obs_level_data =
-        obs_level_data %>%
+        obs_level_data |>
         dplyr::left_join(
-          participant_level_data %>%
+          participant_level_data |>
             dplyr::select(ID, `S_hat - E`, E),
           by = "ID"
-        ) %>%
+        ) |>
         dplyr::mutate(
           "T" = ((O - E) - (`S_hat - E`))# / lubridate::ddays(365)
-        ) %>%
+        ) |>
         dplyr::select(ID, T, Y)
 
       MAA_model <- biglm::bigglm(
@@ -287,14 +286,14 @@ fit_joint_model <- function(
   # observed-data likelihood function, with terms that cancel out of
   # diff(logLik) formula removed (see Supporting Information A.3)
   {
-    observed_data_log_likelihood <- function(subject_level_data_possibilities)
+    observed_data_log_likelihood <- function(subj_level_possible_data)
     {
-      log_L <- subject_level_data_possibilities %>%
-        dplyr::group_by(ID) %>%
+      log_L <- subj_level_possible_data |>
+        dplyr::group_by(ID) |>
         dplyr::summarize(
           .groups = "drop",
           "logL_i" = log(sum(`P(Y=y|T=t)` * `P(S=s|E=e)`))
-        ) %>%
+        ) |>
         dplyr::summarize(
           "log_L" = sum(logL_i)
         )
@@ -324,12 +323,12 @@ fit_joint_model <- function(
 
       # calculate P(S>=l|E=e) for each participant:
       {
-        E_L_combinations %<>%
+        E_L_combinations <- E_L_combinations |>
           dplyr::left_join(
-            omega.hat %>% dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
+            omega.hat |> dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
             by = "Stratum"
-          ) %>%
-          dplyr::group_by(Stratum, E, L) %>%
+          ) |>
+          dplyr::group_by(Stratum, E, L) |>
           dplyr::summarize(
             .groups = "drop",
             "P(S>=l|E=e)" = prod(`P(S>s|S>=s,E=e)`[E <= S & S < L])
@@ -337,82 +336,28 @@ fit_joint_model <- function(
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
         # lose any (E,L) combinations where E == L.
 
-        participant_level_data %<>%
-          dplyr::select(-dplyr::any_of(c("P(S>=l|E=e)"))) %>%
+        participant_level_data <- participant_level_data |>
+          dplyr::select(-dplyr::any_of(c("P(S>=l|E=e)"))) |>
           dplyr::left_join(
             E_L_combinations,
             by = c("Stratum", "E", "L")
           )
       }
 
-      # update subject_level_data_possibilities and obs_data_possibilities:
+      # update subj_level_possible_data and obs_data_possibilities:
       {
-        subject_level_data_possibilities <-
-          obs_data_possibilities %>%
-          dplyr::mutate(
-            # could speed up this step by implementing the needed computations
-            # explicitly:
-            "P(Y=1|T=t)" =
-              as.numeric(stats::predict(
-                MAA_model,
-                newdata = obs_data_possibilities,
-                type = "response"
-              )),
-            "P(Y=y|T=t)" =
-              dplyr::if_else(
-                Y == 1,
-                `P(Y=1|T=t)`,
-                1 - `P(Y=1|T=t)`
-              )
-          ) %>%
-          dplyr::group_by(ID, S) %>%
-          dplyr::summarize(
-            .groups = "drop",
-            "P(Y=y|T=t)" = prod(`P(Y=y|T=t)`)
-          ) %>%
+        subj_level_possible_data <-
+          update_subj_level_possible_data(
+            obs_data_possibilities,
+            MAA_model,
+            participant_level_data,
+            omega.hat
+          )
+
+        obs_data_possibilities <- obs_data_possibilities |>
+          dplyr::select(-dplyr::any_of("P(S=s|e,l,r,o,y)")) |>
           dplyr::left_join(
-            participant_level_data %>%
-              dplyr::select(ID, Stratum, `P(S>=l|E=e)`),
-            by = "ID"
-          ) %>%
-          # update `P(S=s|e,l,r,o,y)`:
-          dplyr::left_join(
-            omega.hat %>% dplyr::select(c("S", "Stratum", "P(S=s|S>=s,E=e)", "P(S>s|S>=s,E=e)")),
-            by = c("S", "Stratum")
-          ) %>%
-          dplyr::group_by(ID) %>%
-          dplyr::mutate(
-            "P(S>s|S>=l,E=e)" = cumprod(`P(S>s|S>=s,E=e)`), # used for next calculation
-
-            "P(S>=s|S>=l,E=e)" = dplyr::lag(`P(S>s|S>=l,E=e)`, default = 1), # used for next calculation
-
-            "P(S=s|S>=l,E=e)" = `P(S=s|S>=s,E=e)` * `P(S>=s|S>=l,E=e)`, # used in next two calculations
-
-            "P(S=s|E=e)" =  `P(S=s|S>=l,E=e)` * `P(S>=l|E=e)`, # used to compute likelihood
-
-            "P(S=s|E=e,L=l,R=r)" = prop.table(`P(S=s|S>=l,E=e)`), # used in next calculation
-
-            "P(S=s|e,l,r,o,y)" = prop.table(`P(Y=y|T=t)` * `P(S=s|E=e,L=l,R=r)`), # used to estimate omega and theta
-
-            "P(S>=s|e,l,r,o,y)" = rev(cumsum(rev(`P(S=s|e,l,r,o,y)`))) # used to estimate omega
-          ) %>%
-          dplyr::ungroup() %>%
-          dplyr::select(
-            c(
-              "ID",
-              "Stratum",
-              "S",
-              "P(Y=y|T=t)", # used to compute likelihood
-              "P(S=s|E=e)", # used to compute likelihood
-              "P(S=s|e,l,r,o,y)", # used to estimate omega and theta
-              "P(S>=s|e,l,r,o,y)"
-            )
-          ) # used to estimate omega
-
-        obs_data_possibilities %<>%
-          dplyr::select(-dplyr::any_of("P(S=s|e,l,r,o,y)")) %>%
-          dplyr::left_join(
-            subject_level_data_possibilities %>%
+            subj_level_possible_data |>
               dplyr::select(dplyr::all_of(c("ID", "S", "P(S=s|e,l,r,o,y)"))),
             by = c("ID", "S")
           )
@@ -432,7 +377,7 @@ fit_joint_model <- function(
         log_L_old <- log_L
       }
 
-      log_L <- observed_data_log_likelihood(subject_level_data_possibilities)
+      log_L <- observed_data_log_likelihood(subj_level_possible_data)
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 
       if (current_iteration > 1) {
@@ -481,8 +426,8 @@ fit_joint_model <- function(
 
         # sum the estimated at-risk and event probabilities by date:
         n_events_by_date <-
-          subject_level_data_possibilities %>%
-          dplyr::group_by_at(c("Stratum", "S")) %>%
+          subj_level_possible_data |>
+          dplyr::group_by_at(c("Stratum", "S")) |>
           dplyr::summarize(
             .groups = "drop",
             "n_events" = sum(`P(S=s|e,l,r,o,y)`),
@@ -493,13 +438,17 @@ fit_joint_model <- function(
           stop(message("more events than participants at risk"))
         }
 
-        omega.hat %<>%
-          dplyr::left_join(n_events_by_date, by = c("S", "Stratum")) %>%
+        omega.hat <- omega.hat |>
+          dplyr::left_join(n_events_by_date, by = c("S", "Stratum")) |>
           dplyr::mutate(
-            "n_at_risk" = risk_probabilities + n_definitely_at_risk,
-            "P(S=s|S>=s,E=e)" = dplyr::if_else(n_at_risk == 0, 1, n_events / n_at_risk)
+            "n_at_risk" = .data$risk_probabilities + .data$n_definitely_at_risk,
+            "P(S=s|S>=s,E=e)" = dplyr::if_else(
+              .data$n_at_risk == 0,
+              1,
+              .data$n_events / .data$n_at_risk
+            )
             # if no one is left at risk, estimate the hazard as 1; won't matter
-          ) %>%
+          ) |>
           dplyr::select(-c(risk_probabilities, n_events, n_at_risk))
 
         # handle numeric stability issues (should not occur if denom_offset > 0):
@@ -515,7 +464,8 @@ fit_joint_model <- function(
           }
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
-        omega.hat %<>% dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
+        omega.hat <- omega.hat |>
+          dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
       }
 
       # update theta (model of MAA classifications, Y~T):

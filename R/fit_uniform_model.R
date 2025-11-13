@@ -56,7 +56,7 @@ fit_uniform_model <- function(participant_level_data,
 
   for (i in 1:n_imputations)
   {
-    participant_level_data %<>%
+    participant_level_data <- participant_level_data |>
       dplyr::mutate(
         S_imputed =
           L +
@@ -67,11 +67,11 @@ fit_uniform_model <- function(participant_level_data,
             )
       )
 
-    obs_level_data %<>%
-      dplyr::select(-dplyr::any_of("S_imputed")) %>%
-      dplyr::left_join(participant_level_data %>% dplyr::select(ID, S_imputed),
+    obs_level_data <- obs_level_data |>
+      dplyr::select(-dplyr::any_of("S_imputed")) |>
+      dplyr::left_join(participant_level_data |> dplyr::select(ID, S_imputed),
         by = "ID"
-      ) %>%
+      ) |>
       dplyr::mutate(T_imputed = (O - S_imputed) / lubridate::ddays(365))
 
     phi_model_est_imputed <-

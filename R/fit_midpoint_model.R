@@ -49,14 +49,14 @@ fit_midpoint_model <- function(participant_level_data,
   # I don't think any of the scenarios examined in our paper ever get close to 1000 iterations though;
   # this is effectively saying maxit = Inf.
 
-  participant_level_data %<>%
+  participant_level_data <- participant_level_data |>
     dplyr::mutate(S_midpoint = L + (R - L) / lubridate::ddays(2))
 
-  obs_level_data %<>%
+  obs_level_data <- obs_level_data |>
     dplyr::left_join(
       by = "ID",
-      participant_level_data %>% dplyr::select(ID, S_midpoint)
-    ) %>%
+      participant_level_data |> dplyr::select(ID, S_midpoint)
+    ) |>
     dplyr::mutate(T_midpoint = (O - S_midpoint) / lubridate::ddays(365))
 
   phi_model_est_midpoint <-
