@@ -27,7 +27,11 @@ passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \c
 
 \item{s_vjust}{passed to \link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel}'s \code{vjust} argument}
 
-\item{labelled_IDs}{\link{character} \link{vector}
+\item{labelled_IDs}{\link{character} \link{vector}}
+
+\item{xmin}{minimum displayed value for x-axis}
+
+\item{xmax}{maximum displayed value for x-axis
 indicating which IDs to label events for}
 }
 \value{

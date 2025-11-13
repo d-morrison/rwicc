@@ -29,7 +29,9 @@ Imports:
     scales,
     plotly,
     rlang,
-    ggrepel
+    ggrepel,
+    vdiffr,
+    withr
 Suggests:
     spelling,
     rmarkdown,
