@@ -2,19 +2,27 @@
 % Please edit documentation in R/plot_censoring_data.R
 \name{plot_censoring_data}
 \alias{plot_censoring_data}
-\title{Pl}
+\title{Plot censoring data}
 \usage{
 plot_censoring_data(
-  dataset = simulate_interval_censoring(),
-  label.size = 5,
+  dataset,
+  label_size = 5,
   point_size = 5,
-  min_n_MAA = 5,
   use_shape = FALSE,
   s_vjust = 2,
-  labelled_IDs = 2
+  labelled_IDs = unique(dataset$pt_data$ID),
+  xmin = min(dataset$pt_data$E) - months(1),
+  xmax = max(dataset$obs_data$O)
 )
 }
 \arguments{
+\item{dataset}{output from \code{\link[=simulate_interval_censoring]{simulate_interval_censoring()}}}
+
+\item{label_size}{\link{numeric}:
+passed to \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}}'s \code{size} argument}
+
+\item{point_size}{\link{numeric}: passed to \link[ggplot2:geom_point]{ggplot2::geom_point}'s \code{size} argument}
+
 \item{s_vjust}{test2}
 
 \item{labelled_IDs}{test}
@@ -23,5 +31,5 @@ plot_censoring_data(
 a ggplot
 }
 \description{
-Pl
+Plot censoring data
 }

@@ -35,7 +35,7 @@ simulate_interval_censoring(
     probability_of_ever_seroconverting = 1) |> 
     plot_censoring_data(
       labelled_IDs = 1:2,
-        min_n_MAA = 5,
+        xmax = lubridate::ymd("2003-01-01"),
         s_vjust = -1
     ) |> 
     print()
