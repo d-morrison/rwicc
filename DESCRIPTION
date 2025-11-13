@@ -34,7 +34,7 @@ Suggests:
     spelling,
     rmarkdown,
     knitr,
-    testthat,
+    testthat (>= 3.0.0),
     markdown,
     pander
 Language: en-US
