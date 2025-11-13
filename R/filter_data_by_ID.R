@@ -6,7 +6,7 @@
 #' @param dataset A list containing data frames output from
 #'   [simulate_interval_censoring()], including `pt_data`, `obs_data0`,
 #'   and `obs_data` components.
-#' @param included_IDs A character vector of participant IDs to retain
+#' @param included_IDs A [character] [vector] of participant IDs to retain
 #'   in the filtered dataset.
 #'
 #' @return A list with the same structure as `dataset`, but with all
