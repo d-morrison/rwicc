@@ -3,13 +3,12 @@ graph_S = function(
     ID = 1)
 {
   subject_level_data_possibilities |>
-    filter(ID == ID) |>
-    ggplot2::ggplot(
-      aes(
-        x = S,
-        y = `P(S=s|e,l,r,o,y)`,
-        col = "P(S=s|e,l,r,o,y)")
-    ) +
+    dplyr::filter(ID == ID) |>
+    ggplot2::ggplot() +
+    ggplot2::aes(
+      x = S,
+      y = `P(S=s|e,l,r,o,y)`,
+      col = "P(S=s|e,l,r,o,y)") +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::geom_point(aes(y = `P(S=s|E=e)`, col = "P(S=s|E=e)")) +
