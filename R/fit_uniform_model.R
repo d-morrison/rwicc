@@ -69,7 +69,7 @@ fit_uniform_model <- function(participant_level_data,
 
     obs_level_data <- obs_level_data |>
       dplyr::select(-dplyr::any_of("S_imputed")) |>
-      dplyr::left_join(participant_level_data |> dplyr::select(.data$ID, .data$S_imputed),
+      dplyr::left_join(participant_level_data |> dplyr::select(ID, S_imputed),
         by = "ID"
       ) |>
       dplyr::mutate(T_imputed = (.data$O - .data$S_imputed) / lubridate::ddays(365))

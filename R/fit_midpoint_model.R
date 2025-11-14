@@ -55,7 +55,7 @@ fit_midpoint_model <- function(participant_level_data,
   obs_level_data <- obs_level_data |>
     dplyr::left_join(
       by = "ID",
-      participant_level_data |> dplyr::select(.data$ID, .data$S_midpoint)
+      participant_level_data |> dplyr::select(ID, S_midpoint)
     ) |>
     dplyr::mutate(T_midpoint = (.data$O - .data$S_midpoint) / lubridate::ddays(365))
 
