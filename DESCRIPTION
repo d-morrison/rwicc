@@ -21,7 +21,6 @@ Imports:
     biglm,
     dplyr,
     lubridate,
-    magrittr,
     stats,
     lobstr,
     arm,
