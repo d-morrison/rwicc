@@ -64,7 +64,7 @@
 
 #' @param verbose whether to print algorithm progress details to the console
 
-#' @return a list with the following elements:
+#' @returns a list with the following elements:
 #' \itemize{
 #' \item `Theta`: the estimated regression coefficients for the model of p(Y|T)
 #' \item `Mu`: the estimated mean window period (a transformation of `Theta`)
