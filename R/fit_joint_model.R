@@ -396,7 +396,6 @@ fit_joint_model <- function(
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
-          browser()
           # note: if denom_offset != 0, we may lose the guarantee of increasing log likelihood.
         }
 

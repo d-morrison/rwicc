@@ -16,4 +16,15 @@
 #' @importFrom ggplot2 ylim
 #' @importFrom rlang .data
 ## usethis namespace: end
+
+# Global variable declarations to suppress R CMD check notes
+utils::globalVariables(c(
+  "ID", "Stratum", "L", "R", "S", "E",
+  "P(S=s|e,l,r,o,y)", "P(S=s|E=e)", "P(Y=y|T=t)",
+  "P(S=s|E=e,L=l,R=r)", "P(S=s|S>=l,E=e)",
+  "years from study start to seroconversion",
+  "seroconversion_time", "seroconversion_time_upper",
+  "seroconversion_time_lower", "censoring_type"
+))
+
 NULL
