@@ -17,6 +17,7 @@
 #' @export
 #'
 #' @examples
+#' library(dplyr)
 #' simulate_interval_censoring()$pt_data |>
 #' mutate(Stratum = 1) |>
 #' build_event_date_possibilities_table()
@@ -28,8 +29,8 @@ build_event_date_possibilities_table = function(
       build_omega_table(bin_width = bin_width))
 {
   participant_level_data |>
-    dplyr::select(ID, Stratum, L, R) |>
+    dplyr::select("ID", "Stratum", "L", "R") |>
     dplyr::left_join(omega_hat, by = "Stratum") |>
-    dplyr::filter(L <= S, S <= R) |>
-    dplyr::select(-c(L, R))
+    dplyr::filter(.data$L <= .data$S, .data$S <= .data$R) |>
+    dplyr::select(-c("L", "R"))
 }

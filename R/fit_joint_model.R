@@ -115,17 +115,6 @@ fit_joint_model <- function(
 ) {
   # setup
   {
-    # this bit of code just removes some notes produced by check(); see
-    # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
-    ID <- E <- L <- R <- O <- Y <- S <- Stratum <- `S_hat - E` <-
-      `P(S=s|E=e)` <- `P(S=s|E=e,L=l,R=r)` <- `P(S=s|S>=l,E=e)` <-
-      `P(S=s|S>=s,E=e)` <- `P(S=s|e,l,r,o,y)` <- `P(S>=l|E=e)` <- `P(S>=s|S>=l,E=e)` <-
-      `P(S>=s|e,l,r,o,y)` <- `P(S>s|S>=l,E=e)` <- `P(S>s|S>=s,E=e)` <- `P(Y=1|T=t)` <-
-      `P(Y=y|T=t)` <-
-      logL_i <- n_IDs <- n_at_risk <-
-      n_definitely_at_risk <- n_events <-
-      risk_probabilities <- NULL
-
     if (EM_max_iterations < Inf) {
       convergence_stats <- dplyr::tibble(
         Iteration = 1:EM_max_iterations,
@@ -159,7 +148,7 @@ fit_joint_model <- function(
     {
       E_L_combinations <-
         participant_level_data |>
-        dplyr::group_by(Stratum, E, L) |>
+        dplyr::group_by(.data$Stratum, .data$E, .data$L) |>
         dplyr::summarize(.groups = "drop", n_IDs = dplyr::n())
     }
 
@@ -186,13 +175,13 @@ fit_joint_model <- function(
       # here we enumerate all possible (T,Y) combinations (this tibble gets large):
       obs_data_possibilities <-
         obs_level_data |>
-        dplyr::select(ID, Y, O) |>
+        dplyr::select("ID", "Y", "O") |>
         dplyr::left_join(
-          subj_level_possible_data |> dplyr::select(ID, S),
+          subj_level_possible_data |> dplyr::select("ID", "S"),
           by = "ID"
         ) |>
-        dplyr::mutate("T" = (O - S) / lubridate::ddays(365)) |>
-        dplyr::select(-O)
+        dplyr::mutate("T" = (.data$O - .data$S) / lubridate::ddays(365)) |>
+        dplyr::select(-"O")
     }
 
     # count the number of participants definitely at risk of seroconversion
@@ -203,12 +192,12 @@ fit_joint_model <- function(
           E_L_combinations,
           by = "Stratum"
         ) |>
-        dplyr::group_by(Stratum, S) |>
+        dplyr::group_by(.data$Stratum, .data$S) |>
         dplyr::summarize(
           .groups = "drop",
           "n_definitely_at_risk" =
             denom_offset +
-              sum(n_IDs[E <= S & S < L])
+              sum(.data$n_IDs[.data$E <= .data$S & .data$S < .data$L])
         ) |>
         dplyr::ungroup()
     }
@@ -220,7 +209,7 @@ fit_joint_model <- function(
     {
       participant_level_data <- participant_level_data |>
         dplyr::mutate(
-          "S_hat - E" = initial_S_estimate_location * (R - L) + (L - E)
+          "S_hat - E" = initial_S_estimate_location * (.data$R - .data$L) + (.data$L - .data$E)
         )
       # This duration is computed directly, since computing S_hat first
       # would result in rounding. There's no need for this level of
@@ -232,16 +221,16 @@ fit_joint_model <- function(
     {
       est_hazard_by_stratum <-
         participant_level_data |>
-        dplyr::group_by(Stratum) |>
+        dplyr::group_by(.data$Stratum) |>
         dplyr::summarize(
           .groups = "drop",
-          "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(`S_hat - E`))
+          "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
         ) |>
         # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
         # CDF of an exponential dist. with mean parameter estimated using S_hat -
         # E as approximate event times
 
-        dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
+        dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - .data$`P(S=s|S>=s,E=e)`)
 
       omega_hat <- omega_hat |>
         dplyr::left_join(
@@ -256,14 +245,14 @@ fit_joint_model <- function(
         dplyr::select(-any_of("E")) |>
         dplyr::left_join(
           participant_level_data |>
-            dplyr::select(ID, `S_hat - E`, E),
+            dplyr::select("ID", "S_hat - E", "E"),
           by = "ID"
         ) |>
         dplyr::mutate(
-          T0 = ((O - E) - (`S_hat - E`)),
+          T0 = ((.data$O - .data$E) - (.data$`S_hat - E`)),
           "T" = .data$T0 / lubridate::ddays(365)
         ) |>
-        dplyr::select(ID, T, Y)
+        dplyr::select("ID", "T", "Y")
 
       MAA_model <- biglm::bigglm(
         formula = model_formula,
@@ -297,13 +286,13 @@ fit_joint_model <- function(
   {
     observed_data_log_likelihood <- function(subj_level_possible_data) {
       log_L <- subj_level_possible_data |>
-        dplyr::group_by(ID) |>
+        dplyr::group_by(.data$ID) |>
         dplyr::summarize(
           .groups = "drop",
-          "logL_i" = log(sum(`P(Y=y|T=t)` * `P(S=s|E=e)`))
+          "logL_i" = log(sum(.data$`P(Y=y|T=t)` * .data$`P(S=s|E=e)`))
         ) |>
         dplyr::summarize(
-          "log_L" = sum(logL_i)
+          "log_L" = sum(.data$logL_i)
         )
 
       return(log_L$log_L)
@@ -331,13 +320,13 @@ fit_joint_model <- function(
       {
         E_L_combinations <- E_L_combinations |>
           dplyr::left_join(
-            omega_hat |> dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
+            omega_hat |> dplyr::select("Stratum", "S", "P(S>s|S>=s,E=e)"),
             by = "Stratum"
           ) |>
-          dplyr::group_by(Stratum, E, L) |>
+          dplyr::group_by(.data$Stratum, .data$E, .data$L) |>
           dplyr::summarize(
             .groups = "drop",
-            "P(S>=l|E=e)" = prod(`P(S>s|S>=s,E=e)`[E <= S & S < L])
+            "P(S>=l|E=e)" = prod(.data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L])
           )
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
         # lose any (E,L) combinations where E == L.
@@ -396,7 +385,6 @@ fit_joint_model <- function(
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
-          browser()
           # note: if denom_offset != 0, we may lose the guarantee of increasing log likelihood.
         }
 
@@ -459,7 +447,7 @@ fit_joint_model <- function(
             )
             # if no one is left at risk, estimate the hazard as 1; won't matter
           ) |>
-          dplyr::select(-c(risk_probabilities, n_events, n_at_risk))
+          dplyr::select(-c("risk_probabilities", "n_events", "n_at_risk"))
 
         # handle numeric stability issues (should not occur if denom_offset > 0):
         {
