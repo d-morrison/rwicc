@@ -38,7 +38,8 @@ sim_data = simulate_interval_censoring(
   "study_cohort_size" = 4500,
   "preconversion_interval_length" = 365,
   "hazard_alpha" = hazard_alpha,
-  "hazard_beta" = hazard_beta)
+  "hazard_beta" = hazard_beta
+)
 
 # extract the participant-level and observation-level simulated data:
 sim_participant_data = sim_data$pt_data
@@ -105,8 +106,8 @@ EM_algorithm_outputs = fit_joint_model(
   obs_level_data = sim_obs_data,
   participant_level_data = sim_participant_data,
   bin_width = 7,
-  EM_max_iterations = 20,
-  verbose = TRUE)
+  EM_max_iterations = 150,
+  verbose = FALSE)
 
 ```
 

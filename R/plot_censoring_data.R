@@ -9,6 +9,8 @@
 #' @param s_vjust passed to [ggrepel::geom_text_repel]'s `vjust` argument
 #' @param labelled_IDs [character] [vector]
 #' indicating which IDs to label events for
+#' @param xmin minimum displayed value for x-axis
+#' @param xmax maximum displayed value for x-axis
 #'
 #' @return a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
@@ -24,7 +26,7 @@ plot_censoring_data <- function(
   point_size = 5,
   s_vjust = 2,
   labelled_IDs = included_IDs,
-  xmin = min(dataset$pt_data$E) - months(1),
+  xmin = min(dataset$pt_data$E) - 28,
   xmax = max(dataset$obs_data$O)
 ) {
 

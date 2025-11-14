@@ -1,6 +1,6 @@
 Package: rwicc
 Title: Regression with Interval-Censored Covariates
-Version: 0.1.3.9001
+Version: 0.1.3.9003
 Authors@R: c(
     person(given = "Douglas Ezra",
            family = "Morrison",
@@ -29,7 +29,9 @@ Imports:
     scales,
     plotly,
     rlang,
-    ggrepel
+    ggrepel,
+    vdiffr,
+    withr
 Suggests:
     spelling,
     rmarkdown,

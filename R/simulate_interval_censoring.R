@@ -99,7 +99,7 @@ simulate_interval_censoring <- function(
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
   sim_participant_data <- dplyr::tibble(
-    "ID" = 1:n_at_risk |> factor(),
+    "ID" = factor(1:n_at_risk),
     "E" =
       study_start_date +
       lubridate::days(
@@ -117,7 +117,7 @@ simulate_interval_censoring <- function(
         hazard_alpha = hazard_alpha,
         hazard_beta = hazard_beta
       ),
-    S = study_start_date + `years from study start to seroconversion` * 365
+    S = study_start_date + .data$`years from study start to seroconversion` * 365
     # note that this variable is rounded down at the day level; to compute T
     # below we will use the non-rounded value from `years from study start to
     # seroconversion`
@@ -170,7 +170,7 @@ simulate_interval_censoring <- function(
         `HIV status` =
           if_else(O >= R, "HIV+", "HIV-") |>
           factor() |>
-          relevel(ref = "HIV-")
+          stats::relevel(ref = "HIV-")
       ) |>
 
 
@@ -233,10 +233,11 @@ simulate_interval_censoring <- function(
 
   # remove variables not needed for analysis:
   {
+
     sim_participant_data <- sim_participant_data |>
-      dplyr::select(ID, E, L, R, S)
+      dplyr::select("ID", "E", "L", "R", "S")
     sim_obs_data <- sim_obs_data |>
-      dplyr::select(ID, O, Y, S, `MAA status`, `Obs ID`)
+      dplyr::select("ID", "E", "O", "Y", "S", "MAA status", "Obs ID")
     }
 
   return(list(

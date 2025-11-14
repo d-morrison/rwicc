@@ -252,15 +252,16 @@ fit_joint_model <- function(
 
     # Theta
     {
-      obs_level_data <-
-        obs_level_data |>
+      obs_level_data <- obs_level_data |>
+        dplyr::select(-any_of("E")) |>
         dplyr::left_join(
           participant_level_data |>
             dplyr::select(ID, `S_hat - E`, E),
           by = "ID"
         ) |>
         dplyr::mutate(
-          "T" = ((O - E) - (`S_hat - E`)) # / lubridate::ddays(365)
+          T0 = ((O - E) - (`S_hat - E`)),
+          "T" = .data$T0 / lubridate::ddays(365)
         ) |>
         dplyr::select(ID, T, Y)
 

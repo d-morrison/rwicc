@@ -34,9 +34,10 @@ simulate_interval_censoring(
     years_in_study = 10, 
     probability_of_ever_seroconverting = 1) |> 
     plot_censoring_data(
-      labelled_IDs = 1:2,
-        xmax = lubridate::ymd("2003-01-01"),
-        s_vjust = -1
+      included_IDs = 1:2,
+      labelled_IDs = 1,
+      s_vjust = -1,
+      xmax = lubridate::ymd("2003-01-01")
     ) |> 
     print()
 
