@@ -19,7 +19,7 @@
 #' @param tolerance convergence criterion, passed to \code{bigglm}
 #' @param n_imputations number of imputed data sets to create
 #'
-#' @return a vector of logistic regression coefficient estimates
+#' @returns a vector of logistic regression coefficient estimates
 #'
 #' @export
 #'

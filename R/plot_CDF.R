@@ -4,7 +4,7 @@
 #' @param true_hazard_beta The change in data-generating hazard per calendar year
 #' @param omega_hat tibble of estimated discrete hazards
 #'
-#' @return a ggplot
+#' @returns a ggplot
 #' @export
 #' @examples
 #' \dontrun{

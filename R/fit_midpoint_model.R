@@ -18,7 +18,7 @@
 #' @param maxit maximum iterations, passed to \code{bigglm}
 #' @param tolerance convergence criterion, passed to \code{bigglm}
 #'
-#' @return a vector of logistic regression coefficient estimates
+#' @returns a vector of logistic regression coefficient estimates
 #' @export
 #' @examples
 #' sim_data = simulate_interval_censoring(

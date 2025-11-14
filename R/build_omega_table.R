@@ -3,7 +3,7 @@
 #' @param participant_level_data a [data.frame]
 #' @param bin_width number of days per bin
 #'
-#' @return a [data.frame]
+#' @returns a [data.frame]
 #' @export
 #'
 build_omega_table = function(
