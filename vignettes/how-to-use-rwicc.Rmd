@@ -61,7 +61,6 @@ pander(head(sim_participant_data))
 We can count the number of individuals whose censoring windows overlap with each day like so:
 
 ```{r}
-library(tidyverse)
 sim_participant_data |>
   mutate("Stratum" = 1) |> 
   build_event_date_possibilities_table(bin_width = 1) |> 
