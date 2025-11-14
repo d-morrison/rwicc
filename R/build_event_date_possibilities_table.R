@@ -5,7 +5,7 @@
 #' * Stratum: indicator for which population stratum the participant belongs to
 #' * E: study entry date
 #' * L: left censoring interval endpoint
-#' * R: left censoring interval endpoint
+#' * R: right censoring interval endpoint
 #' @param omega_hat a [data.frame] from [build_omega_table()] representing the
 #' seroconversion hazard model.
 #' @inheritParams  build_omega_table

@@ -17,7 +17,7 @@ build_event_date_possibilities_table(
 \item Stratum: indicator for which population stratum the participant belongs to
 \item E: study entry date
 \item L: left censoring interval endpoint
-\item R: left censoring interval endpoint
+\item R: right censoring interval endpoint
 }}
 
 \item{bin_width}{number of days per bin}
