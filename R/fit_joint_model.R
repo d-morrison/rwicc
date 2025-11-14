@@ -175,13 +175,13 @@ fit_joint_model <- function(
       # here we enumerate all possible (T,Y) combinations (this tibble gets large):
       obs_data_possibilities <-
         obs_level_data |>
-        dplyr::select(ID, Y, O) |>
+        dplyr::select("ID", "Y", "O") |>
         dplyr::left_join(
-          subj_level_possible_data |> dplyr::select(ID, S),
+          subj_level_possible_data |> dplyr::select("ID", "S"),
           by = "ID"
         ) |>
         dplyr::mutate("T" = (.data$O - .data$S) / lubridate::ddays(365)) |>
-        dplyr::select(-O)
+        dplyr::select(-"O")
     }
 
     # count the number of participants definitely at risk of seroconversion
@@ -245,14 +245,14 @@ fit_joint_model <- function(
         dplyr::select(-any_of("E")) |>
         dplyr::left_join(
           participant_level_data |>
-            dplyr::select(ID, `S_hat - E`, E),
+            dplyr::select("ID", "S_hat - E", "E"),
           by = "ID"
         ) |>
         dplyr::mutate(
           T0 = ((.data$O - .data$E) - (.data$`S_hat - E`)),
           "T" = .data$T0 / lubridate::ddays(365)
         ) |>
-        dplyr::select(ID, T, Y)
+        dplyr::select("ID", "T", "Y")
 
       MAA_model <- biglm::bigglm(
         formula = model_formula,
@@ -320,7 +320,7 @@ fit_joint_model <- function(
       {
         E_L_combinations <- E_L_combinations |>
           dplyr::left_join(
-            omega_hat |> dplyr::select(Stratum, S, `P(S>s|S>=s,E=e)`),
+            omega_hat |> dplyr::select("Stratum", "S", "P(S>s|S>=s,E=e)"),
             by = "Stratum"
           ) |>
           dplyr::group_by(.data$Stratum, .data$E, .data$L) |>
@@ -447,7 +447,7 @@ fit_joint_model <- function(
             )
             # if no one is left at risk, estimate the hazard as 1; won't matter
           ) |>
-          dplyr::select(-c(risk_probabilities, n_events, n_at_risk))
+          dplyr::select(-c("risk_probabilities", "n_events", "n_at_risk"))
 
         # handle numeric stability issues (should not occur if denom_offset > 0):
         {
