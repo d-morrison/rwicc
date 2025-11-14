@@ -16,19 +16,4 @@
 #' @importFrom ggplot2 ylim
 #' @importFrom rlang .data
 ## usethis namespace: end
-
-# Global variable declarations to suppress R CMD check notes
-# These are non-standard evaluation variables used in dplyr pipelines and column names
-utils::globalVariables(c(
-  # Standard column names used throughout the package
-  "ID", "Stratum", "L", "R", "S", "E",
-  # Probability column names (with special characters) used in update_possible_subj_data.R
-  "P(S=s|e,l,r,o,y)", "P(S=s|E=e)", "P(Y=y|T=t)",
-  "P(S=s|E=e,L=l,R=r)", "P(S=s|S>=l,E=e)",
-  # Time-related column names
-  "years from study start to seroconversion",
-  "seroconversion_time", "seroconversion_time_upper",
-  "seroconversion_time_lower", "censoring_type"
-))
-
 NULL
