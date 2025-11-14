@@ -174,7 +174,7 @@ simulate_interval_censoring <- function(
       ) |>
 
 
-      dplyr::select(-R)
+      dplyr::select(-.data$R)
 
 
     sim_obs_data0 =
