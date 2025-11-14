@@ -41,7 +41,7 @@
 #'   - `L`: date of last HIV test prior to seroconversion
 #'   - `R`: date of first HIV test after seroconversion
 #'
-#' *`obs_data`: a tibble of longitudinal observations with the following columns:
+#' * `obs_data`: a tibble of longitudinal observations with the following columns:
 #'   - `ID`: participant ID
 #'   - `O`: dates of biomarker sample collection
 #'   - `Y`: MAA classifications of biomarker samples

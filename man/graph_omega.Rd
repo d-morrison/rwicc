@@ -11,7 +11,7 @@ graph_omega(omega)
 the seroconversion hazard model}
 }
 \value{
-a \link[ggplot2:ggplot2-package]{ggplot2::ggplot2}
+a \link[ggplot2:ggplot]{ggplot2::ggplot}
 }
 \description{
 Graph seroconversion hazard model

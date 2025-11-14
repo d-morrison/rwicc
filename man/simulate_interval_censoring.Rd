@@ -63,13 +63,12 @@ A list containing the following two tibbles:
 \item \code{L}: date of last HIV test prior to seroconversion
 \item \code{R}: date of first HIV test after seroconversion
 }
-}
-
-*\code{obs_data}: a tibble of longitudinal observations with the following columns:
+\item \code{obs_data}: a tibble of longitudinal observations with the following columns:
 \itemize{
 \item \code{ID}: participant ID
 \item \code{O}: dates of biomarker sample collection
 \item \code{Y}: MAA classifications of biomarker samples
+}
 }
 }
 \description{
