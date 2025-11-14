@@ -37,6 +37,7 @@ a \link{data.frame} with columns:
 Build table of event date possibilities
 }
 \examples{
+library(dplyr)
 simulate_interval_censoring()$pt_data |>
 mutate(Stratum = 1) |>
 build_event_date_possibilities_table()
