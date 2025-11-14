@@ -3,7 +3,7 @@
 #' @param omega a [data.frame] containing parameter values for
 #' the seroconversion hazard model
 #'
-#' @returns a [ggplot2::ggplot2]
+#' @returns a [ggplot2::ggplot]
 #' @export
 #'
 #' @examples
