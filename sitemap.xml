@@ -1,63 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/404.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/articles/how-to-use-rwicc.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/index.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/build_phi_function_from_coefs.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/compute_mu.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/fit_joint_model.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/fit_midpoint_model.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/fit_uniform_model.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/plot_CDF.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/plot_phi_curves.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/rwicc.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/seroconversion_inverse_survival_function.html</loc>
-  </url>
-  <url>
-    <loc>https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://d-morrison.github.io/rwicc/404.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/LICENSE-text.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/LICENSE.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/articles/how-to-use-rwicc.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/articles/index.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/articles/visualize-study-design.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/authors.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/index.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/news/index.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/build_phi_function_from_coefs.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/compute_mu.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/filter_data_by_ID.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/fit_joint_model.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/fit_midpoint_model.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/fit_uniform_model.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/index.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/plot_CDF.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/plot_censoring_data.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/plot_phi_curves.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/rwicc-package.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/seroconversion_inverse_survival_function.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.html</loc></url>
 </urlset>
+
