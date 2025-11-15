@@ -35,9 +35,9 @@ following columns:
 \item \code{ID}: Participant identifier
 \item \code{Stratum}: Stratification variable
 \item \code{S}: Possible seroconversion date
-\item \code{P(Y=y|T=t)}: Probability of observed MAA outcomes given time since
+\item \verb{P(Y=y|T=t)}: Probability of observed MAA outcomes given time since
 seroconversion
-\item \code{P(S=s|E=e)}: Marginal probability of seroconversion at time s given
+\item \verb{P(S=s|E=e)}: Marginal probability of seroconversion at time s given
 enrollment date
 \item \code{P(S=s|e,l,r,o,y)}: Posterior probability of seroconversion at time s
 given all observed data (used to estimate omega and theta)
