@@ -95,7 +95,7 @@ spelling::spell_check_package()
 
 1. **Follow tidyverse style guide**: Use the tidyverse style guide for R code
 2. **Use roxygen2 for documentation**: All exported functions must have roxygen2 documentation with `@param`, `@return`, `@examples`, and `@export` tags
-3. **Use pipe operators**: Prefer magrittr pipes (`|>` or `%>%`) for data manipulation
+3. **Use pipe operators**: Prefer the native R pipe (`|>`) for data manipulation. The codebase is transitioning from magrittr pipe (`%>%`) to native pipe
 4. **Explicit imports**: Use explicit imports in NAMESPACE via roxygen2 `@importFrom` tags
 
 ### Naming Conventions
