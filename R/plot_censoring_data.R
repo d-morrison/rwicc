@@ -12,7 +12,7 @@
 #' @param xmin minimum displayed value for x-axis
 #' @param xmax maximum displayed value for x-axis
 #'
-#' @return a ggplot
+#' @returns a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
 #' @importFrom plotly ggplotly
 #' @importFrom dplyr reframe bind_rows pull

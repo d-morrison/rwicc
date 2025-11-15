@@ -16,5 +16,5 @@
 #' \item \code{\link{fit_joint_model}}
 #' }
 #'
-#' @docType package
+#' @name rwicc
 "_PACKAGE"

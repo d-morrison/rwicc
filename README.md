@@ -5,7 +5,9 @@
 
 <!-- badges: start -->
 
+[![](https://cranlogs.r-pkg.org/badges/rwicc)](https://cran.r-project.org/package=rwicc)
 [![R-CMD-check](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml)
+[![DOI](https://zenodo.org/badge/369426827.svg)](https://zenodo.org/badge/latestdoi/369426827)
 [![Codecov test
 coverage](https://codecov.io/gh/d-morrison/rwicc/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
 <!-- badges: end -->
