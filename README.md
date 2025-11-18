@@ -3,14 +3,17 @@
 
 # rwicc
 
-<!-- badges: start -->
-
-[![](https://cranlogs.r-pkg.org/badges/rwicc)](https://cran.r-project.org/package=rwicc)
-[![R-CMD-check](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml)
-[![DOI](https://zenodo.org/badge/369426827.svg)](https://zenodo.org/badge/latestdoi/369426827)
-[![Codecov test
-coverage](https://codecov.io/gh/d-morrison/rwicc/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
-<!-- badges: end -->
+[![R build
+status](https://github.com/d-morrison/rwicc/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions)
+[![](https://img.shields.io/badge/doi-10.5281/zenodo.6600579-green.svg)](https://doi.org/10.5281/zenodo.6600579)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](http://cranlogs.r-pkg.org/badges/last-month/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](https://www.r-pkg.org/badges/version/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](https://img.shields.io/badge/devel%20version-0.1.2-blue.svg)](https://github.com/d-morrison/rwicc)
+[![CRAN
+checks](https://badges.cranchecks.info/summary/rwicc.svg)](https://cran.r-project.org/web/checks/check_results_rwicc.html)
+[![](https://codecov.io/gh/d-morrison/rwicc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
+[![](https://img.shields.io/github/last-commit/d-morrison/rwicc.svg)](https://github.com/d-morrison/rwicc/commits/main)
 
 `rwicc` (“Regression With Interval-Censored Covariates”) is an R
 software package implementing an analysis for a regression model

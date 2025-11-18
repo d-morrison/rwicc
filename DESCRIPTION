@@ -40,7 +40,8 @@ Suggests:
     withr,
     tidyverse,
     fs,
-    readr
+    readr,
+    badger
 Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues

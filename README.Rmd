@@ -15,12 +15,21 @@ knitr::opts_chunk$set(
 
 # rwicc
 
-<!-- badges: start -->
-[![](https://cranlogs.r-pkg.org/badges/rwicc)](https://cran.r-project.org/package=rwicc)
-[![R-CMD-check](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions/workflows/R-CMD-check.yaml)
-[![DOI](https://zenodo.org/badge/369426827.svg)](https://zenodo.org/badge/latestdoi/369426827)
-[![Codecov test coverage](https://codecov.io/gh/d-morrison/rwicc/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
-<!-- badges: end -->
+```{r echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+# copied from https://github.com/bcallaway11/did/blob/master/README.Rmd
+cat(
+  badger::badge_github_actions(action = "R-CMD-check.yaml"),
+  badger::badge_doi("10.5281/zenodo.6600579", "green"),
+  badger::badge_cran_download("rwicc", "grand-total", "blue"),
+  badger::badge_cran_download("rwicc", "last-month", "blue"),
+  badger::badge_cran_release("rwicc", "blue"),
+  badger::badge_devel("d-morrison/rwicc", "blue"),
+  badger::badge_cran_checks("rwicc"),
+  badger::badge_codecov("d-morrison/rwicc"),
+  badger::badge_last_commit("d-morrison/rwicc")
+)
+```
+
 
 `rwicc` ("Regression With Interval-Censored Covariates") is an R software package 
 implementing an analysis for a regression model involving an interval-censored covariate,
