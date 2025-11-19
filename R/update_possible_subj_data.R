@@ -88,11 +88,11 @@ update_possible_subj_data <- function(
       "P(S=s|E=e)" = .data$`P(S=s|S>=l,E=e)` * .data$`P(S>=l|E=e)`,
       # used to compute likelihood
 
-      "P(S=s|E=e,L=l,R=r)" = prop.table(.data$`P(S=s|S>=l,E=e)`),
+      "P(S=s|E=e,L=l,R=r)" = proportions(.data$`P(S=s|S>=l,E=e)`),
       # used in next calculation
 
-      "P(S=s|e,l,r,o,y)" = prop.table(.data$`P(Y=y|T=t)` *
-                                        .data$`P(S=s|E=e,L=l,R=r)`),
+      "P(S=s|e,l,r,o,y)" = proportions(.data$`P(Y=y|T=t)` *
+                                         .data$`P(S=s|E=e,L=l,R=r)`),
       # used to estimate omega and theta
 
       "P(S>=s|e,l,r,o,y)" = rev(cumsum(rev(.data$`P(S=s|e,l,r,o,y)`)))
