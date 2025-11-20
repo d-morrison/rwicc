@@ -1,0 +1,78 @@
+First, we simulate some data:
+
+```{r}
+
+set.seed(1)
+
+library(rwicc)
+theta_true = c(0.986, -3.88)
+hazard_alpha = 1
+hazard_beta = 0.5
+sim_data = simulate_interval_censoring(
+  "theta" = theta_true,
+  "study_cohort_size" = 4500,
+  "preconversion_interval_length" = 365,
+  "hazard_alpha" = hazard_alpha,
+  "hazard_beta" = hazard_beta)
+
+# extract the participant-level and observation-level simulated data:
+sim_participant_data = sim_data$pt_data
+sim_obs_data = sim_data$obs_data
+rm(sim_data)
+
+```
+
+Here's a look at the first few rows of participant-level data:
+
+```{r}
+library(pander)
+pander(head(sim_participant_data))
+```
+
+* `E` is the individual's enrollment date
+* `L` is the date of the last HIV-negative test
+* `R` is the date of the first HIV-positive test
+
+We can count the number of individuals whose censoring windows overlap with each day like so:
+
+```{r}
+library(tidyverse)
+sim_participant_data |>
+  mutate("Stratum" = 1) |> 
+  build_event_date_possibilities_table(bin_width = 1) |> 
+  dplyr::count(S) |> 
+  ggplot(
+    aes(x = S, y = n)
+  ) +
+  geom_line(alpha = .5) +
+  theme_classic()
+```
+
+
+Next, let's look at the first few rows of observation-level (longitudinal) data:
+
+```{r}
+pander(head(sim_obs_data))
+```
+
+* `O` is the observation date
+* `Y` is the MAA classification (1 = "recent infection", 0 = "long-term infection")
+
+The two tables are linked by the variable `ID`.
+
+Now, we will apply our proposed analysis (this takes a couple of minutes; use argument `verbose = TRUE` to print progress messages):
+
+```{r}
+EM_algorithm_outputs = fit_joint_model(
+  obs_level_data = sim_obs_data,
+  participant_level_data = sim_participant_data,
+  bin_width = 7,
+  verbose = TRUE)
+
+example_model <- EM_algorithm_outputs
+
+example_model |> readr::write_rds(file = "inst/extdata/example_model.rds")
+
+```
+
+

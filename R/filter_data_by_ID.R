@@ -9,7 +9,7 @@
 #' @param included_IDs A [character] [vector] of participant IDs to retain
 #'   in the filtered dataset.
 #'
-#' @return A list with the same structure as `dataset`, but with all
+#' @returns A list with the same structure as `dataset`, but with all
 #'   data frames filtered to include only rows where the ID is in
 #'   `included_IDs`.
 #'

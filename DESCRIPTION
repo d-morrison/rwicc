@@ -1,6 +1,6 @@
 Package: rwicc
 Title: Regression with Interval-Censored Covariates
-Version: 0.1.3.9002
+Version: 0.1.3.9003
 Authors@R: c(
     person(given = "Douglas Ezra",
            family = "Morrison",
@@ -21,24 +21,30 @@ Imports:
     biglm,
     dplyr,
     lubridate,
-    magrittr,
     stats,
-    pryr,
+    lobstr,
     arm,
     ggplot2,
     scales,
     plotly,
     rlang,
-    ggrepel,
-    vdiffr,
-    withr
+    ggrepel
 Suggests:
     spelling,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     markdown,
-    pander
+    pander,
+    vdiffr,
+    withr,
+    tidyverse,
+    fs,
+    readr,
+    badger
 Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues
+Depends: 
+    R (>= 4.0.0)
+LazyData: true

@@ -4,14 +4,14 @@
 \alias{plot_CDF}
 \title{plot estimated and true CDFs for seroconversion date distribution}
 \usage{
-plot_CDF(true_hazard_alpha, true_hazard_beta, omega.hat)
+plot_CDF(true_hazard_alpha, true_hazard_beta, omega_hat)
 }
 \arguments{
 \item{true_hazard_alpha}{The data-generating hazard at the start of the study}
 
 \item{true_hazard_beta}{The change in data-generating hazard per calendar year}
 
-\item{omega.hat}{tibble of estimated discrete hazards}
+\item{omega_hat}{tibble of estimated discrete hazards}
 }
 \value{
 a ggplot
@@ -36,7 +36,7 @@ EM_algorithm_outputs <- fit_joint_model(
 plot1 = plot_CDF(
   true_hazard_alpha = hazard_alpha,
   true_hazard_beta = hazard_beta,
-  omega.hat = EM_algorithm_outputs$Omega)
+  omega_hat = EM_algorithm_outputs$Omega)
 
 print(plot1)
 }

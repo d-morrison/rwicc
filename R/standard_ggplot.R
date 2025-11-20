@@ -6,7 +6,7 @@
 #'
 #' @param data A data frame to be passed to [ggplot2::ggplot()].
 #'
-#' @return A [ggplot2::ggplot()] object with standard theme settings applied,
+#' @returns A [ggplot2::ggplot()] object with standard theme settings applied,
 #'   including a black and white theme, custom axis styling, and legend
 #'   positioning at the bottom.
 #'
