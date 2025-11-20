@@ -46,5 +46,5 @@ Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc
 BugReports: https://github.com/d-morrison/rwicc/issues
 Depends: 
-    R (>= 3.5)
+    R (>= 4.0.0)
 LazyData: true
