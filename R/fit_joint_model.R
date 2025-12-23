@@ -80,7 +80,7 @@
 # ==============================================================================
 
 #' @importFrom biglm bigglm
-#' @importFrom dplyr group_by summarize n select left_join filter semi_join mutate ungroup any_of if_else lag all_of group_by_at
+#' @importFrom dplyr summarize n select left_join filter semi_join mutate any_of if_else lag all_of
 #' @importFrom lubridate ddays
 #' @importFrom stats binomial coef predict glm quasibinomial
 #' @importFrom lobstr mem_used
@@ -148,8 +148,10 @@ fit_joint_model <- function(
     {
       E_L_combinations <-
         participant_level_data |>
-        dplyr::group_by(.data$Stratum, .data$E, .data$L) |>
-        dplyr::summarize(.groups = "drop", n_IDs = dplyr::n())
+        dplyr::summarize(
+          .by = c(.data$Stratum, .data$E, .data$L),
+          n_IDs = dplyr::n()
+        )
     }
 
     # identify the set of possible seroconversion dates
@@ -192,14 +194,12 @@ fit_joint_model <- function(
           E_L_combinations,
           by = "Stratum"
         ) |>
-        dplyr::group_by(.data$Stratum, .data$S) |>
         dplyr::summarize(
-          .groups = "drop",
+          .by = c(.data$Stratum, .data$S),
           "n_definitely_at_risk" =
             denom_offset +
               sum(.data$n_IDs[.data$E <= .data$S & .data$S < .data$L])
-        ) |>
-        dplyr::ungroup()
+        )
     }
   }
 
@@ -221,9 +221,8 @@ fit_joint_model <- function(
     {
       est_hazard_by_stratum <-
         participant_level_data |>
-        dplyr::group_by(.data$Stratum) |>
         dplyr::summarize(
-          .groups = "drop",
+          .by = .data$Stratum,
           "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
         ) |>
         # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
@@ -286,9 +285,8 @@ fit_joint_model <- function(
   {
     observed_data_log_likelihood <- function(subj_level_possible_data) {
       log_L <- subj_level_possible_data |>
-        dplyr::group_by(.data$ID) |>
         dplyr::summarize(
-          .groups = "drop",
+          .by = .data$ID,
           "logL_i" = log(sum(.data$`P(Y=y|T=t)` * .data$`P(S=s|E=e)`))
         ) |>
         dplyr::summarize(
@@ -323,9 +321,8 @@ fit_joint_model <- function(
             omega_hat |> dplyr::select("Stratum", "S", "P(S>s|S>=s,E=e)"),
             by = "Stratum"
           ) |>
-          dplyr::group_by(.data$Stratum, .data$E, .data$L) |>
           dplyr::summarize(
-            .groups = "drop",
+            .by = c(.data$Stratum, .data$E, .data$L),
             "P(S>=l|E=e)" = prod(.data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L])
           )
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
@@ -425,9 +422,8 @@ fit_joint_model <- function(
         # sum the estimated at-risk and event probabilities by date:
         n_events_by_date <-
           subj_level_possible_data |>
-          dplyr::group_by_at(c("Stratum", "S")) |>
           dplyr::summarize(
-            .groups = "drop",
+            .by = c("Stratum", "S"),
             "n_events" = sum(`P(S=s|e,l,r,o,y)`),
             "risk_probabilities" = sum(`P(S>=s|e,l,r,o,y)`)
           )
