@@ -227,19 +227,19 @@ The package typically works with two types of data frames:
 **Prefer per-operation grouping with `.by` over `group_by()`** where reasonable.
 
 Use the `.by` argument for per-operation grouping instead of `group_by()` + `ungroup()` pattern.
-**Always use `.data$` pronoun for column references in `.by` parameter** for consistency with NSE best practices.
+**The `.by` parameter uses tidy selection (bare column names), not data masking (`.data$`).**
 
 **✅ Preferred:**
 ```r
 data |>
   dplyr::summarize(
-    .by = c(.data$ID, .data$Group),
+    .by = c(ID, Group),
     mean_value = mean(.data$value)
   )
 
 data |>
   dplyr::mutate(
-    .by = .data$ID,
+    .by = ID,
     centered = .data$value - mean(.data$value)
   )
 ```
@@ -254,7 +254,14 @@ data |>
     mean_value = mean(.data$value)
   )
 
-# String literals in .by (incorrect)
+# Using .data$ in .by (incorrect - .by uses tidy selection)
+data |>
+  dplyr::summarize(
+    .by = c(.data$ID, .data$Group),  # Wrong!
+    mean_value = mean(.data$value)
+  )
+
+# String literals in .by (also incorrect)
 data |>
   dplyr::summarize(
     .by = c("ID", "Group"),  # Wrong!
@@ -274,13 +281,50 @@ data |>
 - When you need to preserve grouping structure for downstream operations
 - When using functions that don't yet support `.by`
 
+### Tidy Selection vs. Data Masking
+
+Understanding the difference between tidy selection and data masking is crucial for writing correct dplyr code.
+
+**Tidy Selection:**
+- Used in: `select()`, `rename()`, `relocate()`, `across()`, **`.by` parameter**
+- Purpose: Select columns by name, position, or pattern
+- Syntax: Use **bare column names** (e.g., `ID`, `Group`)
+- Cannot use `.data$` pronoun (it's not needed and is incorrect)
+- Can use selection helpers: `starts_with()`, `ends_with()`, `contains()`, `where()`, etc.
+
+```r
+# Tidy selection examples
+data |> dplyr::select(ID, Group, starts_with("var"))
+data |> dplyr::summarize(.by = c(ID, Group), mean = mean(.data$value))
+```
+
+**Data Masking:**
+- Used in: `mutate()`, `filter()`, `summarize()`, `arrange()` (within the expressions)
+- Purpose: Compute on column values
+- Syntax: Use **`.data$` pronoun** for unambiguous column references
+- Helps avoid R CMD check warnings about undefined global variables
+- Makes code more explicit and prevents conflicts with function arguments
+
+```r
+# Data masking examples
+data |> dplyr::mutate(new_col = .data$old_col * 2)
+data |> dplyr::filter(.data$status == "active")
+data |> dplyr::summarize(mean_val = mean(.data$value))
+```
+
+**Key Distinction:**
+- `.by` uses **tidy selection** → bare names: `.by = c(ID, Group)`
+- Expression arguments use **data masking** → `.data$` pronoun: `mean(.data$value)`
+
+**Reference:** https://dplyr.tidyverse.org/articles/programming.html
+
 ### Non-Standard Evaluation
 
 Always use `.data$` pronoun for column references in dplyr and ggplot2 functions to avoid R CMD check notes about global variables.
 
 **Examples:**
 ```r
-# In dplyr
+# In dplyr (data masking contexts)
 dplyr::mutate(new_col = .data$old_col * 2)
 dplyr::filter(.data$status == "active")
 

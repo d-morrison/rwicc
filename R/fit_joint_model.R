@@ -149,7 +149,7 @@ fit_joint_model <- function(
       E_L_combinations <-
         participant_level_data |>
         dplyr::summarize(
-          .by = c(.data$Stratum, .data$E, .data$L),
+          .by = c(Stratum, E, L),
           n_IDs = dplyr::n()
         )
     }
@@ -195,7 +195,7 @@ fit_joint_model <- function(
           by = "Stratum"
         ) |>
         dplyr::summarize(
-          .by = c(.data$Stratum, .data$S),
+          .by = c(Stratum, S),
           "n_definitely_at_risk" =
             denom_offset +
               sum(.data$n_IDs[.data$E <= .data$S & .data$S < .data$L])
@@ -222,7 +222,7 @@ fit_joint_model <- function(
       est_hazard_by_stratum <-
         participant_level_data |>
         dplyr::summarize(
-          .by = .data$Stratum,
+          .by = Stratum,
           "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
         ) |>
         # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
@@ -286,7 +286,7 @@ fit_joint_model <- function(
     observed_data_log_likelihood <- function(subj_level_possible_data) {
       log_L <- subj_level_possible_data |>
         dplyr::summarize(
-          .by = .data$ID,
+          .by = ID,
           "logL_i" = log(sum(.data$`P(Y=y|T=t)` * .data$`P(S=s|E=e)`))
         ) |>
         dplyr::summarize(
@@ -322,7 +322,7 @@ fit_joint_model <- function(
             by = "Stratum"
           ) |>
           dplyr::summarize(
-            .by = c(.data$Stratum, .data$E, .data$L),
+            .by = c(Stratum, E, L),
             "P(S>=l|E=e)" = prod(.data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L])
           )
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
@@ -423,7 +423,7 @@ fit_joint_model <- function(
         n_events_by_date <-
           subj_level_possible_data |>
           dplyr::summarize(
-            .by = c(.data$Stratum, .data$S),
+            .by = c(Stratum, S),
             "n_events" = sum(`P(S=s|e,l,r,o,y)`),
             "risk_probabilities" = sum(`P(S>=s|e,l,r,o,y)`)
           )
