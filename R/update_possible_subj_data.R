@@ -74,8 +74,8 @@ update_possible_subj_data <- function(
       ),
       by = c("S", "Stratum")
     ) |>
-    dplyr::group_by("ID") |>
     dplyr::mutate(
+      .by = "ID",
       "P(S>s|S>=l,E=e)" = cumprod(.data$`P(S>s|S>=s,E=e)`),
       # used for next calculation
 
@@ -98,7 +98,6 @@ update_possible_subj_data <- function(
       "P(S>=s|e,l,r,o,y)" = rev(cumsum(rev(.data$`P(S=s|e,l,r,o,y)`)))
       # used to estimate omega
     ) |>
-    dplyr::ungroup() |>
     dplyr::select(
       c(
         "ID",
