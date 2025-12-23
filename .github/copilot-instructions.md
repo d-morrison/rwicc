@@ -227,19 +227,19 @@ The package typically works with two types of data frames:
 **Prefer per-operation grouping with `.by` over `group_by()`** where reasonable.
 
 Use the `.by` argument for per-operation grouping instead of `group_by()` + `ungroup()` pattern.
-**The `.by` parameter uses tidy selection (bare column names), not data masking (`.data$`).**
+**The `.by` parameter uses tidy selection. Use quoted strings to avoid R CMD check warnings.**
 
 **✅ Preferred:**
 ```r
 data |>
   dplyr::summarize(
-    .by = c(ID, Group),
+    .by = c("ID", "Group"),
     mean_value = mean(.data$value)
   )
 
 data |>
   dplyr::mutate(
-    .by = ID,
+    .by = "ID",
     centered = .data$value - mean(.data$value)
   )
 ```
@@ -254,17 +254,17 @@ data |>
     mean_value = mean(.data$value)
   )
 
-# Using .data$ in .by (incorrect - .by uses tidy selection)
+# Using .data$ in .by (incorrect - .by uses tidy selection, not data masking)
 data |>
   dplyr::summarize(
     .by = c(.data$ID, .data$Group),  # Wrong!
     mean_value = mean(.data$value)
   )
 
-# String literals in .by (also incorrect)
+# Bare names in .by (works but may trigger R CMD check warnings)
 data |>
   dplyr::summarize(
-    .by = c("ID", "Group"),  # Wrong!
+    .by = c(ID, Group),  # Prefer quoted strings
     mean_value = mean(.data$value)
   )
 ```
@@ -288,14 +288,15 @@ Understanding the difference between tidy selection and data masking is crucial 
 **Tidy Selection:**
 - Used in: `select()`, `rename()`, `relocate()`, `across()`, **`.by` parameter**
 - Purpose: Select columns by name, position, or pattern
-- Syntax: Use **bare column names** (e.g., `ID`, `Group`)
+- Syntax: Use **quoted strings** (e.g., `"ID"`, `"Group"`) or bare names (e.g., `ID`, `Group`)
+- **Prefer quoted strings** to avoid R CMD check warnings about undefined global variables
 - Cannot use `.data$` pronoun (it's not needed and is incorrect)
 - Can use selection helpers: `starts_with()`, `ends_with()`, `contains()`, `where()`, etc.
 
 ```r
-# Tidy selection examples
-data |> dplyr::select(ID, Group, starts_with("var"))
-data |> dplyr::summarize(.by = c(ID, Group), mean = mean(.data$value))
+# Tidy selection examples (prefer quoted strings)
+data |> dplyr::select("ID", "Group", starts_with("var"))
+data |> dplyr::summarize(.by = c("ID", "Group"), mean = mean(.data$value))
 ```
 
 **Data Masking:**
@@ -313,7 +314,7 @@ data |> dplyr::summarize(mean_val = mean(.data$value))
 ```
 
 **Key Distinction:**
-- `.by` uses **tidy selection** → bare names: `.by = c(ID, Group)`
+- `.by` uses **tidy selection** → quoted strings: `.by = c("ID", "Group")`
 - Expression arguments use **data masking** → `.data$` pronoun: `mean(.data$value)`
 
 **Reference:** https://dplyr.tidyverse.org/articles/programming.html

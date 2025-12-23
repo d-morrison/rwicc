@@ -12,7 +12,7 @@ build_omega_table = function(
 {
   participant_level_data |>
     dplyr::reframe(
-      .by = Stratum,
+      .by = "Stratum",
       S = seq(min(.data$L), max(.data$R), by = bin_width)
     )
 }
