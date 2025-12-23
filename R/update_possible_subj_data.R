@@ -59,7 +59,7 @@ update_possible_subj_data <- function(
         )
     ) |>
     dplyr::summarize(
-      .by = c("ID", "S"),
+      .by = c(.data$ID, .data$S),
       "P(Y=y|T=t)" = prod(.data$`P(Y=y|T=t)`)
     ) |>
     dplyr::left_join(
@@ -75,7 +75,7 @@ update_possible_subj_data <- function(
       by = c("S", "Stratum")
     ) |>
     dplyr::mutate(
-      .by = "ID",
+      .by = .data$ID,
       "P(S>s|S>=l,E=e)" = cumprod(.data$`P(S>s|S>=s,E=e)`),
       # used for next calculation
 

@@ -6,7 +6,8 @@
 
 **Prefer per-operation grouping with `.by` over `group_by()`** where reasonable.
 
-Use the `.by` argument for per-operation grouping instead of `group_by()` + `ungroup()` pattern:
+Use the `.by` argument for per-operation grouping instead of `group_by()` + `ungroup()` pattern.
+**Always use `.data$` pronoun for column references in `.by` parameter** for consistency with NSE best practices.
 
 **✅ Preferred:**
 ```r
@@ -25,6 +26,7 @@ data |>
 
 **❌ Avoid:**
 ```r
+# Old pattern with group_by/ungroup
 data |>
   dplyr::group_by(.data$ID, .data$Group) |>
   dplyr::summarize(
@@ -32,12 +34,12 @@ data |>
     mean_value = mean(.data$value)
   )
 
+# String literals in .by (incorrect)
 data |>
-  dplyr::group_by(.data$ID) |>
-  dplyr::mutate(
-    centered = .data$value - mean(.data$value)
-  ) |>
-  dplyr::ungroup()
+  dplyr::summarize(
+    .by = c("ID", "Group"),  # Wrong!
+    mean_value = mean(.data$value)
+  )
 ```
 
 **Reference:** https://dplyr.tidyverse.org/reference/dplyr_by.html

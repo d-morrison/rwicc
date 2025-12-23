@@ -423,7 +423,7 @@ fit_joint_model <- function(
         n_events_by_date <-
           subj_level_possible_data |>
           dplyr::summarize(
-            .by = c("Stratum", "S"),
+            .by = c(.data$Stratum, .data$S),
             "n_events" = sum(`P(S=s|e,l,r,o,y)`),
             "risk_probabilities" = sum(`P(S>=s|e,l,r,o,y)`)
           )
