@@ -3,7 +3,7 @@
 * Replaced dependency on `pryr` with `lobstr`, 
 since `pryr` is being archived (#11).
 
-* Added `plot_censoring_data()` (#11).
+* Added `graph_omega()` (#11).
 
 # rwicc 0.1.3
 * Documentation improvements.
