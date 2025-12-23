@@ -20,6 +20,7 @@ seroconversion_cumhaz_function = function(
       intercept*(t-entry_time) + 1/2 * slope * (t^2 - entry_time^2)
     }
 
+  return(cumhaz)
 }
 
 seroconversion_survival_function = function(...)
