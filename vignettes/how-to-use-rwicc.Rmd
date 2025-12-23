@@ -29,6 +29,7 @@ First, we simulate some data:
 set.seed(1)
 
 library(rwicc)
+library(tidyverse)
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
@@ -37,12 +38,12 @@ sim_data = simulate_interval_censoring(
   "study_cohort_size" = 4500,
   "preconversion_interval_length" = 365,
   "hazard_alpha" = hazard_alpha,
-  "hazard_beta" = hazard_beta)
+  "hazard_beta" = hazard_beta
+)
 
 # extract the participant-level and observation-level simulated data:
 sim_participant_data = sim_data$pt_data
 sim_obs_data = sim_data$obs_data
-rm(sim_data)
 
 ```
 
@@ -57,6 +58,21 @@ pander(head(sim_participant_data))
 * `L` is the date of the last HIV-negative test
 * `R` is the date of the first HIV-positive test
 
+We can count the number of individuals whose censoring windows overlap with each day like so:
+
+```{r}
+sim_participant_data |>
+  mutate("Stratum" = 1) |> 
+  build_event_date_possibilities_table(bin_width = 1) |> 
+  dplyr::count(S) |> 
+  ggplot(
+    aes(x = S, y = n)
+  ) +
+  geom_line(alpha = .5) +
+  theme_classic()
+```
+
+
 Next, let's look at the first few rows of observation-level (longitudinal) data:
 
 ```{r}
@@ -68,6 +84,20 @@ pander(head(sim_obs_data))
 
 The two tables are linked by the variable `ID`.
 
+We can visualize the data:
+
+```{r}
+sim_data |> 
+plot_censoring_data(
+        included_IDs = 1:10,
+        labelled_IDs = NULL,
+        # xmax = lubridate::ymd("2003-01-01"),
+        s_vjust = -1
+    ) +
+  theme(axis.ticks.y = element_blank())
+```
+
+
 Now, we will apply our proposed analysis (this takes a couple of minutes; use argument `verbose = TRUE` to print progress messages):
 
 ```{r}
@@ -76,8 +106,7 @@ EM_algorithm_outputs = fit_joint_model(
   participant_level_data = sim_participant_data,
   bin_width = 7,
   EM_max_iterations = 150,
-  verbose = TRUE)
-
+  verbose = FALSE)
 
 ```
 
@@ -98,6 +127,16 @@ pander(EM_algorithm_outputs$Theta)
 ```{r}
 mu_est_EM = EM_algorithm_outputs$Mu
 print(mu_est_EM)
+```
+
+`Omega` is the corresponding $\hat{\omega}(s)$ estimate:
+
+```{r}
+omega_est_EM <- EM_algorithm_outputs$Omega
+
+library(ggplot2)
+omega_est_EM |> graph_omega()
+
 ```
 
 `converged` indicates whether the algorithm reached its convergence criterion (= 1 if converged, = 0 if not).
@@ -156,7 +195,7 @@ for individuals who enroll on the first calendar day of the cohort study:
 plot1 = plot_CDF(
   true_hazard_alpha = hazard_alpha,
   true_hazard_beta = hazard_beta,
-  omega.hat = EM_algorithm_outputs$Omega)
+  omega_hat = EM_algorithm_outputs$Omega)
 
 print(plot1)
 

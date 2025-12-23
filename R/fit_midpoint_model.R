@@ -18,7 +18,7 @@
 #' @param maxit maximum iterations, passed to \code{bigglm}
 #' @param tolerance convergence criterion, passed to \code{bigglm}
 #'
-#' @return a vector of logistic regression coefficient estimates
+#' @returns a vector of logistic regression coefficient estimates
 #' @export
 #' @examples
 #' sim_data = simulate_interval_censoring(
@@ -49,15 +49,15 @@ fit_midpoint_model <- function(participant_level_data,
   # I don't think any of the scenarios examined in our paper ever get close to 1000 iterations though;
   # this is effectively saying maxit = Inf.
 
-  participant_level_data %<>%
+  participant_level_data <- participant_level_data |>
     dplyr::mutate(S_midpoint = L + (R - L) / lubridate::ddays(2))
 
-  obs_level_data %<>%
+  obs_level_data <- obs_level_data |>
     dplyr::left_join(
       by = "ID",
-      participant_level_data %>% dplyr::select(ID, S_midpoint)
-    ) %>%
-    dplyr::mutate(T_midpoint = (O - S_midpoint) / lubridate::ddays(365))
+      participant_level_data |> dplyr::select("ID", "S_midpoint")
+    ) |>
+    dplyr::mutate(T_midpoint = (.data$O - .data$S_midpoint) / lubridate::ddays(365))
 
   phi_model_est_midpoint <-
     biglm::bigglm(

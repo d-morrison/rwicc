@@ -5,7 +5,7 @@
 #' @param theta.hat_midpoint the estimated coefficients from midpoint imputation
 #' @param theta.hat_uniform the estimated coefficients from uniform imputation
 #'
-#' @return a ggplot
+#' @returns a ggplot
 #' @export
 #' @examples
 #' \dontrun{

@@ -15,7 +15,7 @@
 #' @param hazard_alpha the instantaneous hazard of seroconversion on the study start date
 #' @param hazard_beta the change in hazard per year after study start date
 
-#' @return numeric vector of time differences between study start and seroconversion (in years)
+#' @returns numeric vector of time differences between study start and seroconversion (in years)
 ###############################################################################
 
 seroconversion_inverse_survival_function <- function(
