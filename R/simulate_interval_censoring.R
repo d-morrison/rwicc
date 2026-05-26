@@ -159,7 +159,7 @@ simulate_interval_censoring <- function(
     temp <-
       sim_participant_data[i, c("ID", "E", "R")] |>
       reframe(
-        `Obs ID` = 1:length(preconversion_obs_dates),
+        `Obs ID` = seq_along(preconversion_obs_dates),
         O = preconversion_obs_dates,
         .by = c(ID, E, R)
       ) |>
@@ -188,7 +188,7 @@ simulate_interval_censoring <- function(
     sim_participant_data |>
     dplyr::reframe(
       .by = c(ID, E, R, S, `exit date`, `years from study start to seroconversion`),
-      `Obs ID` = 1:length(post_seroconversion_obs_dates),
+      `Obs ID` = seq_along(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
     ) |>
     # everyone gets 10 years of observation, total, no longer how long they took
