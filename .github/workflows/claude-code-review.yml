@@ -1,29 +1,70 @@
+# Automatic Claude Code review of pull requests.
+#
+# Runs the upstream `code-review@claude-code-plugins` plugin so we pick up
+# any improvements to the canonical review skill, then layers an
+# R-package-specific addendum on top so the reviewer also catches issues
+# particular to this package.
+#
+# Each run posts a fresh review comment; prior reviews are left in place
+# so the PR keeps a visible history rather than a rolling sticky.
+#
+# Skips drafts, Dependabot bumps, and fork PRs (fork PRs can't read repo
+# secrets). Project guidance is in CLAUDE.md (if present). Requires the
+# CLAUDE_CODE_OAUTH_TOKEN repository secret.
+
 name: Claude Code Review
 
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+  # Allow claude.yml to dispatch a fresh review (e.g. after an @claude run
+  # pushes commits, or on an `@claude review` comment). GITHUB_TOKEN pushes
+  # don't fire `synchronize`, so an explicit dispatch path is needed.
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number to review'
+        required: true
+        type: number
+
+# Serialize reviews per PR: a newer push cancels the in-progress review
+# of the now-stale diff so only the freshest review runs (and posts a
+# comment). `cancel-in-progress: true` is safe here because this workflow
+# is read-only (its allowedTools below grant no git push / commit), so it
+# never pushes a fix and therefore can't trigger self-cancellation. The
+# `|| inputs.pr_number` keeps a workflow_dispatch review in the same group
+# as the PR's pull_request reviews so they dedupe.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-
+    # workflow_dispatch is fired by claude.yml for a specific PR, so always
+    # run it — this intentionally bypasses the draft guard below so a review
+    # fires on the draft PR claude.yml opens for an issue trigger (we want to
+    # review Claude's draft work early). Otherwise skip drafts, Dependabot
+    # bumps, and fork PRs (fork PRs can't read repo secrets, so
+    # CLAUDE_CODE_OAUTH_TOKEN would be empty and the run would fail with a
+    # noisy red check).
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft == false &&
+       github.event.pull_request.user.login != 'dependabot[bot]' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
+    env:
+      # Resolve the PR number once: from the pull_request event, or the
+      # workflow_dispatch input when claude.yml triggered us.
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write  # post review + inline comments
       issues: read
-      id-token: write
+      id-token: write       # required by claude-code-action for the App-token
+                            # exchange it performs even with OAuth auth
+                            # (without this, the action fails with
+                            # "App token exchange failed: 401 Unauthorized")
 
     steps:
       - name: Checkout repository
@@ -31,14 +72,65 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code Review
-        id: claude-review
+      - name: Claude PR review
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
+          # `claude-code-plugins` is a branch name, not a version tag.
+          # Intentionally unpinned so we pick up future improvements to the
+          # upstream code-review skill; pin to a tag if reviews ever start
+          # changing in surprising ways.
           plugins: 'code-review@claude-code-plugins'
-          prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
+          # track_progress forces tag mode (guaranteed tracking comment),
+          # but the action rejects it for workflow_dispatch events
+          # ("track_progress is only supported for events: pull_request,
+          # issues, ..."). Gate on event_name: tag mode for pull_request,
+          # agent mode for dispatched runs.
+          track_progress: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+          prompt: |
+            /code-review:code-review ${{ github.repository }}/pull/${{ env.PR_NUMBER }}
 
+            In addition to the standard checks above, this is `rwicc`, an R
+            package implementing regression with an interval-censored
+            covariate (Morrison et al. 2021), so also prioritize:
+
+            1. **R correctness**
+               - Statistical / numerical logic matches the methods in the
+                 package's documentation and the cited paper.
+               - No partial argument matching; `if`/`else` branches and
+                 vectorized operations handle edge cases (empty data, NA,
+                 zero-row frames).
+               - New exported functions have complete roxygen2 docs
+                 (`@param`, `@return`, `@examples`) and `@export`.
+
+            2. **Style & lint**
+               - Conforms to `.lintr` settings (snake_case, line length,
+                 object usage). No new lintr violations.
+               - No new package dependencies in DESCRIPTION without
+                 justification; new Imports must be actually used.
+
+            3. **Tests & docs hygiene**
+               - Behavior changes come with testthat tests.
+               - `man/*.Rd` is generated — edits belong in roxygen comments,
+                 then `devtools::document()`; flag hand-edited `.Rd`.
+               - `README.md` is generated from `README.Rmd` if present;
+                 flag direct edits to the `.md`.
+               - User-facing text changes are spell-checked
+                 (`spelling::spell_check_package()`; additions go in
+                 `inst/WORDLIST`).
+
+            4. **Versioning & CI**
+               - Non-trivial changes bump the Version in DESCRIPTION and add
+                 a NEWS.md entry.
+               - Workflow changes don't break R-CMD-check, pkgdown, or
+                 test-coverage pipelines.
+
+            Use inline comments for line-specific feedback. Skip generic
+            praise — be concrete. If the PR looks clean, say so briefly.
+
+          # `gh pr comment` is narrowed to `create` so the reviewer can post
+          # a top-level summary but can't edit or delete prior review
+          # comments (each run leaves a fresh comment; history stays).
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment create:*)"
