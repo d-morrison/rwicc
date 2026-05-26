@@ -371,7 +371,7 @@ fit_joint_model <- function(
 
       log_L <- observed_data_log_likelihood(subj_level_possible_data)
 
-      convergence_stats[current_iteration, "logL"] = log_L
+      convergence_stats[current_iteration, "logL"] <- log_L
 
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 

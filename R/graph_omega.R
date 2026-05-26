@@ -13,7 +13,6 @@
 #' omega_est_EM <- example_model$Omega
 #' omega_est_EM |> graph_omega()
 #'
-#'
 graph_omega <- function(omega) {
   omega |>
     ggplot2::ggplot() +

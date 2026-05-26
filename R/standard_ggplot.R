@@ -11,8 +11,7 @@
 #'   positioning at the bottom.
 #'
 #' @keywords internal
-standard_ggplot = function(data)
-{
+standard_ggplot <- function(data) {
   data |>
     ggplot2::ggplot() +
     ggplot2::theme_bw() +
@@ -23,8 +22,7 @@ standard_ggplot = function(data)
       # panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       axis.line = element_line(colour = "black"),
-      legend.position="bottom",
+      legend.position = "bottom",
       text = element_text(size = 15)
     )
-
 }

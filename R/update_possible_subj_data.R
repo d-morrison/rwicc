@@ -37,10 +37,11 @@
 #'
 #' @keywords internal
 update_possible_subj_data <- function(
-    obs_data_possibilities,
-    MAA_model,
-    participant_level_data,
-    omega_hat) {
+  obs_data_possibilities,
+  MAA_model,
+  participant_level_data,
+  omega_hat
+) {
   obs_data_possibilities |>
     dplyr::mutate(
       # could speed up this step by implementing the needed computations
@@ -92,7 +93,7 @@ update_possible_subj_data <- function(
       # used in next calculation
 
       "P(S=s|e,l,r,o,y)" = proportions(.data$`P(Y=y|T=t)` *
-                                         .data$`P(S=s|E=e,L=l,R=r)`),
+        .data$`P(S=s|E=e,L=l,R=r)`),
       # used to estimate omega and theta
 
       "P(S>=s|e,l,r,o,y)" = rev(cumsum(rev(.data$`P(S=s|e,l,r,o,y)`)))

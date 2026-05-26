@@ -21,14 +21,15 @@
 #' @returns a vector of logistic regression coefficient estimates
 #' @export
 #' @examples
-#' sim_data = simulate_interval_censoring(
+#' sim_data <- simulate_interval_censoring(
 #'   "theta" = c(0.986, -3.88),
 #'   "study_cohort_size" = 4500,
 #'   "preconversion_interval_length" = 365,
 #'   "hazard_alpha" = 1,
-#'   "hazard_beta" = 0.5)
+#'   "hazard_beta" = 0.5
+#' )
 #'
-#' theta_est_midpoint = fit_midpoint_model(
+#' theta_est_midpoint <- fit_midpoint_model(
 #'   obs_level_data = sim_data$obs_data,
 #'   participant_level_data = sim_data$pt_data
 #' )
@@ -41,7 +42,6 @@ fit_midpoint_model <- function(participant_level_data,
                                obs_level_data,
                                maxit = 1000,
                                tolerance = 1e-8) {
-
   # prevent notes about undefined variables due to dplyr syntax:
   L <- R <- ID <- S_midpoint <- O <- NULL
 

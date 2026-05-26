@@ -19,11 +19,11 @@
 ###############################################################################
 
 seroconversion_inverse_survival_function <- function(
-    u,
-    e,
-    hazard_alpha,
-    hazard_beta)
-{
+  u,
+  e,
+  hazard_alpha,
+  hazard_beta
+) {
   if (hazard_beta != 0) {
     a <- hazard_beta / 2
     b <- hazard_alpha

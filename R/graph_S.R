@@ -1,14 +1,15 @@
-graph_S = function(
-    subject_level_data_possibilities,
-    ID = 1)
-{
+graph_S <- function(
+  subject_level_data_possibilities,
+  ID = 1
+) {
   subject_level_data_possibilities |>
     dplyr::filter(ID == ID) |>
     ggplot2::ggplot() +
     ggplot2::aes(
       x = .data$S,
       y = .data$`P(S=s|e,l,r,o,y)`,
-      col = "P(S=s|e,l,r,o,y)") +
+      col = "P(S=s|e,l,r,o,y)"
+    ) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::geom_point(ggplot2::aes(y = .data$`P(S=s|E=e)`, col = "P(S=s|E=e)")) +
