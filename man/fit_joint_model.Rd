@@ -22,7 +22,8 @@ fit_joint_model(
 )
 }
 \arguments{
-\item{participant_level_data}{a data.frame or tibble with the following variables:
+\item{participant_level_data}{a data.frame or tibble with the following
+variables:
 \itemize{
 \item ID: participant ID
 \item E: study enrollment date
@@ -39,15 +40,15 @@ the seroconversion distribution.
 \item Y: MAA classifications (binary outcomes)
 }}
 
-\item{model_formula}{the functional form for the regression model for p(y|t) (as a
-formula() object)}
+\item{model_formula}{the functional form for the regression model for
+p(y|t) (as a formula() object)}
 
-\item{mu_function}{a function taking a vector of regression coefficient estimates
-as input and outputting an estimate of mu (mean duration of MAA-positive
-infection).}
+\item{mu_function}{a function taking a vector of regression coefficient
+estimates as input and outputting an estimate of mu (mean duration of
+MAA-positive infection).}
 
-\item{bin_width}{the number of days between possible seroconversion dates (should
-be an integer)}
+\item{bin_width}{the number of days between possible seroconversion dates
+(should be an integer)}
 
 \item{denom_offset}{an offset value added to the denominator of the hazard
 estimates to improve numerical stability}
@@ -58,16 +59,16 @@ estimates to improve numerical stability}
 \item{EM_toler_est}{the convergence cutoff for the parameter estimate criterion
 ("Delta_theta" in the paper)}
 
-\item{EM_max_iterations}{the number of EM iterations to perform before giving up
-if still not converged.}
+\item{EM_max_iterations}{the number of EM iterations to perform before
+giving up if still not converged.}
 
 \item{glm_tolerance}{the convergence cutoff for the glm fit in the M step}
 
 \item{glm_maxit}{the iterations cutoff for the glm fit in the M step}
 
-\item{initial_S_estimate_location}{determines how seroconversion date is guessed
-to initialize the algorithm; can be any decimal between 0 and 1; 0.5 =
-midpoint imputation, 0.25 = 1st quartile, 0 = last negative, etc.}
+\item{initial_S_estimate_location}{determines how seroconversion date is
+guessed to initialize the algorithm; can be any decimal between 0 and 1;
+0.5 = midpoint imputation, 0.25 = 1st quartile, 0 = last negative, etc.}
 
 \item{coef_change_metric}{a string indicating the type of parameter estimate
 criterion to use:
@@ -75,8 +76,8 @@ criterion to use:
 \item "max abs rel diff coefs" is the "Delta_theta" criterion
 described in the paper.
 \item "max abs diff coefs" is the maximum absolute change in
-the coefficients (not divided by the old values); this criterion can be useful
-when some parameters are close to 0.
+the coefficients (not divided by the old values); this criterion can be
+useful when some parameters are close to 0.
 \item "diff mu" is the absolute change in mu,
 which may be helpful in the incidence estimate calibration setting but not
 elsewhere.
@@ -90,16 +91,18 @@ a list with the following elements:
 \item \code{Theta}: the estimated regression coefficients for the model of p(Y|T)
 \item \code{Mu}: the estimated mean window period (a transformation of \code{Theta})
 \item \code{Omega}: a table with the estimated parameters for the model of p(S|E).
-\item \code{converged}: indicator of whether the algorithm reached its cutoff criteria
-before reaching the specified maximum iterations. 1 = reached cutoffs, 0 = not.
-\item \code{iterations}: the number of EM iterations completed before the algorithm
-stopped.
+\item \code{converged}: indicator of whether the algorithm reached its cutoff
+criteria before reaching the specified maximum iterations. 1 = reached
+cutoffs, 0 = not.
+\item \code{iterations}: the number of EM iterations completed before the
+algorithm stopped.
 \item \code{convergence_metrics}: the four convergence metrics
 }
 }
 \description{
 This function fits a logistic regression model for a binary outcome Y with an
-interval-censored covariate T, using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+interval-censored covariate T, using an EM algorithm, as described in
+Morrison et al (2021); \doi{10.1111/biom.13472}.
 }
 \examples{
 \dontrun{
@@ -116,6 +119,7 @@ EM_algorithm_outputs <- fit_joint_model(
 }
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).
-"Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+"Regression with interval-censored covariates: Application to
+cross-sectional incidence estimation".
 Biometrics. \doi{10.1111/biom.13472}.
 }

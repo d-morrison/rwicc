@@ -45,13 +45,13 @@
 #'   obs_level_data = sim_obs_data,
 #'   participant_level_data = sim_participant_data
 #' )
-#' }
-
-#' plot2 = plot_phi_curves(
+#'
+#' plot2 <- plot_phi_curves(
 #'   theta_true = theta_true,
 #'   theta.hat_uniform = theta_est_uniform,
 #'   theta.hat_midpoint = theta_est_midpoint,
-#'   theta.hat_joint = EM_algorithm_outputs$Theta)
+#'   theta.hat_joint = EM_algorithm_outputs$Theta
+#' )
 #'
 #' print(plot2)
 #' }
