@@ -5,6 +5,9 @@ since `pryr` is being archived (#11).
 
 * Added `graph_omega()` (#11).
 
+* Added a project-level Claude Code skill (`reprexes`) documenting the
+minimal-reproducible-example debugging workflow (#30).
+
 # rwicc 0.1.3
 * Documentation improvements.
 
