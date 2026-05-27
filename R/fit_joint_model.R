@@ -121,16 +121,11 @@ fit_joint_model <- function(
 ) {
   # setup
   {
-    if (EM_max_iterations < Inf) {
-      convergence_stats <- dplyr::tibble(
-        Iteration = 1:EM_max_iterations,
-        logL = NA_real_
-      )
-    } else {
-      convergence_stats <- dplyr::tribble(
-        ~Iteration, ~logL
-      )
-    }
+    # accumulate the per-iteration log-likelihood in an atomic vector;
+    # index-extension of an atomic vector is a documented guarantee (unlike
+    # tibble row-extension), so this also works for the default
+    # EM_max_iterations = Inf
+    logL_by_iteration <- numeric(0)
 
     # starting message
     {
@@ -384,7 +379,7 @@ fit_joint_model <- function(
 
       log_L <- observed_data_log_likelihood(subj_level_possible_data)
 
-      convergence_stats[current_iteration, "logL"] <- log_L
+      logL_by_iteration[current_iteration] <- log_L
 
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 
@@ -560,7 +555,10 @@ fit_joint_model <- function(
     converged = as.numeric(converged),
     iterations = current_iteration,
     convergence_metrics = c("diff logL" = diff_log_L, coef_diffs),
-    convergence_stats = convergence_stats
+    convergence_stats = dplyr::tibble(
+      Iteration = seq_along(logL_by_iteration),
+      logL = logL_by_iteration
+    )
   )
 
   return(to_return)
