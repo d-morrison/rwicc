@@ -24,6 +24,10 @@
   [`simulate_interval_censoring()`](https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.md)
   ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
 
+- Corrected two technical-accuracy details in the `reprexes` skill
+  documentation (the `callr` fresh-session mechanism and the role of
+  `tidyverse_update()`).
+
 ## rwicc 0.1.3
 
 CRAN release: 2022-03-09
