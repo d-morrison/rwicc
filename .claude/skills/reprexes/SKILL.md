@@ -90,7 +90,7 @@ but nothing more.
   session (via `callr`) and formats the result with knitr/rmarkdown, emitting
   code **plus actual output**.
   Copy the code and call `reprex::reprex()` (reads the clipboard by default),
-  or point it at a file with `reprex(input = "/tmp/reprex.R")` — handy from a
+  or point it at a file with `reprex::reprex(input = "/tmp/reprex.R")` — handy from a
   non-interactive CLI session where there's no clipboard. Useful arguments:
   - `venue =` — output format: `"gh"` (GitHub-flavored Markdown, default),
     `"so"`/`"ds"` (Stack Overflow / Discourse), `"slack"`, `"R"` (runnable
