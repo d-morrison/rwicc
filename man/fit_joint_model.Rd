@@ -53,11 +53,11 @@ MAA-positive infection).}
 \item{denom_offset}{an offset value added to the denominator of the hazard
 estimates to improve numerical stability}
 
-\item{EM_toler_loglik}{the convergence cutoff for the log-likelihood criterion
-("Delta_L" in the paper)}
+\item{EM_toler_loglik}{the convergence cutoff for the log-likelihood
+criterion ("Delta_L" in the paper)}
 
-\item{EM_toler_est}{the convergence cutoff for the parameter estimate criterion
-("Delta_theta" in the paper)}
+\item{EM_toler_est}{the convergence cutoff for the parameter estimate
+criterion ("Delta_theta" in the paper)}
 
 \item{EM_max_iterations}{the number of EM iterations to perform before
 giving up if still not converged.}

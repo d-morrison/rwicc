@@ -2,12 +2,14 @@
 #'
 #' \code{simulate_interval_censoring} generates a simulated data set from a
 #' data-generating model based on the typical structure of a cohort study of HIV
-#' biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+#' biomarker progression, as described in Morrison et al (2021);
+#' \doi{10.1111/biom.13472}.
 #'
 #' @references
 #'
 #' Morrison, Laeyendecker, and Brookmeyer (2021).
-#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' "Regression with interval-censored covariates: Application to
+#' cross-sectional incidence estimation".
 #' Biometrics. \doi{10.1111/biom.13472}.
 #'
 #' @param study_cohort_size the number of participants to simulate (N_0 in the
@@ -30,18 +32,23 @@
 #'   period
 #' @param study_start_date the date when the study starts recruitment ("d_0" in
 #'   the main text). The value of this parameter does not affect the simulation
-#'   results; it is only necessary as a reference point for generating E, L, R, O, and S.
-#' @param n_at_risk number of participants who are at risk of infection; by default, this number is determined stochastically from `study_cohort_size` and `probability_of_ever_seroconverting`.
+#'   results; it is only necessary as a reference point for generating E, L,
+#'   R, O, and S.
+#' @param n_at_risk number of participants who are at risk of infection; by
+#'   default, this number is determined stochastically from
+#'   `study_cohort_size` and `probability_of_ever_seroconverting`.
 
 #' @returns A list containing the following two tibbles:
 #'
-#' * `pt_data`: a tibble of participant-level information, with the following columns:
+#' * `pt_data`: a tibble of participant-level information, with the following
+#'   columns:
 #'   - `ID`: participant ID
 #'   - `E`: enrollment date
 #'   - `L`: date of last HIV test prior to seroconversion
 #'   - `R`: date of first HIV test after seroconversion
 #'
-#' * `obs_data`: a tibble of longitudinal observations with the following columns:
+#' * `obs_data`: a tibble of longitudinal observations with the following
+#'   columns:
 #'   - `ID`: participant ID
 #'   - `O`: dates of biomarker sample collection
 #'   - `Y`: MAA classifications of biomarker samples
@@ -115,7 +122,8 @@ simulate_interval_censoring <- function(
         hazard_alpha = hazard_alpha,
         hazard_beta = hazard_beta
       ),
-    S = study_start_date + .data$`years from study start to seroconversion` * 365
+    S = study_start_date +
+      .data$`years from study start to seroconversion` * 365
     # note that this variable is rounded down at the day level; to compute T
     # below we will use the non-rounded value from `years from study start to
     # seroconversion`
@@ -187,7 +195,9 @@ simulate_interval_censoring <- function(
   sim_obs_data <-
     sim_participant_data |>
     dplyr::reframe(
-      .by = c(ID, E, R, S, `exit date`, `years from study start to seroconversion`),
+      .by = c(
+        ID, E, R, S, `exit date`, `years from study start to seroconversion`
+      ),
       `Obs ID` = seq_along(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
     ) |>

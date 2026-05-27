@@ -13,14 +13,15 @@ fit_uniform_model(
 )
 }
 \arguments{
-\item{participant_level_data}{a data.frame or tibble with the following variables:
+\item{participant_level_data}{a data.frame or tibble with the following
+variables:
 \itemize{
 \item ID: participant ID
 \item E: study enrollment date
 \item L: date of last negative test for seroconversion
 \item R: date of first positive test for seroconversion
-\item Cohort` (optional): this variable can be used to stratify the modeling of
-the seroconversion distribution.
+\item Cohort` (optional): this variable can be used to stratify the
+modeling of the seroconversion distribution.
 }}
 
 \item{obs_level_data}{a data.frame or tibble with the following variables:

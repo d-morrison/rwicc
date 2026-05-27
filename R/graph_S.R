@@ -12,10 +12,18 @@ graph_S <- function(
     ) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
-    ggplot2::geom_point(ggplot2::aes(y = .data$`P(S=s|E=e)`, col = "P(S=s|E=e)")) +
-    ggplot2::geom_line(ggplot2::aes(y = .data$`P(S=s|E=e)`, col = "P(S=s|E=e)")) +
-    ggplot2::geom_point(ggplot2::aes(y = .data$`P(Y=y|T=t)`, col = "P(Y=y|T=t)")) +
-    ggplot2::geom_line(ggplot2::aes(y = .data$`P(Y=y|T=t)`, col = "P(Y=y|T=t)")) +
+    ggplot2::geom_point(
+      ggplot2::aes(y = .data$`P(S=s|E=e)`, col = "P(S=s|E=e)")
+    ) +
+    ggplot2::geom_line(
+      ggplot2::aes(y = .data$`P(S=s|E=e)`, col = "P(S=s|E=e)")
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(y = .data$`P(Y=y|T=t)`, col = "P(Y=y|T=t)")
+    ) +
+    ggplot2::geom_line(
+      ggplot2::aes(y = .data$`P(Y=y|T=t)`, col = "P(Y=y|T=t)")
+    ) +
     ggplot2::xlab("Seroconversion date (s)") +
     ggplot2::ylab("Probability density or mass") +
     ggplot2::theme_classic() +

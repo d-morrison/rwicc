@@ -9,7 +9,8 @@ plot_CDF(true_hazard_alpha, true_hazard_beta, omega_hat)
 \arguments{
 \item{true_hazard_alpha}{The data-generating hazard at the start of the study}
 
-\item{true_hazard_beta}{The change in data-generating hazard per calendar year}
+\item{true_hazard_beta}{The change in data-generating hazard per calendar
+year}
 
 \item{omega_hat}{tibble of estimated discrete hazards}
 }

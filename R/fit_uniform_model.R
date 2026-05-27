@@ -1,13 +1,14 @@
 #' Fit model using uniform imputation
 #'
-#' @param participant_level_data a data.frame or tibble with the following variables:
+#' @param participant_level_data a data.frame or tibble with the following
+#' variables:
 #' \itemize{
 #' \item ID: participant ID
 #' \item E: study enrollment date
 #' \item L: date of last negative test for seroconversion
 #' \item R: date of first positive test for seroconversion
-#' \item Cohort` (optional): this variable can be used to stratify the modeling of
-#' the seroconversion distribution.
+#' \item Cohort` (optional): this variable can be used to stratify the
+#' modeling of the seroconversion distribution.
 #' }
 #' @param obs_level_data a data.frame or tibble with the following variables:
 #' \itemize{
@@ -70,10 +71,13 @@ fit_uniform_model <- function(participant_level_data,
 
     obs_level_data <- obs_level_data |>
       dplyr::select(-dplyr::any_of("S_imputed")) |>
-      dplyr::left_join(participant_level_data |> dplyr::select("ID", "S_imputed"),
+      dplyr::left_join(
+        participant_level_data |> dplyr::select("ID", "S_imputed"),
         by = "ID"
       ) |>
-      dplyr::mutate(T_imputed = (.data$O - .data$S_imputed) / lubridate::ddays(365))
+      dplyr::mutate(
+        T_imputed = (.data$O - .data$S_imputed) / lubridate::ddays(365)
+      )
 
     phi_model_est_imputed <-
       biglm::bigglm(

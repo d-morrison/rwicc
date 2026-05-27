@@ -1,13 +1,14 @@
 #' Fit model using midpoint imputation
 #'
-#' @param participant_level_data a data.frame or tibble with the following variables:
+#' @param participant_level_data a data.frame or tibble with the following
+#' variables:
 #' \itemize{
 #' \item ID: participant ID
 #' \item E: study enrollment date
 #' \item L: date of last negative test for seroconversion
 #' \item R: date of first positive test for seroconversion
-#' \item Cohort` (optional): this variable can be used to stratify the modeling of
-#' the seroconversion distribution.
+#' \item Cohort` (optional): this variable can be used to stratify the
+#' modeling of the seroconversion distribution.
 #' }
 #' @param obs_level_data a data.frame or tibble with the following variables:
 #' \itemize{
@@ -45,9 +46,10 @@ fit_midpoint_model <- function(participant_level_data,
   # prevent notes about undefined variables due to dplyr syntax:
   L <- R <- ID <- S_midpoint <- O <- NULL
 
-  # bigglm's default maxit = 8, which is not large enough to ensure convergence for this data.
-  # I don't think any of the scenarios examined in our paper ever get close to 1000 iterations though;
-  # this is effectively saying maxit = Inf.
+  # bigglm's default maxit = 8, which is not large enough to ensure
+  # convergence for this data. I don't think any of the scenarios examined in
+  # our paper ever get close to 1000 iterations though; this is effectively
+  # saying maxit = Inf.
 
   participant_level_data <- participant_level_data |>
     dplyr::mutate(S_midpoint = L + (R - L) / lubridate::ddays(2))
@@ -57,7 +59,9 @@ fit_midpoint_model <- function(participant_level_data,
       by = "ID",
       participant_level_data |> dplyr::select("ID", "S_midpoint")
     ) |>
-    dplyr::mutate(T_midpoint = (.data$O - .data$S_midpoint) / lubridate::ddays(365))
+    dplyr::mutate(
+      T_midpoint = (.data$O - .data$S_midpoint) / lubridate::ddays(365)
+    )
 
   phi_model_est_midpoint <-
     biglm::bigglm(

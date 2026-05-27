@@ -56,7 +56,9 @@
 #' print(plot2)
 #' }
 #'
-#' @importFrom ggplot2 ggplot geom_function aes xlim ylab xlab scale_colour_discrete scale_linetype_discrete theme element_blank element_line element_text
+#' @importFrom ggplot2 ggplot geom_function aes xlim ylab xlab
+#' @importFrom ggplot2 scale_colour_discrete scale_linetype_discrete theme
+#' @importFrom ggplot2 element_blank element_line element_text
 #' @importFrom scales label_parse
 plot_phi_curves <- function(theta_true,
                             theta.hat_joint,
@@ -122,7 +124,9 @@ plot_phi_curves <- function(theta_true,
     ggplot2::geom_function(
       fun = phi_est_joint_modeling,
       lwd = lwd1,
-      ggplot2::aes(colour = joint_modeling_label, linetype = joint_modeling_label)
+      ggplot2::aes(
+        colour = joint_modeling_label, linetype = joint_modeling_label
+      )
     ) +
     ggplot2::xlim(0, 2) +
     ggplot2::ylab("Probability of an MAA-positive blood sample") +

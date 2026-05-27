@@ -39,11 +39,11 @@
 #' guessed to initialize the algorithm; can be any decimal between 0 and 1;
 #' 0.5 = midpoint imputation, 0.25 = 1st quartile, 0 = last negative, etc.
 
-#' @param EM_toler_loglik the convergence cutoff for the log-likelihood criterion
-#' ("Delta_L" in the paper)
+#' @param EM_toler_loglik the convergence cutoff for the log-likelihood
+#' criterion ("Delta_L" in the paper)
 
-#' @param EM_toler_est the convergence cutoff for the parameter estimate criterion
-#' ("Delta_theta" in the paper)
+#' @param EM_toler_est the convergence cutoff for the parameter estimate
+#' criterion ("Delta_theta" in the paper)
 
 #' @param coef_change_metric a string indicating the type of parameter estimate
 #' criterion to use:
@@ -171,7 +171,8 @@ fit_joint_model <- function(
         participant_level_data |>
         build_event_date_possibilities_table(omega_hat = omega_hat)
 
-      # here we remove from omega_hat any stratum:seroconversion date combinations
+      # here we remove from omega_hat any stratum:seroconversion date
+      # combinations
       # that aren't in anyone's censoring interval; the best estimate for hazard
       # in those cases is 0, which will drop out of all subsequent calculations:
       omega_hat <- omega_hat |>
@@ -216,7 +217,8 @@ fit_joint_model <- function(
     {
       participant_level_data <- participant_level_data |>
         dplyr::mutate(
-          "S_hat - E" = initial_S_estimate_location * (.data$R - .data$L) + (.data$L - .data$E)
+          "S_hat - E" = initial_S_estimate_location * (.data$R - .data$L) +
+            (.data$L - .data$E)
         )
       # This duration is computed directly, since computing S_hat first
       # would result in rounding. There's no need for this level of
@@ -230,11 +232,12 @@ fit_joint_model <- function(
         participant_level_data |>
         dplyr::summarize(
           .by = "Stratum",
-          "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
+          "P(S=s|S>=s,E=e)" =
+            1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
         ) |>
-        # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
-        # CDF of an exponential dist. with mean parameter estimated using S_hat -
-        # E as approximate event times
+        # this formula actually computes P(S in [s,s+bin_width]|S>=s), from
+        # the CDF of an exponential dist. with mean parameter estimated using
+        # S_hat - E as approximate event times
 
         dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - .data$`P(S=s|S>=s,E=e)`)
 
@@ -330,7 +333,9 @@ fit_joint_model <- function(
           ) |>
           dplyr::summarize(
             .by = c("Stratum", "E", "L"),
-            "P(S>=l|E=e)" = prod(.data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L])
+            "P(S>=l|E=e)" = prod(
+              .data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L]
+            )
           )
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
         # lose any (E,L) combinations where E == L.
@@ -421,7 +426,10 @@ fit_joint_model <- function(
     # M step: Updated estimation of theta, omega
     {
       if (verbose) {
-        message("Starting M step, mem used = ", round(lobstr::mem_used() / 10^6), " MB")
+        message(
+          "Starting M step, mem used = ",
+          round(lobstr::mem_used() / 10^6), " MB"
+        )
       }
 
       # update omega (hazard model):
@@ -460,7 +468,8 @@ fit_joint_model <- function(
           # this prevents occasional cases where the denominator approaches 0
           # for the person with the latest seroconversion window
 
-          to_fix <- (omega_hat$"P(S=s|S>=s,E=e)" > 1) | is.na(omega_hat$"P(S=s|S>=s,E=e)")
+          to_fix <- (omega_hat$"P(S=s|S>=s,E=e)" > 1) |
+            is.na(omega_hat$"P(S=s|S>=s,E=e)")
           if (any(to_fix)) {
             message("Fixing ", sum(to_fix), " value(s) of omega_hat with NaNs.")
             omega_hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
@@ -528,7 +537,10 @@ fit_joint_model <- function(
 
         message("\nChange in mu = ", coef_diffs["diff mu"])
         message("Max change in theta = ", coef_diffs["max abs diff coefs"])
-        message("Max relative change in theta = ", coef_diffs["max abs rel diff coefs"])
+        message(
+          "Max relative change in theta = ",
+          coef_diffs["max abs rel diff coefs"]
+        )
       }
     }
 
