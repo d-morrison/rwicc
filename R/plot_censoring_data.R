@@ -12,7 +12,7 @@
 #' @param xmin minimum displayed value for x-axis
 #' @param xmax maximum displayed value for x-axis
 #'
-#' @return a ggplot
+#' @returns a ggplot
 #' @importFrom ggplot2 ggplot geom_segment geom_point xlab ylab
 #' @importFrom plotly ggplotly
 #' @importFrom dplyr reframe bind_rows pull
@@ -29,7 +29,6 @@ plot_censoring_data <- function(
   xmin = min(dataset$pt_data$E) - 28,
   xmax = max(dataset$obs_data$O)
 ) {
-
   dataset <- dataset |> filter_data_by_ID(included_IDs)
 
   plot1 <-

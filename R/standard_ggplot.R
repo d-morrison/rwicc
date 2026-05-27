@@ -6,13 +6,12 @@
 #'
 #' @param data A data frame to be passed to [ggplot2::ggplot()].
 #'
-#' @return A [ggplot2::ggplot()] object with standard theme settings applied,
+#' @returns A [ggplot2::ggplot()] object with standard theme settings applied,
 #'   including a black and white theme, custom axis styling, and legend
 #'   positioning at the bottom.
 #'
 #' @keywords internal
-standard_ggplot = function(data)
-{
+standard_ggplot <- function(data) {
   data |>
     ggplot2::ggplot() +
     ggplot2::theme_bw() +
@@ -23,8 +22,7 @@ standard_ggplot = function(data)
       # panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       axis.line = element_line(colour = "black"),
-      legend.position="bottom",
+      legend.position = "bottom",
       text = element_text(size = 15)
     )
-
 }

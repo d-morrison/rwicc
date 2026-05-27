@@ -2,21 +2,25 @@
 % Please edit documentation in R/seroconversion_inverse_survival_function.R
 \name{seroconversion_inverse_survival_function}
 \alias{seroconversion_inverse_survival_function}
-\title{Inverse survival function for time-to-event variable with linear hazard function}
+\title{Inverse survival function for time-to-event variable with linear hazard
+function}
 \usage{
 seroconversion_inverse_survival_function(u, e, hazard_alpha, hazard_beta)
 }
 \arguments{
 \item{u}{a vector of seroconversion survival probabilities}
 
-\item{e}{a vector of time differences between study start and enrollment (in years)}
+\item{e}{a vector of time differences between study start and enrollment
+(in years)}
 
-\item{hazard_alpha}{the instantaneous hazard of seroconversion on the study start date}
+\item{hazard_alpha}{the instantaneous hazard of seroconversion on the study
+start date}
 
 \item{hazard_beta}{the change in hazard per year after study start date}
 }
 \value{
-numeric vector of time differences between study start and seroconversion (in years)
+numeric vector of time differences between study start and
+seroconversion (in years)
 }
 \description{
 This function determines the seroconversion date corresponding to a provided
@@ -25,6 +29,7 @@ Supporting Information, Section A.4.
 }
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).
-"Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+"Regression with interval-censored covariates: Application to
+cross-sectional incidence estimation".
 Biometrics, \doi{10.1111/biom.13472}.
 }

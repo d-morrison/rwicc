@@ -1,0 +1,13 @@
+name: Check NEWS.md Changelog
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  Check-Changelog:
+    name: Check Changelog Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: UCD-SERG/changelog-check-action@v2
+        with:
+          changelog: NEWS.md

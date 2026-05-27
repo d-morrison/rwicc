@@ -1,13 +1,14 @@
 #' Fit model using uniform imputation
 #'
-#' @param participant_level_data a data.frame or tibble with the following variables:
+#' @param participant_level_data a data.frame or tibble with the following
+#' variables:
 #' \itemize{
 #' \item ID: participant ID
 #' \item E: study enrollment date
 #' \item L: date of last negative test for seroconversion
 #' \item R: date of first positive test for seroconversion
-#' \item Cohort` (optional): this variable can be used to stratify the modeling of
-#' the seroconversion distribution.
+#' \item Cohort` (optional): this variable can be used to stratify the
+#' modeling of the seroconversion distribution.
 #' }
 #' @param obs_level_data a data.frame or tibble with the following variables:
 #' \itemize{
@@ -19,19 +20,20 @@
 #' @param tolerance convergence criterion, passed to \code{bigglm}
 #' @param n_imputations number of imputed data sets to create
 #'
-#' @return a vector of logistic regression coefficient estimates
+#' @returns a vector of logistic regression coefficient estimates
 #'
 #' @export
 #'
 #' @examples
-#' sim_data = simulate_interval_censoring(
+#' sim_data <- simulate_interval_censoring(
 #'   "theta" = c(0.986, -3.88),
 #'   "study_cohort_size" = 4500,
 #'   "preconversion_interval_length" = 365,
 #'   "hazard_alpha" = 1,
-#'   "hazard_beta" = 0.5)
+#'   "hazard_beta" = 0.5
+#' )
 #'
-#' theta_est_midpoint = fit_uniform_model(
+#' theta_est_midpoint <- fit_uniform_model(
 #'   obs_level_data = sim_data$obs_data,
 #'   participant_level_data = sim_data$pt_data
 #' )
@@ -56,7 +58,7 @@ fit_uniform_model <- function(participant_level_data,
 
   for (i in 1:n_imputations)
   {
-    participant_level_data %<>%
+    participant_level_data <- participant_level_data |>
       dplyr::mutate(
         S_imputed =
           L +
@@ -67,12 +69,15 @@ fit_uniform_model <- function(participant_level_data,
             )
       )
 
-    obs_level_data %<>%
-      dplyr::select(-dplyr::any_of("S_imputed")) %>%
-      dplyr::left_join(participant_level_data %>% dplyr::select(ID, S_imputed),
+    obs_level_data <- obs_level_data |>
+      dplyr::select(-dplyr::any_of("S_imputed")) |>
+      dplyr::left_join(
+        participant_level_data |> dplyr::select("ID", "S_imputed"),
         by = "ID"
-      ) %>%
-      dplyr::mutate(T_imputed = (O - S_imputed) / lubridate::ddays(365))
+      ) |>
+      dplyr::mutate(
+        T_imputed = (.data$O - .data$S_imputed) / lubridate::ddays(365)
+      )
 
     phi_model_est_imputed <-
       biglm::bigglm(
