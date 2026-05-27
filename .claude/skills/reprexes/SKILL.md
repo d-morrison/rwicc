@@ -87,9 +87,10 @@ but nothing more.
   (`.lintr` / `.lintr.R`) if the reprex code will be ported back.
 - The **`reprex` package** (tidyverse, <https://reprex.tidyverse.org/>)
   formats a reprex for sharing: it runs your code in a clean, separate R
-  session via `rmarkdown::render()` and emits code **plus actual output**.
+  session (via `callr`) and formats the result with knitr/rmarkdown, emitting
+  code **plus actual output**.
   Copy the code and call `reprex::reprex()` (reads the clipboard by default),
-  or point it at a file with `reprex(input = "/tmp/reprex.R")` — handy from a
+  or point it at a file with `reprex::reprex(input = "/tmp/reprex.R")` — handy from a
   non-interactive CLI session where there's no clipboard. Useful arguments:
   - `venue =` — output format: `"gh"` (GitHub-flavored Markdown, default),
     `"so"`/`"ds"` (Stack Overflow / Discourse), `"slack"`, `"R"` (runnable
@@ -107,8 +108,11 @@ but nothing more.
   - Validation bonus: because `reprex()` runs in a fresh session, if it errors
     on a missing object or package, your example wasn't actually
     self-contained — fix that before sharing.
-- When the bug might be **version-dependent**, capture `sessionInfo()` (or
-  run `tidyverse_update()`) in the reprex so versions are part of the record.
+- When the bug might be **version-dependent**, capture `sessionInfo()` in the
+  reprex so versions are part of the record. (Separately, and *outside* the
+  reprex, `tidyverse_update()` can rule out stale packages — but it updates
+  packages rather than recording versions, so it doesn't belong in the reprex
+  itself.)
 - Build artifacts (`_site/`, `_freeze/`, `.quarto/`) are common confounders
   for "it renders differently" bugs — a clean standalone render sidesteps
   stale freeze caches.
