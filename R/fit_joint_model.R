@@ -424,8 +424,8 @@ fit_joint_model <- function(
           subj_level_possible_data |>
           dplyr::summarize(
             .by = c("Stratum", "S"),
-            "n_events" = sum(`P(S=s|e,l,r,o,y)`),
-            "risk_probabilities" = sum(`P(S>=s|e,l,r,o,y)`)
+            "n_events" = sum(.data$`P(S=s|e,l,r,o,y)`),
+            "risk_probabilities" = sum(.data$`P(S>=s|e,l,r,o,y)`)
           )
 
         if (any(with(n_events_by_date, n_events > risk_probabilities))) {
@@ -459,7 +459,7 @@ fit_joint_model <- function(
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
         omega_hat <- omega_hat |>
-          dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
+          dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - .data$`P(S=s|S>=s,E=e)`)
       }
 
       # update theta (model of MAA classifications, Y~T):

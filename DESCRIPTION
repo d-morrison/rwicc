@@ -37,7 +37,6 @@ Suggests:
     pander,
     vdiffr,
     withr,
-    tidyverse,
     fs,
     readr,
     badger

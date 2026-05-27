@@ -29,7 +29,8 @@ First, we simulate some data:
 set.seed(1)
 
 library(rwicc)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 theta_true = c(0.986, -3.88)
 hazard_alpha = 1
 hazard_beta = 0.5
@@ -134,7 +135,6 @@ print(mu_est_EM)
 ```{r}
 omega_est_EM <- EM_algorithm_outputs$Omega
 
-library(ggplot2)
 omega_est_EM |> graph_omega()
 
 ```

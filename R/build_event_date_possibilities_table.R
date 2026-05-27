@@ -3,7 +3,6 @@
 #' @param participant_level_data a [data.frame] with columns:
 #' * ID: participant identifier
 #' * Stratum: indicator for which population stratum the participant belongs to
-#' * E: study entry date
 #' * L: left censoring interval endpoint
 #' * R: right censoring interval endpoint
 #' @param omega_hat a [data.frame] from [build_omega_table()] representing the

@@ -15,7 +15,6 @@ build_event_date_possibilities_table(
 \itemize{
 \item ID: participant identifier
 \item Stratum: indicator for which population stratum the participant belongs to
-\item E: study entry date
 \item L: left censoring interval endpoint
 \item R: right censoring interval endpoint
 }}
