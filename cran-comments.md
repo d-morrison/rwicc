@@ -19,6 +19,8 @@ package returning after archival:
 * New submission
 * Package was archived on CRAN (archived 2026-01-30 as it required the
   archived package 'pryr', which is no longer a dependency).
+* The check flags "et" and "al" in the Description as possibly misspelled;
+  these are part of the standard "Morrison et al. (2021)" citation.
 
 The CRAN-incoming check may also flag two URLs in README.md as "possibly
 invalid":
