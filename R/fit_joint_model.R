@@ -78,6 +78,7 @@
 #' \item `iterations`: the number of EM iterations completed before the
 #' algorithm stopped.
 #' \item `convergence_metrics`: the four convergence metrics
+#' \item `convergence_stats`: a table of the log-likelihood at each iteration
 #' }
 #'
 #' @export
@@ -120,16 +121,11 @@ fit_joint_model <- function(
 ) {
   # setup
   {
-    if (EM_max_iterations < Inf) {
-      convergence_stats <- dplyr::tibble(
-        Iteration = 1:EM_max_iterations,
-        logL = NA_real_
-      )
-    } else {
-      convergence_stats <- dplyr::tribble(
-        ~Iteration, ~logL
-      )
-    }
+    # accumulate the per-iteration log-likelihood in an atomic vector;
+    # index-extension of an atomic vector is a documented guarantee (unlike
+    # tibble row-extension), so this also works for the default
+    # EM_max_iterations = Inf
+    logL_by_iteration <- numeric(0)
 
     # starting message
     {
@@ -383,14 +379,14 @@ fit_joint_model <- function(
 
       log_L <- observed_data_log_likelihood(subj_level_possible_data)
 
-      convergence_stats[current_iteration, "logL"] <- log_L
+      logL_by_iteration[current_iteration] <- log_L
 
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 
       if (current_iteration > 1) {
         diff_log_L <- log_L - log_L_old
 
-        if (is.na(diff_log_L)) stop(message("`diff_log_L` = NA"))
+        if (is.na(diff_log_L)) stop("`diff_log_L` = NA")
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
@@ -441,12 +437,12 @@ fit_joint_model <- function(
           subj_level_possible_data |>
           dplyr::summarize(
             .by = c("Stratum", "S"),
-            "n_events" = sum(`P(S=s|e,l,r,o,y)`),
-            "risk_probabilities" = sum(`P(S>=s|e,l,r,o,y)`)
+            "n_events" = sum(.data$`P(S=s|e,l,r,o,y)`),
+            "risk_probabilities" = sum(.data$`P(S>=s|e,l,r,o,y)`)
           )
 
         if (any(with(n_events_by_date, n_events > risk_probabilities))) {
-          stop(message("more events than participants at risk"))
+          stop("more events than participants at risk")
         }
 
         omega_hat <- omega_hat |>
@@ -478,7 +474,7 @@ fit_joint_model <- function(
 
         # compute P(S>s|S>=s,E=e) from P(S=s|S>=s,E=e):
         omega_hat <- omega_hat |>
-          dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - `P(S=s|S>=s,E=e)`)
+          dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - .data$`P(S=s|S>=s,E=e)`)
       }
 
       # update theta (model of MAA classifications, Y~T):
@@ -559,7 +555,10 @@ fit_joint_model <- function(
     converged = as.numeric(converged),
     iterations = current_iteration,
     convergence_metrics = c("diff logL" = diff_log_L, coef_diffs),
-    convergence_stats = convergence_stats
+    convergence_stats = dplyr::tibble(
+      Iteration = seq_along(logL_by_iteration),
+      logL = logL_by_iteration
+    )
   )
 
   return(to_return)

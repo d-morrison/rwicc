@@ -104,7 +104,7 @@ simulate_interval_censoring <- function(
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
   sim_participant_data <- dplyr::tibble(
-    "ID" = factor(1:n_at_risk),
+    "ID" = factor(seq_len(n_at_risk)),
     "E" =
       study_start_date +
         lubridate::days(
@@ -169,7 +169,7 @@ simulate_interval_censoring <- function(
       reframe(
         `Obs ID` = seq_along(preconversion_obs_dates),
         O = preconversion_obs_dates,
-        .by = c(ID, E, R)
+        .by = c("ID", "E", "R")
       ) |>
       dplyr::filter(O <= R) |>
       dplyr::mutate(
@@ -196,7 +196,8 @@ simulate_interval_censoring <- function(
     sim_participant_data |>
     dplyr::reframe(
       .by = c(
-        ID, E, R, S, `exit date`, `years from study start to seroconversion`
+        "ID", "E", "R", "S", "exit date",
+        "years from study start to seroconversion"
       ),
       `Obs ID` = seq_along(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates

@@ -1,9 +1,16 @@
+#' Plot the estimated seroconversion-date distribution for one participant
+#'
+#' @param subject_level_data_possibilities a [data.frame] of per-subject
+#'   seroconversion-date possibilities with their estimated probabilities
+#' @param id the participant ID to plot
+#' @returns a [ggplot2::ggplot]
+#' @keywords internal
 graph_S <- function(
   subject_level_data_possibilities,
-  ID = 1
+  id = 1
 ) {
   subject_level_data_possibilities |>
-    dplyr::filter(ID == ID) |>
+    dplyr::filter(.data$ID == id) |>
     ggplot2::ggplot() +
     ggplot2::aes(
       x = .data$S,
