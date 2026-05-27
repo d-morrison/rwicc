@@ -16,9 +16,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Imports: 
+Imports:
     biglm,
-    dplyr,
+    dplyr (>= 1.1.0),
     lubridate,
     stats,
     lobstr,

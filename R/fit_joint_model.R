@@ -74,6 +74,7 @@
 #' \item `iterations`: the number of EM iterations completed before the algorithm
 #' stopped.
 #' \item `convergence_metrics`: the four convergence metrics
+#' \item `convergence_stats`: a table of the log-likelihood at each iteration
 #' }
 #'
 #' @export

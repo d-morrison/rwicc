@@ -7,7 +7,12 @@
 build_omega_table(participant_level_data, bin_width = 1)
 }
 \arguments{
-\item{participant_level_data}{a \link{data.frame}}
+\item{participant_level_data}{a \link{data.frame} with columns:
+\itemize{
+\item Stratum: indicator for which population stratum the participant belongs to
+\item L: left censoring interval endpoint
+\item R: right censoring interval endpoint
+}}
 
 \item{bin_width}{number of days per bin}
 }
