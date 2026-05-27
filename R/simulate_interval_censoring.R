@@ -99,7 +99,7 @@ simulate_interval_censoring <- function(
 
   # generate E (enrollment date), F (exit date), S (seroconversion date):
   sim_participant_data <- dplyr::tibble(
-    "ID" = factor(1:n_at_risk),
+    "ID" = factor(seq_len(n_at_risk)),
     "E" =
       study_start_date +
       lubridate::days(

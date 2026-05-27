@@ -1,9 +1,9 @@
 graph_S = function(
     subject_level_data_possibilities,
-    ID = 1)
+    id = 1)
 {
   subject_level_data_possibilities |>
-    dplyr::filter(ID == ID) |>
+    dplyr::filter(.data$ID == id) |>
     ggplot2::ggplot() +
     ggplot2::aes(
       x = .data$S,

@@ -378,7 +378,7 @@ fit_joint_model <- function(
       if (current_iteration > 1) {
         diff_log_L <- log_L - log_L_old
 
-        if (is.na(diff_log_L)) stop(message("`diff_log_L` = NA"))
+        if (is.na(diff_log_L)) stop("`diff_log_L` = NA")
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
@@ -429,7 +429,7 @@ fit_joint_model <- function(
           )
 
         if (any(with(n_events_by_date, n_events > risk_probabilities))) {
-          stop(message("more events than participants at risk"))
+          stop("more events than participants at risk")
         }
 
         omega_hat <- omega_hat |>
