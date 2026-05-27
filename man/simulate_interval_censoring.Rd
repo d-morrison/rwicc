@@ -26,7 +26,9 @@ paper)}
 \item{probability_of_ever_seroconverting}{the probability that each
 participant is at risk of HIV seroconversion}
 
-\item{n_at_risk}{number of participants who are at risk of infection; by default, this number is determined stochastically from \code{study_cohort_size} and \code{probability_of_ever_seroconverting}.}
+\item{n_at_risk}{number of participants who are at risk of infection; by
+default, this number is determined stochastically from
+\code{study_cohort_size} and \code{probability_of_ever_seroconverting}.}
 
 \item{hazard_alpha}{the hazard (instantaneous risk) of seroconversion at the
 start date of the cohort study for those participants at risk of
@@ -51,19 +53,22 @@ period}
 
 \item{study_start_date}{the date when the study starts recruitment ("d_0" in
 the main text). The value of this parameter does not affect the simulation
-results; it is only necessary as a reference point for generating E, L, R, O, and S.}
+results; it is only necessary as a reference point for generating E, L,
+R, O, and S.}
 }
 \value{
 A list containing the following two tibbles:
 \itemize{
-\item \code{pt_data}: a tibble of participant-level information, with the following columns:
+\item \code{pt_data}: a tibble of participant-level information, with the following
+columns:
 \itemize{
 \item \code{ID}: participant ID
 \item \code{E}: enrollment date
 \item \code{L}: date of last HIV test prior to seroconversion
 \item \code{R}: date of first HIV test after seroconversion
 }
-\item \code{obs_data}: a tibble of longitudinal observations with the following columns:
+\item \code{obs_data}: a tibble of longitudinal observations with the following
+columns:
 \itemize{
 \item \code{ID}: participant ID
 \item \code{O}: dates of biomarker sample collection
@@ -74,7 +79,8 @@ A list containing the following two tibbles:
 \description{
 \code{simulate_interval_censoring} generates a simulated data set from a
 data-generating model based on the typical structure of a cohort study of HIV
-biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+biomarker progression, as described in Morrison et al (2021);
+\doi{10.1111/biom.13472}.
 }
 \examples{
 study_data <- simulate_interval_censoring()
@@ -83,6 +89,7 @@ longitudinal_observations <- study_data$obs_data
 }
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).
-"Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+"Regression with interval-censored covariates: Application to
+cross-sectional incidence estimation".
 Biometrics. \doi{10.1111/biom.13472}.
 }

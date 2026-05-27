@@ -25,8 +25,8 @@ information, including ID, Stratum, and P(S>=l|E=e) (the probability
 that seroconversion occurs on or after the last negative test date).}
 
 \item{omega_hat}{A \link{data.frame} containing estimated parameters for the
-seroconversion date distribution model, including S, Stratum, P(S=s|S>=s,E=e),
-and P(S>s|S>=s,E=e).}
+seroconversion date distribution model, including S, Stratum,
+P(S=s|S>=s,E=e), and P(S>s|S>=s,E=e).}
 }
 \value{
 A \link{data.frame} containing updated subject-level data with the

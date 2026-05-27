@@ -1,10 +1,11 @@
 test_that("results are consistent", {
-  withr::local_seed(16);
+  withr::local_seed(16)
 
   sim_data <- simulate_interval_censoring(
     study_cohort_size = 2,
     years_in_study = 10,
-    probability_of_ever_seroconverting = 1)
+    probability_of_ever_seroconverting = 1
+  )
 
   sim_data$obs_data <-
     sim_data$obs_data |>

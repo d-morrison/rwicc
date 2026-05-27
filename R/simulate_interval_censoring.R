@@ -2,12 +2,14 @@
 #'
 #' \code{simulate_interval_censoring} generates a simulated data set from a
 #' data-generating model based on the typical structure of a cohort study of HIV
-#' biomarker progression, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+#' biomarker progression, as described in Morrison et al (2021);
+#' \doi{10.1111/biom.13472}.
 #'
 #' @references
 #'
 #' Morrison, Laeyendecker, and Brookmeyer (2021).
-#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' "Regression with interval-censored covariates: Application to
+#' cross-sectional incidence estimation".
 #' Biometrics. \doi{10.1111/biom.13472}.
 #'
 #' @param study_cohort_size the number of participants to simulate (N_0 in the
@@ -30,18 +32,23 @@
 #'   period
 #' @param study_start_date the date when the study starts recruitment ("d_0" in
 #'   the main text). The value of this parameter does not affect the simulation
-#'   results; it is only necessary as a reference point for generating E, L, R, O, and S.
-#' @param n_at_risk number of participants who are at risk of infection; by default, this number is determined stochastically from `study_cohort_size` and `probability_of_ever_seroconverting`.
+#'   results; it is only necessary as a reference point for generating E, L,
+#'   R, O, and S.
+#' @param n_at_risk number of participants who are at risk of infection; by
+#'   default, this number is determined stochastically from
+#'   `study_cohort_size` and `probability_of_ever_seroconverting`.
 
 #' @returns A list containing the following two tibbles:
 #'
-#' * `pt_data`: a tibble of participant-level information, with the following columns:
+#' * `pt_data`: a tibble of participant-level information, with the following
+#'   columns:
 #'   - `ID`: participant ID
 #'   - `E`: enrollment date
 #'   - `L`: date of last HIV test prior to seroconversion
 #'   - `R`: date of first HIV test after seroconversion
 #'
-#' * `obs_data`: a tibble of longitudinal observations with the following columns:
+#' * `obs_data`: a tibble of longitudinal observations with the following
+#'   columns:
 #'   - `ID`: participant ID
 #'   - `O`: dates of biomarker sample collection
 #'   - `Y`: MAA classifications of biomarker samples
@@ -55,24 +62,22 @@
 #' @importFrom lubridate days ddays
 #' @importFrom stats rbinom runif
 simulate_interval_censoring <- function(
-    study_cohort_size = 4500,
-    probability_of_ever_seroconverting = 0.05,
-    n_at_risk = stats::rbinom(
-      n = 1,
-      size = study_cohort_size,
-      prob = probability_of_ever_seroconverting
-    ),
-    hazard_alpha = 1,
-    hazard_beta = 0.5,
-    preconversion_interval_length = 84,
-    theta = c(0.986, -3.88),
-
-    years_in_study = 10,
-    max_scheduling_offset = 7,
-    days_from_study_start_to_recruitment_end = 365,
-    study_start_date = lubridate::ymd("2001-01-01"))
-{
-
+  study_cohort_size = 4500,
+  probability_of_ever_seroconverting = 0.05,
+  n_at_risk = stats::rbinom(
+    n = 1,
+    size = study_cohort_size,
+    prob = probability_of_ever_seroconverting
+  ),
+  hazard_alpha = 1,
+  hazard_beta = 0.5,
+  preconversion_interval_length = 84,
+  theta = c(0.986, -3.88),
+  years_in_study = 10,
+  max_scheduling_offset = 7,
+  days_from_study_start_to_recruitment_end = 365,
+  study_start_date = lubridate::ymd("2001-01-01")
+) {
   # this bit of code just removes some notes produced by check(); see
   # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
   ID <- E <- L <- R <- O <- Y <- S <- `exit date` <- `elapsed time` <-
@@ -102,13 +107,13 @@ simulate_interval_censoring <- function(
     "ID" = factor(seq_len(n_at_risk)),
     "E" =
       study_start_date +
-      lubridate::days(
-        sample(
-          x = 0:days_from_study_start_to_recruitment_end,
-          size = n_at_risk,
-          replace = TRUE
-        )
-      ),
+        lubridate::days(
+          sample(
+            x = 0:days_from_study_start_to_recruitment_end,
+            size = n_at_risk,
+            replace = TRUE
+          )
+        ),
     `exit date` = E + years_in_study * lubridate::days(365),
     "years from study start to seroconversion" =
       seroconversion_inverse_survival_function(
@@ -117,18 +122,19 @@ simulate_interval_censoring <- function(
         hazard_alpha = hazard_alpha,
         hazard_beta = hazard_beta
       ),
-    S = study_start_date + .data$`years from study start to seroconversion` * 365
+    S = study_start_date +
+      .data$`years from study start to seroconversion` * 365
     # note that this variable is rounded down at the day level; to compute T
     # below we will use the non-rounded value from `years from study start to
     # seroconversion`
   )
 
-  sim_obs_data0 = NULL
+  sim_obs_data0 <- NULL
 
   # generate L, R:
   for (i in rownames(sim_participant_data))
   {
-    ID = sim_participant_data[i, "ID", drop = TRUE]
+    ID <- sim_participant_data[i, "ID", drop = TRUE]
     E <- sim_participant_data[i, "E", drop = TRUE]
     S <- sim_participant_data[i, "S", drop = TRUE]
 
@@ -158,29 +164,26 @@ simulate_interval_censoring <- function(
         as.Date(NA)
       )
 
-    temp =
+    temp <-
       sim_participant_data[i, c("ID", "E", "R")] |>
       reframe(
-        `Obs ID` = 1:length(preconversion_obs_dates),
+        `Obs ID` = seq_along(preconversion_obs_dates),
         O = preconversion_obs_dates,
-
-        .by = c("ID", "E", "R")) |>
+        .by = c("ID", "E", "R")
+      ) |>
       dplyr::filter(O <= R) |>
       dplyr::mutate(
         `HIV status` =
           if_else(O >= R, "HIV+", "HIV-") |>
-          factor() |>
-          stats::relevel(ref = "HIV-")
+            factor() |>
+            stats::relevel(ref = "HIV-")
       ) |>
-
-
       dplyr::select(-"R")
 
 
-    sim_obs_data0 =
+    sim_obs_data0 <-
       sim_obs_data0 |>
       bind_rows(temp)
-
   }
 
   # remove participants who wouldn't be diagnosed until after their their
@@ -189,14 +192,14 @@ simulate_interval_censoring <- function(
     dplyr::filter(R <= `exit date`)
 
   # # generate O, Y:
-  sim_obs_data =
+  sim_obs_data <-
     sim_participant_data |>
     dplyr::reframe(
       .by = c(
         "ID", "E", "R", "S", "exit date",
         "years from study start to seroconversion"
       ),
-      `Obs ID` = 1:length(post_seroconversion_obs_dates),
+      `Obs ID` = seq_along(post_seroconversion_obs_dates),
       "O" = R + post_seroconversion_obs_dates
     ) |>
     # everyone gets 10 years of observation, total, no longer how long they took
@@ -209,11 +212,9 @@ simulate_interval_censoring <- function(
       # scheduled day):
       "years from study start to sample date" =
         (O - study_start_date) / lubridate::ddays(365),
-
       "elapsed time" =
         `years from study start to sample date` -
-        `years from study start to seroconversion`,
-
+          `years from study start to seroconversion`,
       "Y" =
         stats::rbinom(
           size = 1,
@@ -222,26 +223,23 @@ simulate_interval_censoring <- function(
           # could switch to rbernoulli here, but doing so would change a few of
           # the generated values
         ) |>
-        as.numeric(),
-
+          as.numeric(),
       `MAA status` =
         if_else(
-        Y == 1,
-        "MAA+",
-        "MAA-"
-      ) |>
-        factor(levels = c("MAA-", "MAA+"))
-
+          Y == 1,
+          "MAA+",
+          "MAA-"
+        ) |>
+          factor(levels = c("MAA-", "MAA+"))
     )
 
   # remove variables not needed for analysis:
   {
-
     sim_participant_data <- sim_participant_data |>
       dplyr::select("ID", "E", "L", "R", "S")
     sim_obs_data <- sim_obs_data |>
       dplyr::select("ID", "E", "O", "Y", "S", "MAA status", "Obs ID")
-    }
+  }
 
   return(list(
     obs_data0 = sim_obs_data0,

@@ -1,7 +1,8 @@
 #' plot estimated and true CDFs for seroconversion date distribution
 #'
 #' @param true_hazard_alpha The data-generating hazard at the start of the study
-#' @param true_hazard_beta The change in data-generating hazard per calendar year
+#' @param true_hazard_beta The change in data-generating hazard per calendar
+#' year
 #' @param omega_hat tibble of estimated discrete hazards
 #'
 #' @returns a ggplot
@@ -9,39 +10,45 @@
 #' @examples
 #' \dontrun{
 #'
-#' hazard_alpha = 1
-#' hazard_beta = 0.5
+#' hazard_alpha <- 1
+#' hazard_beta <- 0.5
 #' study_data <- simulate_interval_censoring(
 #'   "hazard_alpha" = hazard_alpha,
-#'   "hazard_beta" = hazard_beta)
+#'   "hazard_beta" = hazard_beta
+#' )
 #'
 #' # fit model:
 #' EM_algorithm_outputs <- fit_joint_model(
 #'   obs_level_data = study_data$obs_data,
 #'   participant_level_data = study_data$pt_data
 #' )
-#' plot1 = plot_CDF(
+#' plot1 <- plot_CDF(
 #'   true_hazard_alpha = hazard_alpha,
 #'   true_hazard_beta = hazard_beta,
-#'   omega_hat = EM_algorithm_outputs$Omega)
+#'   omega_hat = EM_algorithm_outputs$Omega
+#' )
 #'
 #' print(plot1)
 #' }
 #'
 #' @importFrom dplyr mutate lag filter
-#' @importFrom ggplot2 ggplot aes geom_step xlab ylab geom_function scale_colour_discrete scale_linetype_discrete theme element_text element_blank element_line margin
+#' @importFrom ggplot2 ggplot aes geom_step xlab ylab geom_function
+#' @importFrom ggplot2 scale_colour_discrete scale_linetype_discrete theme
+#' @importFrom ggplot2 element_text element_blank element_line margin
 #' @importFrom lubridate ymd ddays
 plot_CDF <- function(true_hazard_alpha,
                      true_hazard_beta,
                      omega_hat) {
   `P(S>s|S>=s,E=e)` <- `P(S>s|E=0)` <- `P(S>=s|E=0)` <- S <- NULL
   cum_haz_fn0 <- function(years_since_study_start) {
-    true_hazard_alpha * years_since_study_start + true_hazard_beta / 2 * years_since_study_start^2
+    true_hazard_alpha * years_since_study_start +
+      true_hazard_beta / 2 * years_since_study_start^2
   }
 
   cum_haz_fn <- function(years_since_study_start,
                          `years from study start to enrollment`) {
-    cum_haz_fn0(years_since_study_start) - cum_haz_fn0(`years from study start to enrollment`)
+    cum_haz_fn0(years_since_study_start) -
+      cum_haz_fn0(`years from study start to enrollment`)
   }
 
   surv_fn <- function(years_since_study_start,

@@ -9,12 +9,12 @@
 #' @param entry_time time of study entry; the hazard is zero before this
 #' @returns a numeric vector of hazard values
 #' @keywords internal
-seroconversion_hazard_function = function(
-    t,
-    intercept,
-    slope,
-    entry_time = 0)
-{
+seroconversion_hazard_function <- function(
+  t,
+  intercept,
+  slope,
+  entry_time = 0
+) {
   (t >= entry_time) * (intercept + slope * t)
 }
 
@@ -25,17 +25,15 @@ seroconversion_hazard_function = function(
 #' @inheritParams seroconversion_hazard_function
 #' @returns a numeric vector of cumulative hazard values
 #' @keywords internal
-seroconversion_cumhaz_function = function(
-    t,
-    intercept,
-    slope,
-    entry_time = 0)
-{
-
-  cumhaz =
-    (t > entry_time) *
-    {
-      intercept*(t-entry_time) + 1/2 * slope * (t^2 - entry_time^2)
+seroconversion_cumhaz_function <- function(
+  t,
+  intercept,
+  slope,
+  entry_time = 0
+) {
+  cumhaz <-
+    (t > entry_time) * {
+      intercept * (t - entry_time) + 1 / 2 * slope * (t^2 - entry_time^2)
     }
 
   return(cumhaz)
@@ -48,8 +46,7 @@ seroconversion_cumhaz_function = function(
 #' @param ... arguments passed to [seroconversion_cumhaz_function()]
 #' @returns a numeric vector of survival probabilities
 #' @keywords internal
-seroconversion_survival_function = function(...)
-{
+seroconversion_survival_function <- function(...) {
   exp(-seroconversion_cumhaz_function(...))
 }
 
@@ -61,9 +58,7 @@ seroconversion_survival_function = function(...)
 #'   [seroconversion_hazard_function()]
 #' @returns a numeric vector of density values
 #' @keywords internal
-seroconversion_density_function = function(...)
-{
+seroconversion_density_function <- function(...) {
   seroconversion_survival_function(...) *
     seroconversion_hazard_function(...)
-
 }

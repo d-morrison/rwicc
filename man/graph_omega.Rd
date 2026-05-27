@@ -23,5 +23,4 @@ example_model <-
 omega_est_EM <- example_model$Omega
 omega_est_EM |> graph_omega()
 
-
 }

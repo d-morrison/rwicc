@@ -6,7 +6,8 @@
 \title{rwicc: Regression with Interval-Censored Covariates}
 \description{
 The \code{rwicc} package implements a regression model with an
-interval-censored covariate using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+interval-censored covariate using an EM algorithm, as described in
+Morrison et al (2021); \doi{10.1111/biom.13472}.
 }
 \section{rwicc functions}{
 
@@ -19,7 +20,8 @@ The main \code{rwicc} functions are:
 
 \references{
 Morrison, Laeyendecker, and Brookmeyer (2021).
-"Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+"Regression with interval-censored covariates: Application to
+cross-sectional incidence estimation".
 Biometrics. \doi{10.1111/biom.13472}.
 }
 \seealso{

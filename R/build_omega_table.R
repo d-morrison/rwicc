@@ -9,10 +9,10 @@
 #' @returns a [data.frame]
 #' @export
 #'
-build_omega_table = function(
-    participant_level_data,
-    bin_width = 1)
-{
+build_omega_table <- function(
+  participant_level_data,
+  bin_width = 1
+) {
   participant_level_data |>
     dplyr::reframe(
       .by = "Stratum",

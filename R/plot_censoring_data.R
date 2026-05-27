@@ -29,7 +29,6 @@ plot_censoring_data <- function(
   xmin = min(dataset$pt_data$E) - 28,
   xmax = max(dataset$obs_data$O)
 ) {
-
   dataset <- dataset |> filter_data_by_ID(included_IDs)
 
   plot1 <-

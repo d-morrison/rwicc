@@ -9,7 +9,8 @@ build_phi_function_from_coefs <- function(coefs) {
 }
 
 
-#' compute mean window period duration from simple logistic regression coefficients
+#' compute mean window period duration from simple logistic regression
+#' coefficients
 
 #' @param theta numeric vector of coefficients
 #' @returns numeric scalar: mean window period duration

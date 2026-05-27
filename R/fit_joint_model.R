@@ -1,14 +1,17 @@
 #' Fit a logistic regression model with an interval-censored covariate
 #'
 #' This function fits a logistic regression model for a binary outcome Y with an
-#' interval-censored covariate T, using an EM algorithm, as described in Morrison et al (2021); \doi{10.1111/biom.13472}.
+#' interval-censored covariate T, using an EM algorithm, as described in
+#' Morrison et al (2021); \doi{10.1111/biom.13472}.
 
 #' @references
 #' Morrison, Laeyendecker, and Brookmeyer (2021).
-#' "Regression with interval-censored covariates: Application to cross-sectional incidence estimation".
+#' "Regression with interval-censored covariates: Application to
+#' cross-sectional incidence estimation".
 #' Biometrics. \doi{10.1111/biom.13472}.
 #'
-#' @param participant_level_data a data.frame or tibble with the following variables:
+#' @param participant_level_data a data.frame or tibble with the following
+#' variables:
 #' * ID: participant ID
 #' * E: study enrollment date
 #' * L: date of last negative test for seroconversion
@@ -19,28 +22,28 @@
 #' * ID: participant ID
 #' * O: biomarker sample collection dates
 #' * Y: MAA classifications (binary outcomes)
-#' @param model_formula the functional form for the regression model for p(y|t) (as a
-#' formula() object)
+#' @param model_formula the functional form for the regression model for
+#' p(y|t) (as a formula() object)
 
-#' @param mu_function a function taking a vector of regression coefficient estimates
-#' as input and outputting an estimate of mu (mean duration of MAA-positive
-#' infection).
+#' @param mu_function a function taking a vector of regression coefficient
+#' estimates as input and outputting an estimate of mu (mean duration of
+#' MAA-positive infection).
 
-#' @param bin_width the number of days between possible seroconversion dates (should
-#' be an integer)
+#' @param bin_width the number of days between possible seroconversion dates
+#' (should be an integer)
 
 #' @param denom_offset an offset value added to the denominator of the hazard
 #' estimates to improve numerical stability
 
-#' @param initial_S_estimate_location determines how seroconversion date is guessed
-#' to initialize the algorithm; can be any decimal between 0 and 1; 0.5 =
-#' midpoint imputation, 0.25 = 1st quartile, 0 = last negative, etc.
+#' @param initial_S_estimate_location determines how seroconversion date is
+#' guessed to initialize the algorithm; can be any decimal between 0 and 1;
+#' 0.5 = midpoint imputation, 0.25 = 1st quartile, 0 = last negative, etc.
 
-#' @param EM_toler_loglik the convergence cutoff for the log-likelihood criterion
-#' ("Delta_L" in the paper)
+#' @param EM_toler_loglik the convergence cutoff for the log-likelihood
+#' criterion ("Delta_L" in the paper)
 
-#' @param EM_toler_est the convergence cutoff for the parameter estimate criterion
-#' ("Delta_theta" in the paper)
+#' @param EM_toler_est the convergence cutoff for the parameter estimate
+#' criterion ("Delta_theta" in the paper)
 
 #' @param coef_change_metric a string indicating the type of parameter estimate
 #' criterion to use:
@@ -48,15 +51,15 @@
 #' \item "max abs rel diff coefs" is the "Delta_theta" criterion
 #' described in the paper.
 #' \item "max abs diff coefs" is the maximum absolute change in
-#' the coefficients (not divided by the old values); this criterion can be useful
-#' when some parameters are close to 0.
+#' the coefficients (not divided by the old values); this criterion can be
+#' useful when some parameters are close to 0.
 #' \item "diff mu" is the absolute change in mu,
 #' which may be helpful in the incidence estimate calibration setting but not
 #' elsewhere.
 #' }
 
-#' @param EM_max_iterations the number of EM iterations to perform before giving up
-#' if still not converged.
+#' @param EM_max_iterations the number of EM iterations to perform before
+#' giving up if still not converged.
 
 #' @param glm_tolerance the convergence cutoff for the glm fit in the M step
 
@@ -69,10 +72,11 @@
 #' \item `Theta`: the estimated regression coefficients for the model of p(Y|T)
 #' \item `Mu`: the estimated mean window period (a transformation of `Theta`)
 #' \item `Omega`: a table with the estimated parameters for the model of p(S|E).
-#' \item `converged`: indicator of whether the algorithm reached its cutoff criteria
-#' before reaching the specified maximum iterations. 1 = reached cutoffs, 0 = not.
-#' \item `iterations`: the number of EM iterations completed before the algorithm
-#' stopped.
+#' \item `converged`: indicator of whether the algorithm reached its cutoff
+#' criteria before reaching the specified maximum iterations. 1 = reached
+#' cutoffs, 0 = not.
+#' \item `iterations`: the number of EM iterations completed before the
+#' algorithm stopped.
 #' \item `convergence_metrics`: the four convergence metrics
 #' \item `convergence_stats`: a table of the log-likelihood at each iteration
 #' }
@@ -81,7 +85,8 @@
 # ==============================================================================
 
 #' @importFrom biglm bigglm
-#' @importFrom dplyr summarize n select left_join filter semi_join mutate any_of if_else lag all_of
+#' @importFrom dplyr summarize n select left_join filter semi_join mutate
+#' @importFrom dplyr any_of if_else lag all_of
 #' @importFrom lubridate ddays
 #' @importFrom stats binomial coef predict glm quasibinomial
 #' @importFrom lobstr mem_used
@@ -157,7 +162,8 @@ fit_joint_model <- function(
 
     # identify the set of possible seroconversion dates
     {
-      # omega_hat will be a table of possible seroconversion dates, and their estimated hazards, etc:
+      # omega_hat will be a table of possible seroconversion dates, and their
+      # estimated hazards, etc:
       omega_hat <-
         participant_level_data |>
         build_omega_table(bin_width = bin_width)
@@ -166,7 +172,8 @@ fit_joint_model <- function(
         participant_level_data |>
         build_event_date_possibilities_table(omega_hat = omega_hat)
 
-      # here we remove from omega_hat any stratum:seroconversion date combinations
+      # here we remove from omega_hat any stratum:seroconversion date
+      # combinations
       # that aren't in anyone's censoring interval; the best estimate for hazard
       # in those cases is 0, which will drop out of all subsequent calculations:
       omega_hat <- omega_hat |>
@@ -175,7 +182,8 @@ fit_joint_model <- function(
           by = c("Stratum", "S")
         )
 
-      # here we enumerate all possible (T,Y) combinations (this tibble gets large):
+      # here we enumerate all possible (T,Y) combinations (this tibble gets
+      # large):
       obs_data_possibilities <-
         obs_level_data |>
         dplyr::select("ID", "Y", "O") |>
@@ -210,7 +218,8 @@ fit_joint_model <- function(
     {
       participant_level_data <- participant_level_data |>
         dplyr::mutate(
-          "S_hat - E" = initial_S_estimate_location * (.data$R - .data$L) + (.data$L - .data$E)
+          "S_hat - E" = initial_S_estimate_location * (.data$R - .data$L) +
+            (.data$L - .data$E)
         )
       # This duration is computed directly, since computing S_hat first
       # would result in rounding. There's no need for this level of
@@ -224,11 +233,12 @@ fit_joint_model <- function(
         participant_level_data |>
         dplyr::summarize(
           .by = "Stratum",
-          "P(S=s|S>=s,E=e)" = 1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
+          "P(S=s|S>=s,E=e)" =
+            1 - exp(-lubridate::ddays(bin_width) / mean(.data$`S_hat - E`))
         ) |>
-        # this formula actually computes P(S in [s,s+bin_width]|S>=s), from the
-        # CDF of an exponential dist. with mean parameter estimated using S_hat -
-        # E as approximate event times
+        # this formula actually computes P(S in [s,s+bin_width]|S>=s), from
+        # the CDF of an exponential dist. with mean parameter estimated using
+        # S_hat - E as approximate event times
 
         dplyr::mutate("P(S>s|S>=s,E=e)" = 1 - .data$`P(S=s|S>=s,E=e)`)
 
@@ -324,7 +334,9 @@ fit_joint_model <- function(
           ) |>
           dplyr::summarize(
             .by = c("Stratum", "E", "L"),
-            "P(S>=l|E=e)" = prod(.data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L])
+            "P(S>=l|E=e)" = prod(
+              .data$`P(S>s|S>=s,E=e)`[.data$E <= .data$S & .data$S < .data$L]
+            )
           )
         # note: can't add `filter(E <= S, S < L)` before summarize() or we would
         # lose any (E,L) combinations where E == L.
@@ -372,7 +384,7 @@ fit_joint_model <- function(
 
       log_L <- observed_data_log_likelihood(subj_level_possible_data)
 
-      convergence_stats[current_iteration, "logL"] = log_L
+      convergence_stats[current_iteration, "logL"] <- log_L
 
       if (verbose) message("observed-data log-likelihood = ", round(log_L, 5))
 
@@ -383,11 +395,13 @@ fit_joint_model <- function(
 
         if (diff_log_L < 0) {
           warning(paste("log-likelihood is decreasing; change = ", diff_log_L))
-          # note: if denom_offset != 0, we may lose the guarantee of increasing log likelihood.
+          # note: if denom_offset != 0, we may lose the guarantee of increasing
+          # log likelihood.
         }
 
-        # For algorithm diagnostic purposes, we compute three change metrics based on the coefficients,
-        # but only one is used to determine convergence, specified in the function inputs; see M step below:
+        # For algorithm diagnostic purposes, we compute three change metrics
+        # based on the coefficients, but only one is used to determine
+        # convergence, specified in the function inputs; see M step below:
         diff_coef <- coef_diffs[coef_change_metric]
 
         converged <- (diff_log_L < EM_toler_loglik) &
@@ -413,7 +427,10 @@ fit_joint_model <- function(
     # M step: Updated estimation of theta, omega
     {
       if (verbose) {
-        message("Starting M step, mem used = ", round(lobstr::mem_used() / 10^6), " MB")
+        message(
+          "Starting M step, mem used = ",
+          round(lobstr::mem_used() / 10^6), " MB"
+        )
       }
 
       # update omega (hazard model):
@@ -446,12 +463,14 @@ fit_joint_model <- function(
           ) |>
           dplyr::select(-c("risk_probabilities", "n_events", "n_at_risk"))
 
-        # handle numeric stability issues (should not occur if denom_offset > 0):
+        # handle numeric stability issues (should not occur if
+        # denom_offset > 0):
         {
           # this prevents occasional cases where the denominator approaches 0
           # for the person with the latest seroconversion window
 
-          to_fix <- (omega_hat$"P(S=s|S>=s,E=e)" > 1) | is.na(omega_hat$"P(S=s|S>=s,E=e)")
+          to_fix <- (omega_hat$"P(S=s|S>=s,E=e)" > 1) |
+            is.na(omega_hat$"P(S=s|S>=s,E=e)")
           if (any(to_fix)) {
             message("Fixing ", sum(to_fix), " value(s) of omega_hat with NaNs.")
             omega_hat$"P(S=s|S>=s,E=e)"[to_fix] <- 1
@@ -519,7 +538,10 @@ fit_joint_model <- function(
 
         message("\nChange in mu = ", coef_diffs["diff mu"])
         message("Max change in theta = ", coef_diffs["max abs diff coefs"])
-        message("Max relative change in theta = ", coef_diffs["max abs rel diff coefs"])
+        message(
+          "Max relative change in theta = ",
+          coef_diffs["max abs rel diff coefs"]
+        )
       }
     }
 

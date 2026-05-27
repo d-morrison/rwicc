@@ -16,8 +16,8 @@
 #'   information, including ID, Stratum, and P(S>=l|E=e) (the probability
 #'   that seroconversion occurs on or after the last negative test date).
 #' @param omega_hat A [data.frame] containing estimated parameters for the
-#'   seroconversion date distribution model, including S, Stratum, P(S=s|S>=s,E=e),
-#'   and P(S>s|S>=s,E=e).
+#'   seroconversion date distribution model, including S, Stratum,
+#'   P(S=s|S>=s,E=e), and P(S>s|S>=s,E=e).
 #'
 #' @returns A [data.frame] containing updated subject-level data with the
 #'   following columns:
@@ -37,10 +37,11 @@
 #'
 #' @keywords internal
 update_possible_subj_data <- function(
-    obs_data_possibilities,
-    MAA_model,
-    participant_level_data,
-    omega_hat) {
+  obs_data_possibilities,
+  MAA_model,
+  participant_level_data,
+  omega_hat
+) {
   obs_data_possibilities |>
     dplyr::mutate(
       # could speed up this step by implementing the needed computations
@@ -92,7 +93,7 @@ update_possible_subj_data <- function(
       # used in next calculation
 
       "P(S=s|e,l,r,o,y)" = proportions(.data$`P(Y=y|T=t)` *
-                                         .data$`P(S=s|E=e,L=l,R=r)`),
+        .data$`P(S=s|E=e,L=l,R=r)`),
       # used to estimate omega and theta
 
       "P(S>=s|e,l,r,o,y)" = rev(cumsum(rev(.data$`P(S=s|e,l,r,o,y)`)))

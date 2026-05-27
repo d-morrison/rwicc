@@ -10,50 +10,55 @@
 #' @examples
 #' \dontrun{
 #'
-#' theta_true = c(0.986, -3.88)
-#' hazard_alpha = 1
-#' hazard_beta = 0.5
-#' sim_data = simulate_interval_censoring(
+#' theta_true <- c(0.986, -3.88)
+#' hazard_alpha <- 1
+#' hazard_beta <- 0.5
+#' sim_data <- simulate_interval_censoring(
 #'   "theta" = theta_true,
 #'   "study_cohort_size" = 4500,
 #'   "preconversion_interval_length" = 365,
 #'   "hazard_alpha" = hazard_alpha,
-#'   "hazard_beta" = hazard_beta)
+#'   "hazard_beta" = hazard_beta
+#' )
 #'
 #' # extract the participant-level and observation-level simulated data:
-#' sim_participant_data = sim_data$pt_data
-#' sim_obs_data = sim_data$obs_data
+#' sim_participant_data <- sim_data$pt_data
+#' sim_obs_data <- sim_data$obs_data
 #' rm(sim_data)
 #'
 #' # joint model:
-#' EM_algorithm_outputs = fit_joint_model(
+#' EM_algorithm_outputs <- fit_joint_model(
 #'   obs_level_data = sim_obs_data,
 #'   participant_level_data = sim_participant_data,
 #'   bin_width = 7,
-#'   verbose = FALSE)
+#'   verbose = FALSE
+#' )
 #'
 #' # midpoint imputation:
-#' theta_est_midpoint = fit_midpoint_model(
+#' theta_est_midpoint <- fit_midpoint_model(
 #'   obs_level_data = sim_obs_data,
 #'   participant_level_data = sim_participant_data
 #' )
 #'
 #' # uniform imputation:
-#' theta_est_uniform = fit_uniform_model(
+#' theta_est_uniform <- fit_uniform_model(
 #'   obs_level_data = sim_obs_data,
 #'   participant_level_data = sim_participant_data
 #' )
-
-#' plot2 = plot_phi_curves(
+#'
+#' plot2 <- plot_phi_curves(
 #'   theta_true = theta_true,
 #'   theta.hat_uniform = theta_est_uniform,
 #'   theta.hat_midpoint = theta_est_midpoint,
-#'   theta.hat_joint = EM_algorithm_outputs$Theta)
+#'   theta.hat_joint = EM_algorithm_outputs$Theta
+#' )
 #'
 #' print(plot2)
 #' }
 #'
-#' @importFrom ggplot2 ggplot geom_function aes xlim ylab xlab scale_colour_discrete scale_linetype_discrete theme element_blank element_line element_text
+#' @importFrom ggplot2 ggplot geom_function aes xlim ylab xlab
+#' @importFrom ggplot2 scale_colour_discrete scale_linetype_discrete theme
+#' @importFrom ggplot2 element_blank element_line element_text
 #' @importFrom scales label_parse
 plot_phi_curves <- function(theta_true,
                             theta.hat_joint,
@@ -119,7 +124,9 @@ plot_phi_curves <- function(theta_true,
     ggplot2::geom_function(
       fun = phi_est_joint_modeling,
       lwd = lwd1,
-      ggplot2::aes(colour = joint_modeling_label, linetype = joint_modeling_label)
+      ggplot2::aes(
+        colour = joint_modeling_label, linetype = joint_modeling_label
+      )
     ) +
     ggplot2::xlim(0, 2) +
     ggplot2::ylab("Probability of an MAA-positive blood sample") +

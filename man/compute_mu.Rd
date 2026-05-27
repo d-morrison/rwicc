@@ -2,7 +2,8 @@
 % Please edit documentation in R/utils.R
 \name{compute_mu}
 \alias{compute_mu}
-\title{compute mean window period duration from simple logistic regression coefficients}
+\title{compute mean window period duration from simple logistic regression
+coefficients}
 \usage{
 compute_mu(theta)
 }
@@ -13,5 +14,6 @@ compute_mu(theta)
 numeric scalar: mean window period duration
 }
 \description{
-compute mean window period duration from simple logistic regression coefficients
+compute mean window period duration from simple logistic regression
+coefficients
 }

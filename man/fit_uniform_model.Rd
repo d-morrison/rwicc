@@ -13,14 +13,15 @@ fit_uniform_model(
 )
 }
 \arguments{
-\item{participant_level_data}{a data.frame or tibble with the following variables:
+\item{participant_level_data}{a data.frame or tibble with the following
+variables:
 \itemize{
 \item ID: participant ID
 \item E: study enrollment date
 \item L: date of last negative test for seroconversion
 \item R: date of first positive test for seroconversion
-\item Cohort` (optional): this variable can be used to stratify the modeling of
-the seroconversion distribution.
+\item Cohort` (optional): this variable can be used to stratify the
+modeling of the seroconversion distribution.
 }}
 
 \item{obs_level_data}{a data.frame or tibble with the following variables:
@@ -43,14 +44,15 @@ a vector of logistic regression coefficient estimates
 Fit model using uniform imputation
 }
 \examples{
-sim_data = simulate_interval_censoring(
+sim_data <- simulate_interval_censoring(
   "theta" = c(0.986, -3.88),
   "study_cohort_size" = 4500,
   "preconversion_interval_length" = 365,
   "hazard_alpha" = 1,
-  "hazard_beta" = 0.5)
+  "hazard_beta" = 0.5
+)
 
-theta_est_midpoint = fit_uniform_model(
+theta_est_midpoint <- fit_uniform_model(
   obs_level_data = sim_data$obs_data,
   participant_level_data = sim_data$pt_data
 )
