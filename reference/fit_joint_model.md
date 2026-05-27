@@ -142,6 +142,8 @@ a list with the following elements:
 
 - `convergence_metrics`: the four convergence metrics
 
+- `convergence_stats`: a table of the log-likelihood at each iteration
+
 ## References
 
 Morrison, Laeyendecker, and Brookmeyer (2021). "Regression with

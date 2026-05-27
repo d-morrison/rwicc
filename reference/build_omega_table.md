@@ -12,7 +12,14 @@ build_omega_table(participant_level_data, bin_width = 1)
 
 - participant_level_data:
 
-  a [data.frame](https://rdrr.io/r/base/data.frame.html)
+  a [data.frame](https://rdrr.io/r/base/data.frame.html) with columns:
+
+  - Stratum: indicator for which population stratum the participant
+    belongs to
+
+  - L: left censoring interval endpoint
+
+  - R: right censoring interval endpoint
 
 - bin_width:
 

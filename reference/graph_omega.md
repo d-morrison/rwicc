@@ -23,7 +23,7 @@ a [ggplot2::ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html)
 
 ``` r
 example_model <-
-  fs::path_package("rwicc", "extdata/example_model.rds") |>
+  system.file("extdata", "example_model.rds", package = "rwicc") |>
   readRDS()
 omega_est_EM <- example_model$Omega
 omega_est_EM |> graph_omega()

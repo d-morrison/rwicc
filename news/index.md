@@ -9,9 +9,20 @@
   [`graph_omega()`](https://d-morrison.github.io/rwicc/reference/graph_omega.md)
   ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
 
-- Added a project-level Claude Code skill (`reprexes`) documenting the
-  minimal-reproducible-example debugging workflow
-  ([\#30](https://github.com/d-morrison/rwicc/issues/30)).
+- Added functions to visualize the simulated data-generating model:
+  [`graph_simulated_densities()`](https://d-morrison.github.io/rwicc/reference/graph_simulated_densities.md),
+  [`graph_simulated_hazards()`](https://d-morrison.github.io/rwicc/reference/graph_simulated_hazards.md),
+  and
+  [`graph_simulated_survival_curves()`](https://d-morrison.github.io/rwicc/reference/graph_simulated_survival_curves.md)
+  ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
+
+- Fixed participant subsetting in
+  [`graph_S()`](https://d-morrison.github.io/rwicc/reference/graph_S.md)
+  and several minor correctness issues in
+  [`fit_joint_model()`](https://d-morrison.github.io/rwicc/reference/fit_joint_model.md)
+  and
+  [`simulate_interval_censoring()`](https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.md)
+  ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
 
 ## rwicc 0.1.3
 

@@ -23,8 +23,6 @@ build_event_date_possibilities_table(
   - Stratum: indicator for which population stratum the participant
     belongs to
 
-  - E: study entry date
-
   - L: left censoring interval endpoint
 
   - R: right censoring interval endpoint
