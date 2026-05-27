@@ -97,6 +97,7 @@ cutoffs, 0 = not.
 \item \code{iterations}: the number of EM iterations completed before the
 algorithm stopped.
 \item \code{convergence_metrics}: the four convergence metrics
+\item \code{convergence_stats}: a table of the log-likelihood at each iteration
 }
 }
 \description{
