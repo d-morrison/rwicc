@@ -3,6 +3,8 @@
 * Replaced the dependency on `pryr` (which has been archived on CRAN) with
 `lobstr` (#11). This restores CRAN compatibility.
 
+* rwicc now requires R (>= 4.1.0), since it uses the base pipe `|>`.
+
 * Added `graph_omega()` to plot the estimated seroconversion hazard model
 (#11).
 
