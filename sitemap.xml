@@ -10,18 +10,25 @@
 <url><loc>https://d-morrison.github.io/rwicc/copilot-instructions.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/index.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/news/index.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/build_event_date_possibilities_table.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/build_omega_table.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/build_phi_function_from_coefs.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/check_pt_data.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/compute_mu.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/filter_data_by_ID.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/fit_joint_model.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/fit_midpoint_model.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/fit_uniform_model.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/graph_omega.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/index.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/plot_CDF.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/plot_censoring_data.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/plot_phi_curves.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/rwicc-package.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/rwicc.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/seroconversion_inverse_survival_function.html</loc></url>
 <url><loc>https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/standard_ggplot.html</loc></url>
+<url><loc>https://d-morrison.github.io/rwicc/reference/update_possible_subj_data.html</loc></url>
 </urlset>
 

@@ -2,6 +2,10 @@
 
 ## All functions
 
+- [`build_event_date_possibilities_table()`](https://d-morrison.github.io/rwicc/reference/build_event_date_possibilities_table.md)
+  : Build table of event date possibilities
+- [`build_omega_table()`](https://d-morrison.github.io/rwicc/reference/build_omega_table.md)
+  : Build table of dates with possible seroconversions in dataset
 - [`build_phi_function_from_coefs()`](https://d-morrison.github.io/rwicc/reference/build_phi_function_from_coefs.md)
   : convert a pair of simple logistic regression coefficients into
   P(Y\|T) curve:
@@ -14,12 +18,16 @@
   : Fit model using midpoint imputation
 - [`fit_uniform_model()`](https://d-morrison.github.io/rwicc/reference/fit_uniform_model.md)
   : Fit model using uniform imputation
+- [`graph_omega()`](https://d-morrison.github.io/rwicc/reference/graph_omega.md)
+  : Graph seroconversion hazard model
 - [`plot_CDF()`](https://d-morrison.github.io/rwicc/reference/plot_CDF.md)
   : plot estimated and true CDFs for seroconversion date distribution
 - [`plot_censoring_data()`](https://d-morrison.github.io/rwicc/reference/plot_censoring_data.md)
   : Plot censoring data
 - [`plot_phi_curves()`](https://d-morrison.github.io/rwicc/reference/plot_phi_curves.md)
   : Plot true and estimated curves for P(Y=1\|T=t)
+- [`rwicc`](https://d-morrison.github.io/rwicc/reference/rwicc.md) :
+  rwicc: Regression with Interval-Censored Covariates
 - [`seroconversion_inverse_survival_function()`](https://d-morrison.github.io/rwicc/reference/seroconversion_inverse_survival_function.md)
   : Inverse survival function for time-to-event variable with linear
   hazard function

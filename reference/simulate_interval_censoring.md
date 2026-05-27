@@ -10,11 +10,13 @@ of HIV biomarker progression, as described in Morrison et al (2021);
 ``` r
 simulate_interval_censoring(
   study_cohort_size = 4500,
+  probability_of_ever_seroconverting = 0.05,
+  n_at_risk = stats::rbinom(n = 1, size = study_cohort_size, prob =
+    probability_of_ever_seroconverting),
   hazard_alpha = 1,
   hazard_beta = 0.5,
   preconversion_interval_length = 84,
   theta = c(0.986, -3.88),
-  probability_of_ever_seroconverting = 0.05,
   years_in_study = 10,
   max_scheduling_offset = 7,
   days_from_study_start_to_recruitment_end = 365,
@@ -27,6 +29,16 @@ simulate_interval_censoring(
 - study_cohort_size:
 
   the number of participants to simulate (N_0 in the paper)
+
+- probability_of_ever_seroconverting:
+
+  the probability that each participant is at risk of HIV seroconversion
+
+- n_at_risk:
+
+  number of participants who are at risk of infection; by default, this
+  number is determined stochastically from `study_cohort_size` and
+  `probability_of_ever_seroconverting`.
 
 - hazard_alpha:
 
@@ -46,10 +58,6 @@ simulate_interval_censoring(
   the parameters of a logistic model (with linear functional from)
   specifying the probability of MAA-positive biomarkers as a function of
   time since seroconversion
-
-- probability_of_ever_seroconverting:
-
-  the probability that each participant is at risk of HIV seroconversion
 
 - years_in_study:
 

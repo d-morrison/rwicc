@@ -1,12 +1,14 @@
 # visualize-study-design
 
 ``` r
+
 library(rwicc)
 ```
 
 This vignette demos the study design.
 
 ``` r
+
 
 set.seed(16); 
 simulate_interval_censoring(

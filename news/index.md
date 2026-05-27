@@ -2,6 +2,13 @@
 
 ## rwicc (development version)
 
+- Replaced dependency on `pryr` with `lobstr`, since `pryr` is being
+  archived ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
+
+- Added
+  [`graph_omega()`](https://d-morrison.github.io/rwicc/reference/graph_omega.md)
+  ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
+
 ## rwicc 0.1.3
 
 CRAN release: 2022-03-09

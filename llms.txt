@@ -1,5 +1,17 @@
 # rwicc
 
+[![R build
+status](https://github.com/d-morrison/rwicc/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-morrison/rwicc/actions)
+[![](https://img.shields.io/badge/doi-10.5281/zenodo.6600579-green.svg)](https://doi.org/10.5281/zenodo.6600579)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](http://cranlogs.r-pkg.org/badges/last-month/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](https://www.r-pkg.org/badges/version/rwicc?color=blue)](https://cran.r-project.org/package=rwicc)
+[![](https://img.shields.io/badge/devel%20version-0.1.2-blue.svg)](https://github.com/d-morrison/rwicc)
+[![CRAN
+checks](https://badges.cranchecks.info/summary/rwicc.svg)](https://cran.r-project.org/web/checks/check_results_rwicc.html)
+[![](https://codecov.io/gh/d-morrison/rwicc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/d-morrison/rwicc)
+[![](https://img.shields.io/github/last-commit/d-morrison/rwicc.svg)](https://github.com/d-morrison/rwicc/commits/main)
+
 `rwicc` (“Regression With Interval-Censored Covariates”) is an R
 software package implementing an analysis for a regression model
 involving an interval-censored covariate, as described in “Regression
@@ -28,6 +40,7 @@ You can install the current released version from
 [CRAN](https://cran.r-project.org) with:
 
 ``` r
+
 install.packages("rwicc")
 ```
 
@@ -35,6 +48,7 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 install.packages("devtools")
 devtools::install_github("d-morrison/rwicc")
 ```
@@ -53,6 +67,10 @@ contributing to this project, you agree to abide by its terms.
 
 ## All functions
 
+- [`build_event_date_possibilities_table()`](https://d-morrison.github.io/rwicc/reference/build_event_date_possibilities_table.md)
+  : Build table of event date possibilities
+- [`build_omega_table()`](https://d-morrison.github.io/rwicc/reference/build_omega_table.md)
+  : Build table of dates with possible seroconversions in dataset
 - [`build_phi_function_from_coefs()`](https://d-morrison.github.io/rwicc/reference/build_phi_function_from_coefs.md)
   : convert a pair of simple logistic regression coefficients into
   P(Y\|T) curve:
@@ -65,12 +83,16 @@ contributing to this project, you agree to abide by its terms.
   : Fit model using midpoint imputation
 - [`fit_uniform_model()`](https://d-morrison.github.io/rwicc/reference/fit_uniform_model.md)
   : Fit model using uniform imputation
+- [`graph_omega()`](https://d-morrison.github.io/rwicc/reference/graph_omega.md)
+  : Graph seroconversion hazard model
 - [`plot_CDF()`](https://d-morrison.github.io/rwicc/reference/plot_CDF.md)
   : plot estimated and true CDFs for seroconversion date distribution
 - [`plot_censoring_data()`](https://d-morrison.github.io/rwicc/reference/plot_censoring_data.md)
   : Plot censoring data
 - [`plot_phi_curves()`](https://d-morrison.github.io/rwicc/reference/plot_phi_curves.md)
   : Plot true and estimated curves for P(Y=1\|T=t)
+- [`rwicc`](https://d-morrison.github.io/rwicc/reference/rwicc.md) :
+  rwicc: Regression with Interval-Censored Covariates
 - [`seroconversion_inverse_survival_function()`](https://d-morrison.github.io/rwicc/reference/seroconversion_inverse_survival_function.md)
   : Inverse survival function for time-to-event variable with linear
   hazard function
