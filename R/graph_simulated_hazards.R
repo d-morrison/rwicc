@@ -1,5 +1,10 @@
-# "2001-01-01"
-# "2002-01-03"
+#' Plot simulated seroconversion hazard curves
+#'
+#' Plots example linear seroconversion hazards for several intercept/slope
+#' combinations.
+#'
+#' @returns a [ggplot2::ggplot]
+#' @keywords internal
 graph_simulated_hazards = function()
 {
 

@@ -1,3 +1,10 @@
+#' Plot simulated seroconversion density curves
+#'
+#' Plots example seroconversion-time densities for several intercept/slope
+#' hazard combinations.
+#'
+#' @returns a [ggplot2::ggplot]
+#' @keywords internal
 graph_simulated_densities = function()
 {
 

@@ -37,8 +37,6 @@ Suggests:
     pander,
     vdiffr,
     withr,
-    fs,
-    readr,
     badger
 Language: en-US
 URL: https://d-morrison.github.io/rwicc/, https://github.com/d-morrison/rwicc

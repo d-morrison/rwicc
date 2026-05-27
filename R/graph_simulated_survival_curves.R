@@ -1,3 +1,10 @@
+#' Plot simulated seroconversion survival curves
+#'
+#' Plots example seroconversion-time survival curves for several
+#' intercept/slope hazard combinations.
+#'
+#' @returns a [ggplot2::ggplot]
+#' @keywords internal
 graph_simulated_survival_curves = function()
 {
 
