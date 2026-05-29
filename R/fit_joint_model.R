@@ -119,6 +119,11 @@ fit_joint_model <- function(
   coef_change_metric = "max abs rel diff coefs",
   verbose = FALSE
 ) {
+  # bind the non-standard column name referenced as a bare symbol in the
+  # bigglm/glm `weight =` formula below, to avoid an R CMD check
+  # "no visible binding for global variable" note:
+  `P(S=s|e,l,r,o,y)` <- NULL
+
   # setup
   {
     # accumulate the per-iteration log-likelihood in an atomic vector;

@@ -19,3 +19,4 @@ cran-comments.md
 ^data-raw$
 ^\.lintr\.R$
 ^\.claude$
+^\.positai$

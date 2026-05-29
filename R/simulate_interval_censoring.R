@@ -81,7 +81,8 @@ simulate_interval_censoring <- function(
   # this bit of code just removes some notes produced by check(); see
   # https://r-pkgs.org/package-within.html?q=no%20visible%20binding#echo-a-working-package
   ID <- E <- L <- R <- O <- Y <- S <- `exit date` <- `elapsed time` <-
-    `years from study start to sample date` <- NULL
+    `years from study start to sample date` <-
+    `years from study start to seroconversion` <- NULL
 
   # define p(Y=1|T=t):
   phi <- build_phi_function_from_coefs(theta)
