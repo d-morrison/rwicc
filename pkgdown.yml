@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   how-to-use-rwicc: how-to-use-rwicc.html
   visualize-study-design: visualize-study-design.html
-last_built: 2026-05-29T16:48Z
+last_built: 2026-05-29T16:55Z
 urls:
   reference: https://d-morrison.github.io/rwicc/reference
   article: https://d-morrison.github.io/rwicc/articles
