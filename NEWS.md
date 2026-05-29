@@ -1,3 +1,5 @@
+# rwicc (development version)
+
 # rwicc 0.2.0
 
 * Replaced the dependency on `pryr` (which has been archived on CRAN) with
