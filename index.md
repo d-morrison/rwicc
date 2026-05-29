@@ -17,8 +17,7 @@ software package implementing an analysis for a regression model
 involving an interval-censored covariate, as described in “Regression
 with Interval-Censored Covariates: Application to Cross-Sectional
 Incidence Estimation” by Morrison, Laeyendecker, and Brookmeyer
-(Biometrics, 2021):
-<https://onlinelibrary.wiley.com/doi/10.1111/biom.13472>.
+(Biometrics, 2021): <https://doi.org/10.1111/biom.13472>.
 
 This analysis uses a joint model for the distributions of the outcome of
 interest and the interval-censored covariate, which is treated as a

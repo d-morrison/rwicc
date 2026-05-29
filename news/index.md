@@ -1,12 +1,18 @@
 # Changelog
 
-## rwicc (development version)
+## rwicc 0.2.0
 
-- Replaced dependency on `pryr` with `lobstr`, since `pryr` is being
-  archived ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
+CRAN release: 2026-05-27
+
+- Replaced the dependency on `pryr` (which has been archived on CRAN)
+  with `lobstr` ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
+  This restores CRAN compatibility.
+
+- rwicc now requires R (\>= 4.1.0), since it uses the base pipe `|>`.
 
 - Added
   [`graph_omega()`](https://d-morrison.github.io/rwicc/reference/graph_omega.md)
+  to plot the estimated seroconversion hazard model
   ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
 
 - Added functions to visualize the simulated data-generating model:
@@ -23,10 +29,6 @@
   and
   [`simulate_interval_censoring()`](https://d-morrison.github.io/rwicc/reference/simulate_interval_censoring.md)
   ([\#11](https://github.com/d-morrison/rwicc/issues/11)).
-
-- Corrected two technical-accuracy details in the `reprexes` skill
-  documentation (the `callr` fresh-session mechanism and the role of
-  `tidyverse_update()`).
 
 ## rwicc 0.1.3
 

@@ -10,16 +10,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/d-morrison/rwicc/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/d-morrison/rwicc/blob/v0.2.0/DESCRIPTION)
 
 Morrison D, Brookmeyer R (2026). *rwicc: Regression with
-Interval-Censored Covariates*. R package version 0.1.3.9006,
+Interval-Censored Covariates*. R package version 0.2.0,
 <https://d-morrison.github.io/rwicc/>.
 
     @Manual{,
       title = {rwicc: Regression with Interval-Censored Covariates},
       author = {Douglas Ezra Morrison and Ron Brookmeyer},
       year = {2026},
-      note = {R package version 0.1.3.9006},
+      note = {R package version 0.2.0},
       url = {https://d-morrison.github.io/rwicc/},
     }
