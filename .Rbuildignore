@@ -20,3 +20,4 @@ cran-comments.md
 ^\.lintr\.R$
 ^\.claude$
 ^\.positai$
+^AGENTS\.md$
