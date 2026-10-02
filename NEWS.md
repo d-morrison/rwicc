@@ -1,5 +1,7 @@
 # rwicc (development version)
 
+* Added `AGENTS.md` and `.claude/settings.json` so AI coding agents load the maintainer's shared rules from [Morrison-Lab/ai-config](https://github.com/Morrison-Lab/ai-config); both are excluded from the package build.
+
 # rwicc 0.2.0
 
 * Replaced the dependency on `pryr` (which has been archived on CRAN) with
